@@ -1,0 +1,107 @@
+<ion-content>
+  <div class="header-section">
+    <h1>MISIÓN 6: ACTIVAR RADAR (Ciclo Para)</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">SISTEMA DE NAVEGACIÓN</div>
+      <div class="panel-body">
+        
+        <div class="mission-icon">
+          <img src="assets/Robot Radar.png" alt="Robot Radar">
+        </div>
+        
+        <h3>SITUACIÓN:</h3>
+        <p>
+          W-BIT vuela a ciegas. Necesitamos activar los <strong>5 sectores</strong> del radar.
+          Podrías usar "Mientras", pero el comando <strong>Para</strong> es más rápido y limpio.
+        </p>
+
+        <div class="logic-box">
+          <h4>¿POR QUÉ USAR "PARA"?</h4>
+          <p>
+            Es el "Piloto Automático" de los ciclos. Mira la diferencia:
+          </p>
+          
+          <div class="comparison-grid">
+            <div class="old-way">
+              <small>ANTES (Nivel 5)</small>
+              <code>motor &lt;- motor + 1</code>
+              <span>Tú sumabas manual </span>
+            </div>
+            <div class="new-way">
+              <small>AHORA (Nivel 6)</small>
+              <code>Para ... Hacer</code>
+              <span>¡Se suma solo! </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-example">
+          Para <span>variable</span> &lt;- 1 Hasta 5 Hacer<br>
+          &nbsp;&nbsp;Escribir "Escaneando..."<br>
+          FinPara
+        </div>
+
+        <div class="hint-box">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="assets/foco.png" alt="Pista" class="foco-img">
+            <strong>TU MISIÓN:</strong>
+          </div>
+          <p>
+            Crea una variable <strong>sector</strong> que vaya del <strong>1 Hasta el 5</strong>.<br>
+            Dentro, escribe la orden: <code>Escribir "Sector activado"</code>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (PSeInt)</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+        <textarea class="code-input" [(ngModel)]="codigoUsuario" spellcheck="false" placeholder="Algoritmo Radar..."></textarea>
+      </div>
+      <button class="btn-run" (click)="ejecutarCodigo()" [disabled]="ejecutando">
+        {{ ejecutando ? 'ESCANEANDO...' : 'INICIAR BARRIDO' }}
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">PANTALLA DE RADAR</div>
+      <div class="visualizer-screen">
+        
+        <div class="radar-container">
+          <div class="radar-circle">
+            <div class="scanner-line" [class.scanning]="ejecutando"></div>
+            
+            <div class="sector s1" [class.active]="sectorActual >= 1">1</div>
+            <div class="sector s2" [class.active]="sectorActual >= 2">2</div>
+            <div class="sector s3" [class.active]="sectorActual >= 3">3</div>
+            <div class="sector s4" [class.active]="sectorActual >= 4">4</div>
+            <div class="sector s5" [class.active]="sectorActual >= 5">5</div>
+          </div>
+        </div>
+
+        <div class="status-message" *ngIf="sectorActual < 5">
+          RADAR OFF-LINE
+        </div>
+        <div class="status-message success" *ngIf="sectorActual === 5">
+           OBJETIVOS DETECTADOS
+        </div>
+
+      </div>
+
+      <div class="console-log">
+        <div *ngFor="let log of consolaLogs" [class]="log.tipo">> {{ log.mensaje }}</div>
+      </div>
+
+      <button class="btn-next" *ngIf="nivelCompletado" (click)="finalizarMision()">
+        MISIÓN CUMPLIDA +150 XP
+      </button>
+    </div>
+  </div>
+</ion-content>

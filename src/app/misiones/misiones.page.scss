@@ -1,0 +1,182 @@
+/* =========================================
+   EN src/app/misiones/misiones.page.scss
+   (CÓDIGO DEFINITIVO SIN CÍRCULO EN EL CHIP)
+   ========================================= */
+
+/* 1. CONFIGURACIÓN GENERAL */
+ion-content {
+  --background: linear-gradient(135deg, #0b0e2b 0%, #4d2285 100%);
+  font-family: 'VT323', monospace;
+}
+
+.missions-wrapper {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.page-title {
+  color: white;
+  font-size: 3rem;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.cards-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+/* 2. TARJETA BASE (Estructura) */
+.mission-card {
+  background: rgba(20, 20, 35, 0.95);
+  border-radius: 15px;
+  padding: 25px;
+  width: 320px;
+  min-height: 500px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+
+  /* Estilos base para la caja del icono */
+  .icon-box {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Ya no hay padding ni fondos aquí */
+
+    img {
+      height: 85px; /* Tamaño base */
+      width: auto;
+      object-fit: contain;
+      /* Sombra base suave para las bloqueadas */
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+      z-index: 2;
+    }
+  }
+
+  h2 {
+    font-family: 'VT323', monospace;
+    font-size: 2rem;
+    color: #fff;
+    margin: 5px 0 15px 0;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  /* Alineación de la lista */
+  .checklist {
+    width: 100%;
+    margin-bottom: auto;
+    padding-left: 10px;
+
+    p {
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      color: #ccc;
+      margin: 12px 0;
+      
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      text-align: left;
+    }
+  }
+}
+
+/* 3. BOTÓN MAESTRO */
+.btn-action {
+  width: 100%;
+  padding: 15px 0;
+  font-family: 'VT323', monospace !important;
+  font-size: 1.6rem !important;
+  font-weight: bold;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* 4. ESTILOS POR TIPO DE TARJETA */
+
+/* --- TIPO A: AZUL (Izquierda) --- */
+.active-card {
+  border: 2px solid #00c6ff;
+  box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
+
+  /* 👇 AQUÍ ESTÁ EL CAMBIO: BRILLO DIRECTO EN LA IMAGEN 👇 */
+  .icon-box img {
+    /* Quitamos el fondo circular y aplicamos resplandor azul intenso al chip */
+    filter: drop-shadow(0 0 15px rgba(0, 198, 255, 0.8));
+    height: 95px; /* Un poco más grande para que destaque */
+  }
+
+  .btn-action {
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
+  }
+}
+
+/* --- TIPO B: DORADA (Medio Desbloqueado) --- */
+.unlocked {
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #1a1a1a, #2a2510);
+  z-index: 10;
+
+  h2 {
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  }
+
+  /* Brillo dorado para el trofeo */
+  .icon-box img {
+      filter: brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
+      height: 95px;
+  }
+
+  .btn-action {
+    background: linear-gradient(90deg, #ff8c00, #ffd700);
+    color: #3e2700 !important; 
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+
+    &:hover {
+      background: linear-gradient(90deg, #ffa500, #ffe44d);
+      color: #2a1800 !important;
+    }
+  }
+}
+
+/* --- TIPO C: GRIS (Bloqueada) --- */
+.locked {
+  border: 1px solid #444;
+  opacity: 0.7;
+  filter: grayscale(100%); 
+
+  .btn-action {
+    background: #333;
+    color: #777 !important;
+    cursor: not-allowed;
+    box-shadow: none;
+    &:hover { transform: none; }
+  }
+}

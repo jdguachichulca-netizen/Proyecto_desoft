@@ -1,0 +1,90 @@
+<ion-content>
+  <div class="header-section">
+    <h1>MISIÓN 3: PROTOCOLO DE IDENTIDAD (Comando Leer)</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">OBJETIVO DE MISIÓN</div>
+      <div class="panel-body">
+        
+        <div class="mission-icon">
+          <img src="assets/robotDespierto2.png" alt="Robot Atento">
+        </div>
+        
+        <h3>¿CÓMO FUNCIONA "LEER"?</h3>
+        <p>
+          A diferencia de "Escribir" (donde el robot habla), con el comando <strong>Leer</strong> el robot se calla y 
+          <strong>espera a que TÚ escribas algo</strong> con el teclado.
+        </p>
+
+        <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin: 10px 0;">
+          <h4 style="color: #4ade80; margin: 0; font-size: 0.9rem;">TU MISIÓN:</h4>
+          <ol style="padding-left: 20px; color: #ccc; margin: 5px 0; font-size: 0.85rem;">
+            <li>Escribe: <code>Leer nombre</code> en el editor.</li>
+            <li>Dale al botón <strong>EJECUTAR PROTOCOLO</strong>.</li>
+            <li>Observa cómo aparece una caja azul a la derecha.</li>
+            <li>Escribe tu nombre real ahí y confirma.</li>
+          </ol>
+        </div>
+        
+        <div class="hint-box">
+          <img src="assets/foco.png" alt="Pista" class="foco-img">
+          <p><strong>DATO CLAVE:</strong><br>
+          "nombre" es la variable (la caja) donde el robot guardará lo que tú escribas.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (PSeInt)</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6</div>
+        <textarea class="code-input" [(ngModel)]="codigoUsuario" spellcheck="false" placeholder="Algoritmo..."></textarea>
+      </div>
+      <button class="btn-run" (click)="ejecutarCodigo()">EJECUTAR PROTOCOLO</button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">SISTEMA DE SEGURIDAD</div>
+      <div class="visualizer-screen">
+        
+        <div class="lock-screen" *ngIf="estado === 'bloqueado'">
+           <ion-icon name="lock-closed" class="lock-icon"></ion-icon>
+           <span>ACCESO DENEGADO</span>
+           <small>Identidad desconocida</small>
+        </div>
+
+        <div class="input-screen" *ngIf="estado === 'esperando'">
+           <p>> Ingrese Nombre de Comandante:</p>
+           <input type="text" [(ngModel)]="nombreComandante" (keyup.enter)="confirmarNombre()" class="holo-input" placeholder="Escribe aquí...">
+           <button (click)="confirmarNombre()" class="btn-enter">CONFIRMAR</button>
+        </div>
+
+        <div class="id-card" *ngIf="estado === 'completado'">
+           <div class="id-header">ACCESS GRANTED</div>
+           <div class="id-body">
+             <img [src]="auth.currentAvatar() || 'assets/robot.png'" class="id-photo">
+             <div class="id-details">
+               <span class="label">COMANDANTE:</span>
+               <span class="value">{{ nombreComandante }}</span>
+               <span class="label">RANGO:</span>
+               <span class="value">CADETE NIVEL {{ auth.currentLevel() }}</span>
+             </div>
+           </div>
+        </div>
+
+      </div>
+
+      <div class="console-log">
+        <div *ngFor="let log of consolaLogs" [class]="log.tipo">> {{ log.mensaje }}</div>
+      </div>
+
+      <button class="btn-next" *ngIf="estado === 'completado'" routerLink="/misiones" (click)="finalizarMision()">
+        MISIÓN CUMPLIDA +50 XP
+      </button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,93 @@
+<ion-content>
+  <div class="game-layout">
+
+    <div class="panel left-panel">
+      <div class="story-header">
+        <div class="level-badge">NIVEL 9</div>
+        <h2>LA ARENA DE SINTAXIS</h2>
+      </div>
+
+      <div class="scroll-content">
+        <div class="story-box">
+          <p>
+            ¡Salve, Scriptor! 🏛️ Has dejado atrás los simuladores.
+            Ahora estás en la <strong>Arena de JavaScript</strong>.
+            El público espera, pero estás desarmado.
+          </p>
+          <p>
+            Para sobrevivir, debes aprender a invocar objetos usando 
+            <strong>VARIABLES</strong>.
+          </p>
+        </div>
+
+        <div class="theory-box">
+          <h3>📜 Pergamino de Entrenamiento</h3>
+          
+          <div class="concept">
+            <h4>1. Variables (La Caja)</h4>
+            <p>En JS, usamos <code>let</code> para crear una caja y guardar algo.</p>
+            <div class="code-example">
+              let arma = "Espada";
+            </div>
+          </div>
+
+          <div class="concept">
+            <h4>2. Mostrar (El Grito)</h4>
+            <p>Para que el público vea tu arma, úsala con <code>console.log()</code>.</p>
+            <div class="code-example">
+              console.log(arma);
+            </div>
+          </div>
+        </div>
+
+        <div class="mission-box">
+          <h3>⚔️ TU MISIÓN</h3>
+          <ol>
+            <li>Declara una variable llamada <code>equipo</code>.</li>
+            <li>Guarda el texto <code>"Escudo Dorado"</code> dentro de ella.</li>
+            <li>Muestra el equipo al público usando <code>console.log</code>.</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">EDITOR DE ESCRITURA (JS)</div>
+      
+      <div class="code-editor">
+        <div class="line-numbers">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+        </div>
+        <textarea [(ngModel)]="codigoUsuario" spellcheck="false"></textarea>
+      </div>
+
+      <button class="btn-compile" (click)="ejecutarCodigo()" [disabled]="nivelCompletado">
+        INVOCAR EQUIPO ⚡
+      </button>
+
+      <div class="visualizer-arena">
+        
+        <div class="gladiator">
+          <img src="assets/avatars/av-1.png" alt="Gladiador" class="hero-img">
+          
+          <div class="weapon-slot" [class.has-weapon]="nivelCompletado">
+            <span *ngIf="nivelCompletado">🛡️</span>
+          </div>
+        </div>
+
+        <div class="arena-console">
+          <div class="console-header">📜 REGISTRO DE ARENA</div>
+          <div *ngFor="let log of consolaLogs" [class]="log.tipo">
+            > {{ log.mensaje }}
+          </div>
+        </div>
+
+      </div>
+
+      <button class="btn-victory" *ngIf="nivelCompletado" (click)="irSiguienteNivel()">
+        VICTORIA - SIGUIENTE NIVEL 🏆
+      </button>
+
+    </div>
+  </div>
+</ion-content>

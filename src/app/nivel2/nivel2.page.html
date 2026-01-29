@@ -1,0 +1,65 @@
+<ion-content>
+  <div class="header-section">
+    <h1>MISIÓN 2: RECARGA DE ENERGÍA (Variables)</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">OBJETIVO DE MISIÓN</div>
+      <div class="panel-body">
+        <div class="mission-icon">
+          <img src="assets/robotSemidespierto.png" alt="Robot">
+        </div>
+        <h3>OBJETIVO:</h3>
+        <p>W-BIT está despierto pero su batería está en 1%. Crea una variable llamada <strong>energia</strong> y asígnale el valor <strong>100</strong>.</p>
+        
+        <div class="hint-box">
+          <img src="assets/foco.png" alt="Pista" class="foco-img">
+          <p><strong>DATO DE INTELIGENCIA:</strong><br>
+          En PSeInt, usamos la flecha <code>&lt;-</code> para guardar valores.<br>
+          Ejemplo: <code>vidas &lt;- 3</code></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (PSeInt)</div>
+      <div class="editor-container">
+        <div class="line-numbers">
+          1<br>2<br>3<br>4<br>5<br>6
+        </div>
+        <textarea class="code-input" [(ngModel)]="codigoUsuario" spellcheck="false"></textarea>
+      </div>
+      <button class="btn-run" (click)="ejecutarCodigo()">RECARGAR SISTEMAS</button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">ESTADO DE BATERÍA</div>
+      <div class="visualizer-screen">
+        
+        <div class="battery-container" *ngIf="!nivelCompletado">
+           <div class="battery-body">
+             <div class="battery-fill low"></div> </div>
+           <span class="status-text blink">BATERÍA CRÍTICA: 1%</span>
+        </div>
+
+        <div class="battery-container" *ngIf="nivelCompletado">
+           <div class="battery-body">
+             <div class="battery-fill full"></div> </div>
+           <img src="assets/robot_despierto.png" class="robot-happy"> 
+           <span class="status-text success">ENERGÍA: 100%</span>
+        </div>
+
+      </div>
+
+      <div class="console-log">
+        <div *ngFor="let log of consolaLogs" [class]="log.tipo">> {{ log.mensaje }}</div>
+      </div>
+
+      <button class="btn-next" *ngIf="nivelCompletado" (click)="finalizarMision()">
+  MISIÓN CUMPLIDA +50 XP
+</button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,89 @@
+/* --- FONDO GENERAL --- */
+ion-content {
+  --background: linear-gradient(135deg, #0b0e2b 0%, #240b36 100%);
+  font-family: 'VT323', monospace;
+  text-align: center;
+}
+
+.selector-wrapper {
+  padding: 50px 20px;
+  
+  h1 { 
+    color: white; 
+    font-size: 3rem; 
+    margin-bottom: 10px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  
+  p { 
+    color: #b0b0b0; 
+    font-size: 1.3rem; 
+    margin-bottom: 50px;
+    font-family: sans-serif;
+  }
+}
+
+/* --- REJILLA DE 3 COLUMNAS (Aquí está el cambio clave) --- */
+.avatars-grid {
+  display: grid; /* Usamos Grid en lugar de Flex */
+  /* Esta línea mágica crea 3 columnas de igual tamaño */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 30px; /* Espacio entre círculos */
+  max-width: 500px; /* Ancho máximo para que se vean compactos */
+  margin: 0 auto;   /* Centrado horizontal */
+  justify-items: center; /* Centra cada círculo en su celda */
+  
+  /* En celulares muy pequeños, que pase a 2 columnas para que no se aplaste */
+  @media (max-width: 400px) {
+     grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+/* --- LOS CÍRCULOS DE AVATAR --- */
+.avatar-option {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%; /* Círculo perfecto */
+  border: 3px solid #3a3f55; /* Borde base */
+  cursor: pointer;
+  overflow: hidden; /* Recorta la imagen si se sale */
+  transition: 0.3s;
+  
+  /* --- SOLUCIÓN AL ICONO DE IMAGEN ROTA --- */
+  /* 1. Color de fondo bonito por si no hay imagen */
+  background: linear-gradient(45deg, #1f2235, #3a3f55); 
+  
+  /* 2. Centramos el contenido por si aparece el icono roto */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* La imagen llena el círculo sin deformarse */
+    display: block;
+
+    /* --- EL TRUCO FINAL --- */
+    /* Si la imagen falla al cargar, esto oculta el icono feo del navegador */
+    &[src=""],
+    &:not([src]){
+        opacity: 0;
+    }
+    /* Algunos navegadores muestran un borde feo cuando la imagen está rota, esto lo quita */
+    border: none; 
+    outline: none;
+  }
+
+  /* Efecto al pasar el mouse (Hover) */
+  &:hover {
+    transform: scale(1.1); /* Crece un poco */
+    border-color: #00ffff; /* Borde neón cian */
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.6); /* Resplandor */
+  }
+  
+  /* Efecto al hacer clic (Active) */
+  &:active {
+      transform: scale(0.95);
+  }
+}

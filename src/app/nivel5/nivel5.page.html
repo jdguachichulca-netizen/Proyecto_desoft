@@ -1,0 +1,134 @@
+<ion-content>
+  <div class="header-section">
+    <h1>MISIÓN 5: SECUENCIA DE DESPEGUE (Ciclo Mientras)</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">ESTADO DE PROPULSIÓN</div>
+      <div class="panel-body">
+        
+        <div class="mission-icon">
+          <img src="assets/Robot Ready.png" alt="Robot Ready">
+        </div>
+        
+        <h3>SITUACIÓN:</h3>
+        <p>
+          W-BIT está listo para volar, pero sus <strong>4 motores</strong> están apagados. 
+          Podrías escribir 4 veces "Encender motor", pero eso es ineficiente.
+          <br><br>
+          Como buen programador, usarás un <strong>Ciclo</strong> para automatizar esta tarea repetitiva.
+        </p>
+
+        <div class="code-example">
+          variable &lt;- 1<br>
+          Mientras <span>variable &lt;= 4</span> Hacer<br>
+          &nbsp;&nbsp;Escribir "Motor encendido"<br>
+          &nbsp;&nbsp;variable &lt;- variable + 1<br>
+          FinMientras
+        </div>
+
+        <div class="logic-box">
+          <h4>¿POR QUÉ SUMAR 1?</h4>
+          <p>
+            En matemáticas, <code>x = x + 1</code> es imposible. Pero en programación, el signo <code>&lt;-</code> significa <strong>"Actualizar valor"</strong>.
+          </p>
+          
+          <div class="step-visual">
+            <div>
+              <span class="step">1</span>
+              <span class="arrow">➔</span>
+              <span class="step">2</span>
+              <span class="arrow">➔</span>
+              <span class="step">3</span>
+              <span class="arrow">➔</span>
+              <span class="step">4</span>
+              <span class="stop">🛑 5</span>
+            </div>
+            <small>Sin sumar 1, ¡te quedas en el paso 1 para siempre!</small>
+          </div>
+        </div>
+        
+        <div class="hint-box">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="assets/foco.png" alt="Pista" class="foco-img">
+            <strong>TU MISIÓN:</strong>
+          </div>
+          <p>
+            Crea una variable llamada <strong>motor</strong> que empiece en <strong>1</strong>.<br>
+            Usa <strong>Mientras motor <= 4</strong> para encender los 4 propulsores.
+          </p>
+        </div>
+
+        <div class="syntax-alert">
+          <div class="alert-header">
+            <ion-icon name="warning"></ion-icon> PELIGRO: BUCLE INFINITO
+          </div>
+          <p style="font-size: 0.8rem; margin: 0;">
+            ¡Cuidado! Si olvidas la línea: <br>
+            <code style="color: #fff;">motor &lt;- motor + 1</code><br>
+            ...el ciclo nunca terminará y el robot se bloqueará. ¡La variable debe cambiar!
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (PSeInt)</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7</div>
+        <textarea class="code-input" [(ngModel)]="codigoUsuario" spellcheck="false" placeholder="Escribe tu ciclo aquí..."></textarea>
+      </div>
+      <button class="btn-run" (click)="ejecutarCodigo()" [disabled]="ejecutando">
+        {{ ejecutando ? 'INICIANDO MOTORES...' : 'INICIAR SECUENCIA' }}
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">SISTEMA DE VUELO</div>
+      <div class="visualizer-screen">
+        
+        <div class="thrusters-container">
+          <div class="thruster-box" [class.active]="motoresEncendidos >= 1">
+            <ion-icon name="rocket" class="icon"></ion-icon>
+            <span>M-1</span>
+          </div>
+          <div class="thruster-box" [class.active]="motoresEncendidos >= 2">
+            <ion-icon name="rocket" class="icon"></ion-icon>
+            <span>M-2</span>
+          </div>
+          <div class="thruster-box" [class.active]="motoresEncendidos >= 3">
+            <ion-icon name="rocket" class="icon"></ion-icon>
+            <span>M-3</span>
+          </div>
+          <div class="thruster-box" [class.active]="motoresEncendidos >= 4">
+            <ion-icon name="rocket" class="icon"></ion-icon>
+            <span>M-4</span>
+          </div>
+        </div>
+
+        <div class="progress-bar-bg">
+          <div class="progress-fill" [style.width]="(motoresEncendidos * 25) + '%'"></div>
+        </div>
+
+        <div class="status-message" *ngIf="motoresEncendidos < 4">
+          ESPERANDO SECUENCIA...
+        </div>
+        <div class="status-message success" *ngIf="motoresEncendidos === 4">
+         ¡DESPEGUE INICIADO!
+        </div>
+
+      </div>
+
+      <div class="console-log">
+        <div *ngFor="let log of consolaLogs" [class]="log.tipo">> {{ log.mensaje }}</div>
+      </div>
+
+      <button class="btn-next" *ngIf="nivelCompletado" (click)="finalizarMision()">
+        MISIÓN CUMPLIDA +100 XP
+      </button>
+    </div>
+  </div>
+</ion-content>

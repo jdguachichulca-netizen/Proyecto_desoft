@@ -1,0 +1,77 @@
+<ion-content>
+  <div class="missions-wrapper">
+    
+    <h1 class="page-title">TU RUTA DE PROGRESO</h1>
+
+    <div class="cards-container">
+      
+      <div class="mission-card active-card">
+        <div class="icon-box">
+          <img src="assets/chip.png" alt="Chip"> </div>
+        <h2>CADETE NOVATO</h2>
+        <span class="level-badge">(Nivel 1-8)</span>
+        
+        <ul class="checklist">
+          <p>✅ Conceptos Básicos de PSeint</p>
+          <p>✅ Declaración de Variables y más</p>
+          <p>✅ 8 Misiones Iniciales</p>
+        </ul>
+
+        <button class="btn-action" routerLink="/nivel1">VER MISIONES DE CADETE</button>
+      </div>
+
+      <div class="mission-card" 
+           [class.locked]="!programadorHabilDesbloqueado" 
+           [class.unlocked]="programadorHabilDesbloqueado">
+        
+        <div class="icon-box">
+          <img src="assets/trofeo.png" alt="Trofeo">
+        </div>
+
+        <h2>PROGRAMADOR HÁBIL</h2>
+        <p>(NIVEL 9-15)</p>
+
+        <div class="checklist">
+          <div *ngIf="!programadorHabilDesbloqueado">
+            <p>🔒 Fundamentos Básicos JavaScript</p>
+            <p>🔒 Sintaxis Básica</p>
+            <p>🔒 Operadores</p>
+          </div>
+
+          <div *ngIf="programadorHabilDesbloqueado">
+            <p>✅ Fundamentos Básicos JavaScript</p>
+            <p>✅ Sintaxis Básica</p>
+            <p>✅ Operadores</p>
+          </div>
+        </div>
+
+        <button class="btn-action" *ngIf="!programadorHabilDesbloqueado" disabled>
+          BLOQUEADO
+        </button>
+
+        <button class="btn-action start-btn" 
+                *ngIf="programadorHabilDesbloqueado"
+                (click)="irANivelJavascript()">
+          COMENZAR JS
+        </button>
+
+      </div>
+
+      <div class="mission-card locked">
+        <div class="icon-box">
+          <img src="assets/lanza.png" alt="Lanza">
+        </div>
+        <h2>MAESTRO DE CÓDIGO</h2>
+        <span class="level-badge">(NIVEL 16+)</span>
+
+        <ul class="checklist">
+          <p>🔒 Proyectos Complejos</p>
+          <p>🔒 Acceso a desafíos</p>
+        </ul>
+
+        <button class="btn-action" disabled>BLOQUEADO</button>
+      </div>
+
+    </div>
+  </div>
+</ion-content>

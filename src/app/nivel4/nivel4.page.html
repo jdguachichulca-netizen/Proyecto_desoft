@@ -1,0 +1,102 @@
+<ion-content>
+  <div class="header-section">
+    <h1>MISIÓN 4: SISTEMA DE ENFRIAMIENTO (Si-Entonces)</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">SITUACIÓN CRÍTICA</div>
+      <div class="panel-body">
+        
+        <div class="mission-icon">
+          <img src="assets/Robot Hot.png" alt="Robot Hot" class="robot-hot">
+        </div>
+        
+        <h3>¿CÓMO DECIDE EL ROBOT?</h3>
+        <p>
+          Los robots no "piensan", solo comparan. Usamos el comando <strong>Si ... Entonces</strong> para darles reglas.
+        </p>
+
+        <div class="code-example">
+          Si <span>condición</span> Entonces<br>
+          &nbsp;&nbsp;Acción<br>
+          FinSi
+        </div>
+
+        <div class="syntax-alert">
+          <div class="alert-header">
+            <ion-icon name="warning"></ion-icon> PROTOCOLO DE ESCRITURA
+          </div>
+          <p>
+            ¡La precisión es vital! W-BIT no entenderá tus órdenes si:
+          </p>
+          <ul>
+            <li>Escribes mal una palabra (Ej: <em>Entonses</em>).</li>
+            <li>Olvidas cerrar el bloque con <strong>FinSi</strong>.</li>
+            <li>Pegas todo el texto sin espacios.</li>
+          </ul>
+        </div>
+
+        <div class="hint-box">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="assets/foco.png" alt="Pista" class="foco-img">
+            <strong>TU MISIÓN:</strong>
+          </div>
+          <p>
+            La temperatura actual es <strong>80°C</strong> (Peligro).<br>
+            Escribe un código que pregunte:<br>
+            <code>Si temperatura > 50 Entonces</code><br>
+            ...y adentro escribe <code>Escribir "ACTIVAR"</code>.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (PSeInt)</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</div>
+        <textarea class="code-input" [(ngModel)]="codigoUsuario" spellcheck="false"></textarea>
+      </div>
+      <button class="btn-run" (click)="ejecutarCodigo()">EVALUAR TEMPERATURA</button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">NÚCLEO DEL SISTEMA</div>
+      <div class="visualizer-screen">
+        
+        <div class="temp-gauge-container">
+          <div class="temp-bar-bg">
+            <div class="temp-fill" [class.danger]="!nivelCompletado" [class.safe]="nivelCompletado"></div>
+          </div>
+          <div class="temp-value">
+            {{ nivelCompletado ? '40°C' : '80°C' }}
+          </div>
+        </div>
+
+        <div class="fans-container">
+          <ion-icon name="nuclear" class="fan-icon left" [class.spinning]="nivelCompletado"></ion-icon>
+          <ion-icon name="nuclear" class="fan-icon right" [class.spinning]="nivelCompletado"></ion-icon>
+        </div>
+
+        <div class="status-message" *ngIf="!nivelCompletado">
+          ⚠️ ALERTA: SOBRECALENTAMIENTO
+        </div>
+        <div class="status-message safe" *ngIf="nivelCompletado">
+          ✅ ENFRIAMIENTO ACTIVO
+        </div>
+
+      </div>
+
+      <div class="console-log">
+        <div *ngFor="let log of consolaLogs" [class]="log.tipo">> {{ log.mensaje }}</div>
+      </div>
+
+      <button class="btn-next" *ngIf="nivelCompletado" (click)="finalizarMision()">
+        MISIÓN CUMPLIDA +100 XP
+      </button>
+    </div>
+  </div>
+</ion-content>

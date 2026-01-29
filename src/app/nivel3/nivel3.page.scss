@@ -1,0 +1,288 @@
+/* --- 1. ESTILOS BASE (Copiados de niveles anteriores) --- */
+ion-content {
+  --background: #0f0c29;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Título */
+.header-section {
+  text-align: center;
+  padding: 15px 0;
+  
+  h1 {
+    color: white;
+    font-family: 'Courier New', Courier, monospace; 
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    margin: 0;
+  }
+}
+
+/* Layout de 3 Columnas */
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr; /* Izq | Centro | Der */
+  gap: 20px;
+  padding: 0 20px 20px 20px;
+  height: 85vh; 
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+}
+
+/* Estilo de los Paneles (Cajas) */
+/* EN src/app/nivel3/nivel3.page.scss */
+
+/* Estilo de los Paneles (Cajas) */
+.panel {
+  /* ... (el resto del código de .panel sigue igual) ... */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Mantenemos esto en el contenedor padre */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+
+  .panel-header {
+    background: #2a2e45;
+    color: #fff;
+    
+    /* --- CORRECCIÓN DE ALINEACIÓN Y DESAPARICIÓN --- */
+    
+    /* 1. Evita que el scroll de abajo se coma el título */
+    flex-shrink: 0; 
+    
+    /* 2. Centrado perfecto (Vertical y Horizontal) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* 3. Altura mínima segura para que siempre se vea el texto */
+    min-height: 50px; 
+    padding: 0 10px; /* Un poco de aire a los lados */
+    
+    /* Estilos de texto */
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 0.9rem; /* Ajustamos un poco para que quepa bien */
+    border-bottom: 1px solid #3a3f55;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  /* --- AQUÍ ESTÁ EL CAMBIO IMPORTANTE --- */
+  .panel-body {
+    padding: 20px;
+    color: #ccc;
+    flex-grow: 1; /* Ocupa todo el espacio disponible */
+    
+    /* HABILITAMOS EL SCROLL VERTICAL */
+    overflow-y: auto; 
+    /* Evitamos scroll horizontal innecesario */
+    overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+
+    /* --- PERSONALIZACIÓN DE LA BARRA DE SCROLL (Estilo Neón) --- */
+    /* Esto hace que la barra sea delgada y azulita en Chrome/Safari/Edge */
+    &::-webkit-scrollbar {
+      width: 6px; /* Barra delgada */
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1); /* Fondo de la barra sutil */
+      border-radius: 3px;
+    }
+     
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 255, 255, 0.3); /* Color neón para el indicador */
+      border-radius: 3px;
+      &:hover {
+        background: rgba(0, 255, 255, 0.6); /* Más brillante al pasar el mouse */
+      }
+    }
+  }
+}
+
+/* --- PANEL IZQUIERDO (Instrucciones) --- */
+.left-panel {
+  .mission-icon {
+    text-align: center;
+    margin-bottom: 20px;
+    
+    img { 
+      width: 160px; height: 160px; object-fit: contain;
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 15px rgba(0,255,255,0.3));
+    }
+  }
+
+  h3 { color: #fff; font-size: 1rem; margin-top: 10px;}
+  
+  .hint-box {
+    background: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    border-top: 4px solid #ffd700;
+    padding: 15px;
+    margin-top: auto; 
+    font-size: 0.85rem;
+    color: #ddd;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+
+    .foco-img { width: 40px; margin-bottom: 10px; filter: drop-shadow(0 0 5px gold); }
+  }
+}
+
+/* --- PANEL CENTRAL (Editor) --- */
+.center-panel {
+  .editor-container {
+    flex-grow: 1;
+    background: #1e1e1e;
+    display: flex;
+    font-family: 'Consolas', monospace;
+  }
+
+  .line-numbers {
+    width: 35px;
+    background: #252526;
+    color: #6e7681;
+    text-align: right;
+    padding: 15px 5px;
+    line-height: 1.5rem;
+    border-right: 1px solid #333;
+  }
+
+  .code-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    color: #d4d4d4;
+    padding: 15px;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    resize: none;
+    outline: none;
+  }
+
+  .btn-run {
+    background: #4ade80;
+    color: #050614;
+    font-weight: bold;
+    padding: 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    &:hover { background: #22c55e; }
+  }
+}
+
+/* --- PANEL DERECHO (Visualizador y Novedades Nivel 3) --- */
+.right-panel {
+  background: #0b0e2b;
+
+  .visualizer-screen {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+
+    /* --- ESTADO 1: CANDADO --- */
+    .lock-screen {
+      text-align: center; color: #ff4d4d;
+      display: flex; flex-direction: column; align-items: center;
+      .lock-icon { font-size: 80px; margin-bottom: 15px; animation: shake 3s infinite; }
+      span { font-size: 1.2rem; font-weight: bold; letter-spacing: 2px; }
+      small { opacity: 0.7; }
+    }
+
+    /* --- ESTADO 2: INPUT HOLOGRÁFICO --- */
+    .input-screen {
+      width: 90%; text-align: center;
+      p { color: #00ffff; margin-bottom: 15px; font-family: monospace; }
+      
+      .holo-input {
+        width: 100%; background: rgba(0,0,0,0.5); 
+        border: 2px solid #00ffff; border-radius: 5px;
+        color: #fff; padding: 12px; font-family: monospace; text-align: center;
+        font-size: 1.2rem; outline: none; box-shadow: 0 0 15px rgba(0,255,255,0.2);
+        margin-bottom: 15px;
+        
+        &:focus { background: rgba(0,255,255,0.1); box-shadow: 0 0 25px rgba(0,255,255,0.4); }
+      }
+      
+      .btn-enter {
+        background: #00ffff; color: #000; border: none; border-radius: 5px;
+        padding: 10px 25px; font-weight: bold; cursor: pointer;
+        &:hover { transform: scale(1.05); box-shadow: 0 0 15px #00ffff; }
+      }
+    }
+
+    /* --- ESTADO 3: ID CARD --- */
+    .id-card {
+      width: 100%; max-width: 300px;
+      background: linear-gradient(135deg, rgba(0,255,255,0.1), rgba(0,0,0,0.9));
+      border: 1px solid #00ffff; border-radius: 10px;
+      overflow: hidden; 
+      box-shadow: 0 0 20px rgba(0,255,255,0.3);
+      animation: popIn 0.5s;
+
+      .id-header {
+        background: rgba(0,255,255,0.2); color: #00ffff;
+        text-align: center; font-size: 0.8rem; padding: 8px; letter-spacing: 3px;
+        font-weight: bold; border-bottom: 1px solid #00ffff;
+      }
+
+      .id-body {
+        display: flex; align-items: center; padding: 20px; gap: 15px;
+      }
+
+      .id-photo {
+        width: 70px; height: 70px; border-radius: 50%; border: 2px solid #fff;
+        background: #333; object-fit: cover;
+      }
+
+      .id-details {
+        display: flex; flex-direction: column; text-align: left;
+        .label { font-size: 0.6rem; color: #aaa; margin-top: 5px; }
+        .value { font-size: 1rem; color: #fff; font-weight: bold; text-transform: uppercase; }
+      }
+    }
+  }
+
+  .console-log {
+    height: 120px; flex-shrink: 0;
+    background: #000; border-top: 2px solid #3a3f55;
+    padding: 10px; font-family: monospace; font-size: 0.8rem; overflow-y: auto;
+    
+    .info { color: #00ffff; }
+    .success { color: #4ade80; font-weight: bold; }
+    .error { color: #ff4d4d; }
+  }
+
+  .btn-next {
+    margin: 10px; flex-shrink: 0;
+    background: transparent; border: 2px solid #00ffff; color: #00ffff;
+    padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold;
+    &:hover { background: rgba(0, 255, 255, 0.1); }
+  }
+}
+
+/* ANIMACIONES */
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); opacity: 1;}
+  25% { transform: rotate(-10deg); opacity: 0.8; }
+  75% { transform: rotate(10deg); opacity: 0.8; }
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

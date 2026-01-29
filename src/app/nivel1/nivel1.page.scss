@@ -1,0 +1,332 @@
+ion-content {
+  --background: #0f0c29;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- TÍTULO PRINCIPAL --- */
+.header-section {
+  text-align: center;
+  padding: 15px 0;
+  
+  h1 {
+    color: white;
+    font-family: 'VT323', monospace; 
+    font-size: 1.8rem;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    margin: 0;
+  }
+}
+
+/* --- LAYOUT PRINCIPAL (3 COLUMNAS) --- */
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr; /* Izq | Centro | Der */
+  gap: 20px;
+  padding: 0 20px 20px 20px;
+  height: 85vh; 
+  max-width: 1400px;
+  margin: 0 auto;
+
+  /* Responsivo para celulares */
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+}
+
+/* --- ESTILO GENERAL DE PANELES --- */
+.panel {
+  border: 1px solid #3a3f55;
+  border-radius: 12px;
+  background: rgba(31, 34, 53, 0.95);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+
+  .panel-header {
+    background: #2a2e45;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    border-bottom: 1px solid #3a3f55;
+    text-transform: uppercase;
+  }
+}
+
+/* --- COLUMNA 1: BRIEFING --- */
+.left-panel {
+  .panel-body {
+    padding: 20px;
+    color: #ccc;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h3 { color: #fff; font-size: 1rem; margin-top: 10px;}
+  
+  /* DENTRO DE .left-panel */
+
+  .mission-icon {
+    text-align: center;
+    /* Aumentamos un poco el margen inferior para que el robot gigante no tape el texto "OBJETIVO" */
+    margin-bottom: 20px; 
+    
+    img { 
+      width: 110px; 
+      height: 110px;
+      object-fit: contain;
+      opacity: 0.9; 
+      
+      /* --- EL CAMBIO CLAVE --- */
+      /* Agrandamos la imagen un 50% visualmente */
+      transform: scale(1.3); 
+      
+      /* Le damos un filtro de sombra para que destaque del fondo */
+      filter: drop-shadow(0 5px 15px rgba(103, 58, 134, 0.5));
+      
+      /* Aseguramos que si crece mucho, no se corte */
+      z-index: 1;
+      position: relative;
+    }
+  }
+  
+  .hint-box {
+    background: rgba(255, 215, 0, 0.05); /* Fondo amarillo muy sutil */
+    border: 1px solid rgba(255, 215, 0, 0.3); /* Borde sutil completo */
+    border-top: 4px solid #ffd700; /* Borde superior más grueso */
+    padding: 20px 15px;
+    margin-top: auto; 
+    font-size: 0.85rem;
+    color: #ddd;
+    
+    /* --- AQUÍ ESTÁ LA MAGIA DEL CENTRADO --- */
+    display: flex;
+    flex-direction: column; /* Pone el foco arriba del texto */
+    align-items: center;    /* Centra la imagen y el texto horizontalmente */
+    text-align: center;     /* Alinea las letras al centro */
+    
+    .foco-img {
+      width: 45px;  /* Tamaño del foco (ajústalo a tu gusto) */
+      height: auto;
+      margin-bottom: 10px; /* Espacio entre el foco y el texto */
+      
+      /* Efecto de luz brillante al foco */
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+      animation: floatFoco 3s ease-in-out infinite;
+    }
+
+    strong {
+      color: #ffd700; /* Título en amarillo dorado */
+      letter-spacing: 1px;
+    }
+  }
+
+/* Animación opcional para que el foco flote suavemente */
+@keyframes floatFoco {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+}
+
+/* --- COLUMNA 2: EDITOR --- */
+.center-panel {
+  .editor-container {
+    flex-grow: 1;
+    background: #1e1e1e;
+    display: flex;
+    font-family: 'Consolas', monospace;
+  }
+
+  .line-numbers {
+    width: 35px;
+    background: #252526;
+    color: #6e7681;
+    text-align: right;
+    padding: 15px 5px;
+    line-height: 1.5rem;
+    border-right: 1px solid #333;
+    font-size: 1rem;
+  }
+
+  .code-input {
+    flex-grow: 1;
+    background: transparent;
+    border: none;
+    color: #d4d4d4;
+    padding: 15px;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    resize: none;
+    outline: none;
+  }
+
+  .btn-run {
+    background: #4ade80;
+    color: #050614;
+    font-weight: bold;
+    padding: 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.2s;
+    text-transform: uppercase;
+    &:hover { background: #22c55e; }
+  }
+}
+
+/* --- COLUMNA 3: VISUALIZADOR (Robot Gigante) --- */
+.right-panel {
+  background: #0b0e2b;
+  display: flex; 
+  flex-direction: column; 
+  height: 100%; 
+
+  /* 1. EL VISUALIZADOR */
+  .visualizer-screen {
+    flex-grow: 1; 
+    min-height: 0; 
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 0; /* Quitamos padding para ganar espacio */
+    overflow: hidden;
+
+    /* --- ESTADO OFFLINE (HOLOGRAMA) --- */
+    .empty-hologram {
+      width: 90%;      
+      height: 90%;     
+      max-width: 350px;
+      max-height: 350px;
+      
+      border: 2px dashed rgba(0, 255, 255, 0.3);
+      border-radius: 12px;
+      background: rgba(0, 255, 255, 0.05);
+      
+      display: flex;
+      flex-direction: column;
+      align-items: center;    
+      justify-content: center; 
+      text-align: center;      
+      
+      color: rgba(0, 255, 255, 0.5);
+      position: relative;
+      overflow: hidden;
+
+      span { font-weight: bold; font-size: 1.2rem; letter-spacing: 2px; margin-bottom: 5px; display: block; width: 100%; }
+      small { font-size: 0.8rem; opacity: 0.7; }
+
+      .scanner-line {
+        position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+        background: rgba(0, 255, 255, 0.8);
+        box-shadow: 0 0 10px rgba(0, 255, 255, 1);
+        animation: scan 3s linear infinite;
+      }
+    }
+
+    /* --- ESTADO ONLINE (ROBOT GIGANTE) --- */
+    .robot-display { 
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      
+      /* --- ¡EL TRUCO DEL TAMAÑO! --- */
+      /* Escala la imagen al 150% de su tamaño normal */
+      transform: scale(1.5); 
+      
+      &.despierto {
+        /* Usamos la nueva animación que termina en escala 1.5 */
+        animation: spawnRobotGigante 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        filter: drop-shadow(0 0 25px rgba(0, 255, 255, 1)); /* Brillo más intenso */
+      }
+    }
+
+    .speech-bubble {
+      background: #fff; color: #000; padding: 10px 20px; font-size: 1.2rem;
+      border-radius: 20px; font-weight: bold;
+      animation: popIn 0.4s; position: absolute; top: 5%; right: 5%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      z-index: 10;
+    }
+  }
+
+  /* 2. LA CONSOLA (Un poco más pequeña para dar espacio al robot) */
+  .console-log {
+    height: 120px; /* Reducido de 140px a 120px */
+    flex-shrink: 0;
+    background: #000;
+    border-top: 2px solid #3a3f55;
+    padding: 10px;
+    font-family: monospace;
+    font-size: 0.8rem;
+    overflow-y: auto;
+
+    .info { color: #00ffff; }
+    .success { color: #4ade80; font-weight: bold; }
+    .error { color: #ff4d4d; }
+  }
+
+  /* 3. EL BOTÓN */
+  .btn-next {
+    margin: 10px;
+    flex-shrink: 0;
+    background: transparent; border: 2px solid #00ffff; color: #00ffff;
+    padding: 15px; border-radius: 6px; cursor: pointer; font-weight: bold;
+    font-size: 1rem;
+    &:hover { background: rgba(0, 255, 255, 0.1); }
+  }
+}
+
+/* --- ANIMACIONES ACTUALIZADAS --- */
+@keyframes scan {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Nueva animación para el robot gigante */
+@keyframes spawnRobotGigante {
+  0% { 
+    transform: scale(0); /* Empieza invisible */
+    opacity: 0; 
+  }
+  70% { 
+    transform: scale(1.7); /* Rebote: Crece un poco más (170%) */
+    opacity: 1; 
+  }
+  100% { 
+    transform: scale(1.5); /* Termina en el tamaño gigante (150%) */
+    opacity: 1; 
+  }
+}
+
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ANIMACIONES */
+@keyframes scan {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+@keyframes spawnRobot {
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes popIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

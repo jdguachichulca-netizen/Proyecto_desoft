@@ -1,0 +1,151 @@
+<ion-content>
+  <div class="header-section">
+    <h1>MISIÓN 8: LA RED MATRIZ (Matrices)</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">ARQUITECTURA DEL SISTEMA</div>
+      <div class="panel-body">
+        
+        <div class="mission-icon">
+          <img src="assets/Robot Matrix.png" alt="Robot Matrix">
+        </div>
+        
+        <h3>EL MUNDO NO ES UNA LÍNEA</h3>
+        <p>
+          Las dimensiones simples (`[1], [2]...`) son útiles, pero a veces necesitamos **Tablas** o **Mapas**. En programación, esto se llama <strong>Matriz</strong>.
+        </p>
+
+        <div class="logic-box">
+          <h4>COORDENADAS [FILA, COLUMNA]</h4>
+          <p>
+            Para encontrar un punto, primero eliges el piso (Fila) y luego la habitación (Columna).
+          </p>
+          
+          <div class="matrix-guide">
+            <div class="guide-row">
+              <span class="label-y">Fila 1 ➔</span>
+              <div class="cell">[1,1]</div><div class="cell">[1,2]</div><div class="cell">[1,3]</div>
+            </div>
+            <div class="guide-row">
+              <span class="label-y">Fila 2 ➔</span>
+              <div class="cell">[2,1]</div><div class="cell highlight">[2,2]</div><div class="cell">[2,3]</div>
+            </div>
+            <div class="guide-row">
+              <span class="label-y">Fila 3 ➔</span>
+              <div class="cell">[3,1]</div><div class="cell">[3,2]</div><div class="cell">[3,3]</div>
+            </div>
+            <div class="guide-col-labels">
+              <span>Col 1</span><span>Col 2</span><span>Col 3</span>
+            </div>
+          </div>
+          <small>Ejemplo: <code>red[2,2]</code> es el centro exacto.</small>
+        </div>
+
+        <div class="uses-box">
+          <h4>¿PARA QUÉ SIRVE ESTO?</h4>
+          <p>Dominar matrices te permite crear:</p>
+          <ul>
+            <li>
+              🎮 <strong>Mapas de Juegos:</strong>
+              <br>Tableros de Ajedrez, mapas de RPG o terrenos de Minecraft son matrices gigantes.
+            </li>
+            <li>
+              🖼️ <strong>Imágenes Digitales:</strong>
+              <br>Cada foto en tu celular es una matriz donde cada celda es un píxel de color.
+            </li>
+          </ul>
+        </div>
+
+        <div class="hint-box">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="assets/foco.png" alt="Pista" class="foco-img">
+            <strong>TU MISIÓN: FORMACIÓN "X"</strong>
+          </div>
+          <p>
+            1. Crea la matriz: <code>Dimension red[3,3]</code><br>
+            2. Activa el centro: <code>red[2,2] &lt;- 1</code><br>
+            3. Activa las esquinas: <code>red[1,1] &lt;- 1</code>, <code>red[1,3] &lt;- 1</code>, <code>red[3,1] &lt;- 1</code>, <code>red[3,3] &lt;- 1</code>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (PSeInt)</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</div>
+        <textarea class="code-input" [(ngModel)]="codigoUsuario" spellcheck="false" placeholder="Algoritmo Matrix..."></textarea>
+      </div>
+      <button class="btn-run" (click)="ejecutarCodigo()">
+        INICIAR SINCRONIZACIÓN
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">NÚCLEO DEL SISTEMA</div>
+      <div class="visualizer-screen">
+        
+        <div class="matrix-grid">
+          <div class="grid-cell" [class.active]="matrizVisual[0][0] === 1">1,1</div>
+          <div class="grid-cell" [class.active]="matrizVisual[0][1] === 1">1,2</div>
+          <div class="grid-cell" [class.active]="matrizVisual[0][2] === 1">1,3</div>
+          
+          <div class="grid-cell" [class.active]="matrizVisual[1][0] === 1">2,1</div>
+          <div class="grid-cell" [class.active]="matrizVisual[1][1] === 1">2,2</div>
+          <div class="grid-cell" [class.active]="matrizVisual[1][2] === 1">2,3</div>
+
+          <div class="grid-cell" [class.active]="matrizVisual[2][0] === 1">3,1</div>
+          <div class="grid-cell" [class.active]="matrizVisual[2][1] === 1">3,2</div>
+          <div class="grid-cell" [class.active]="matrizVisual[2][2] === 1">3,3</div>
+        </div>
+
+        <div class="connection-status">
+          <div class="status-line"></div>
+          <span *ngIf="!nivelCompletado">RED DESCONECTADA</span>
+          <span *ngIf="nivelCompletado" style="color: #00ff00; text-shadow: 0 0 10px #00ff00;">SISTEMA ESTABILIZADO</span>
+        </div>
+
+      </div>
+
+      <div class="console-log">
+        <div *ngFor="let log of consolaLogs" [class]="log.tipo">> {{ log.mensaje }}</div>
+      </div>
+
+      <button class="btn-finish-level" *ngIf="nivelCompletado" (click)="mostrarVictoriaManual()">
+        VER RECOMPENSA 🏆
+      </button>
+    </div>
+  </div>
+  <div class="victory-overlay" *ngIf="mostrarOverlay">
+    <div class="victory-card">
+      <div class="glow-effect"></div>
+      
+      <h1 class="rank-up-text">¡ENTRENAMIENTO COMPLETADO!</h1>
+      
+      <img src="assets/diploma.png" class="badge-icon" alt="Rango Plata">
+      
+      <div class="stats">
+        <p>NUEVO RANGO ASIGNADO:</p>
+        <h2 class="rank-name">PROGRAMADOR HÁBIL</h2>
+        <div class="xp-container">
+  <span class="xp-gain">+300 XP</span>
+  <span class="xp-total"> / TOTAL: {{ puntosTotales }} XP</span>
+</div>
+      </div>
+
+      <div class="unlock-message">
+        <ion-icon name="arrow-up-circle" style="color: #00ffff; font-size: 1.5rem;"></ion-icon>
+        <span>ACCESO A JAVASCRIPT CONCEDIDO</span>
+      </div>
+
+      <button class="btn-claim" (click)="irAlMenuMisiones()">
+        ACEPTAR ASCENSO
+      </button>
+    </div>
+  </div>
+
+</ion-content>

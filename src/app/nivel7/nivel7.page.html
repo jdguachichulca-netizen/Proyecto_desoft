@@ -1,0 +1,136 @@
+<ion-content>
+  <div class="header-section">
+    <h1>MISIÓN 7: BODEGA DE CARGA (Arreglos)</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">PROTOCOLO DE ALMACENAMIENTO</div>
+      <div class="panel-body">
+        
+        <div class="mission-icon">
+          <img src="assets/Robot Cargo.png" alt="Robot Cargo">
+        </div>
+        
+        <h3>SITUACIÓN:</h3>
+        <p>
+          Tenemos 3 cristales para guardar. Si usas una variable normal:
+          <br><code>cristal &lt;- 10</code>
+          <br><code>cristal &lt;- 20</code> (¡El 10 se borra!)
+          <br><br>
+          Necesitamos una <strong>Dimensión</strong> (Arreglo) para guardarlos todos sin borrar nada.
+        </p>
+
+        <div class="logic-box">
+          <h4>¿QUÉ ES UNA DIMENSIÓN?</h4>
+          <p>
+            Imagina un casillero con puertas numeradas. La variable es el mueble entero, y los números <code>[1]</code> son las puertas.
+          </p>
+          
+          <div class="locker-visual">
+            <div class="locker">
+              <span>bodega[1]</span>
+              <div class="content">💎</div>
+            </div>
+            <div class="locker">
+              <span>bodega[2]</span>
+              <div class="content">🧪</div>
+            </div>
+            <div class="locker">
+              <span>bodega[3]</span>
+              <div class="content">🔋</div>
+            </div>
+          </div>
+          <small>Un nombre, múltiples espacios.</small>
+        </div>
+
+        <div class="code-example">
+          // 1. Crear los espacios<br>
+          Dimension <span>bodega[3]</span><br><br>
+          // 2. Llenar cada espacio<br>
+          bodega[1] &lt;- 100<br>
+          bodega[2] &lt;- 200
+        </div>
+
+        <div class="hint-box">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+            <img src="assets/foco.png" alt="Pista" class="foco-img">
+            <strong>TU MISIÓN:</strong>
+          </div>
+          <p>
+            1. Define una Dimension llamada <strong>carga</strong> de tamaño <strong>3</strong>.<br>
+            2. Guarda el valor <strong>10</strong> en la posición 1.<br>
+            3. Guarda el valor <strong>20</strong> en la posición 2.<br>
+            4. Guarda el valor <strong>30</strong> en la posición 3.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (PSeInt)</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+        <textarea class="code-input" [(ngModel)]="codigoUsuario" spellcheck="false" placeholder="Algoritmo Carga..."></textarea>
+      </div>
+      <button class="btn-run" (click)="ejecutarCodigo()">
+        ALMACENAR CRISTALES
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">ESTADO DE LA BODEGA</div>
+      <div class="visualizer-screen">
+        
+        <div class="cargo-bay">
+          
+          <div class="cargo-slot">
+            <div class="slot-number">[1]</div>
+            <div class="slot-content" [class.filled]="carga[0] !== null">
+              <span *ngIf="carga[0]">{{ carga[0] }}</span>
+              <span *ngIf="!carga[0]" class="empty">VACÍO</span>
+            </div>
+            <div class="energy-bar" [style.height]="(carga[0] || 0) * 3 + '%'"></div>
+          </div>
+
+          <div class="cargo-slot">
+            <div class="slot-number">[2]</div>
+            <div class="slot-content" [class.filled]="carga[1] !== null">
+              <span *ngIf="carga[1]">{{ carga[1] }}</span>
+              <span *ngIf="!carga[1]" class="empty">VACÍO</span>
+            </div>
+            <div class="energy-bar" [style.height]="(carga[1] || 0) * 3 + '%'"></div>
+          </div>
+
+          <div class="cargo-slot">
+            <div class="slot-number">[3]</div>
+            <div class="slot-content" [class.filled]="carga[2] !== null">
+              <span *ngIf="carga[2]">{{ carga[2] }}</span>
+              <span *ngIf="!carga[2]" class="empty">VACÍO</span>
+            </div>
+            <div class="energy-bar" [style.height]="(carga[2] || 0) * 3 + '%'"></div>
+          </div>
+
+        </div>
+
+        <div class="status-message" *ngIf="!nivelCompletado">
+          ESPERANDO CARGA...
+        </div>
+        <div class="status-message success" *ngIf="nivelCompletado">
+          ✅ CARGA ASEGURADA
+        </div>
+
+      </div>
+
+      <div class="console-log">
+        <div *ngFor="let log of consolaLogs" [class]="log.tipo">> {{ log.mensaje }}</div>
+      </div>
+
+      <button class="btn-next" *ngIf="nivelCompletado" (click)="finalizarMision()">
+        MISIÓN CUMPLIDA +200 XP
+      </button>
+    </div>
+  </div>
+</ion-content>

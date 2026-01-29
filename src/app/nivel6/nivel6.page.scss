@@ -1,0 +1,120 @@
+/* --- BASE REUTILIZABLE (Igual que niveles anteriores) --- */
+ion-content { --background: #0f0c29; font-family: 'Segoe UI', sans-serif; }
+.header-section { text-align: center; padding: 15px 0; h1 { color: white; font-family: 'Courier New', monospace; text-shadow: 0 0 10px rgba(0,255,255,0.5); font-size: 1.5rem; } }
+
+.game-layout {
+  display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 20px; padding: 20px;
+  height: 85vh; max-width: 1400px; margin: 0 auto;
+}
+
+.panel {
+  border: 1px solid #3a3f55; border-radius: 12px; background: rgba(31, 34, 53, 0.95);
+  display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  .panel-header { background: #2a2e45; color: #fff; padding: 10px; text-align: center; font-weight: bold; flex-shrink: 0; min-height: 40px; display: flex; align-items: center; justify-content: center; }
+  .panel-body { padding: 20px; color: #ccc; flex-grow: 1; overflow-y: auto; }
+}
+
+/* --- ESTILOS ESPECÍFICOS NIVEL 6 --- */
+
+/* Panel Izquierdo */
+.left-panel {
+  .mission-icon { text-align: center; margin-bottom: 20px; img { width: 120px; filter: drop-shadow(0 0 10px #00ffff); } }
+  h3 { color: #fff; font-size: 1rem; margin-top: 0; }
+  
+  /* CAJA DE LÓGICA COMPARATIVA */
+  .logic-box {
+    background: rgba(0, 255, 255, 0.05); border-left: 3px solid #00ffff; padding: 15px; margin: 15px 0; border-radius: 0 6px 6px 0;
+    h4 { color: #00ffff; margin: 0 0 10px 0; font-size: 0.85rem; letter-spacing: 1px; }
+    p { margin-bottom: 10px; font-size: 0.8rem; }
+    
+    .comparison-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      div {
+        background: rgba(0,0,0,0.3); padding: 8px; border-radius: 5px; text-align: center; display: flex; flex-direction: column; gap: 5px;
+        small { font-size: 0.65rem; color: #aaa; text-transform: uppercase; }
+        code { font-family: monospace; font-size: 0.75rem; color: #fff; background: rgba(255,255,255,0.1); padding: 2px; }
+        span { font-size: 0.7rem; font-style: italic; }
+      }
+      .old-way span { color: #ff4d4d; }
+      .new-way span { color: #4ade80; font-weight: bold; }
+    }
+  }
+
+  .code-example {
+    background: #111; border-left: 3px solid #00ffff; padding: 10px; font-family: monospace; color: #4ade80; margin: 15px 0; font-size: 0.9rem;
+    span { color: #ff4d4d; }
+  }
+
+  .hint-box {
+    background: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.3); border-top: 4px solid #ffd700; border-radius: 8px;
+    width: 100%; height: auto; min-height: 80px; padding: 15px; margin-top: 15px; display: flex; flex-direction: column; align-items: center; text-align: center;
+    .foco-img { width: 30px; margin-bottom: 5px; }
+    strong { color: #ffd700; font-size: 0.85rem; }
+    p { margin: 5px 0 0 0; font-size: 0.8rem; color: #ddd; code { color: #00ffff; } }
+  }
+}
+
+/* Panel Central */
+.center-panel {
+  .editor-container { flex-grow: 1; background: #1e1e1e; display: flex; font-family: 'Consolas', monospace; }
+  .line-numbers { width: 35px; background: #252526; color: #6e7681; text-align: right; padding: 15px 5px; border-right: 1px solid #333; }
+  .code-input { flex-grow: 1; background: transparent; border: none; color: #d4d4d4; padding: 15px; font-size: 1rem; resize: none; outline: none; }
+  .btn-run { background: #00ffff; color: #050614; font-weight: bold; padding: 15px; border: none; cursor: pointer; font-size: 1.1rem; &:disabled { background: #555; cursor: not-allowed; } }
+}
+
+/* Panel Derecho (Radar) */
+.right-panel {
+  .visualizer-screen {
+    flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: #000; position: relative; overflow: hidden;
+  }
+
+  .radar-container {
+    width: 200px; height: 200px; position: relative; margin-bottom: 20px;
+    
+    .radar-circle {
+      width: 100%; height: 100%; border: 2px solid #3a3f55; border-radius: 50%;
+      position: relative; background: radial-gradient(circle, #1a2f35 0%, #000 100%);
+      
+      /* Grilla del radar (círculos concéntricos) */
+      &::after {
+        content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+        width: 60%; height: 60%; border: 1px solid rgba(0, 255, 255, 0.2); border-radius: 50%;
+      }
+    }
+
+    .scanner-line {
+      position: absolute; top: 50%; left: 50%; width: 50%; height: 2px;
+      background: linear-gradient(90deg, transparent, #00ffff);
+      transform-origin: 0% 0%; /* Gira desde el centro */
+      opacity: 0;
+      &.scanning { opacity: 1; animation: radarScan 2s linear infinite; }
+    }
+
+    .sector {
+      position: absolute; width: 30px; height: 30px; border-radius: 50%;
+      background: #333; color: #777; font-size: 0.8rem; font-weight: bold;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.5s ease;
+      
+      /* Posicionamiento manual de los 5 puntos en círculo */
+      &.s1 { top: 10%; left: 50%; transform: translateX(-50%); }
+      &.s2 { top: 30%; right: 10%; }
+      &.s3 { bottom: 30%; right: 10%; }
+      &.s4 { bottom: 30%; left: 10%; }
+      &.s5 { top: 30%; left: 10%; }
+
+      &.active {
+        background: #00ffff; color: #000; box-shadow: 0 0 15px #00ffff; transform: scale(1.2) translateX(0);
+        &.s1 { transform: scale(1.2) translateX(-50%); } /* Corrección para el s1 centrado */
+      }
+    }
+  }
+
+  .status-message { color: #555; font-family: monospace; &.success { color: #00ffff; font-weight: bold; animation: blink 1s infinite; } }
+  .console-log { height: 120px; flex-shrink: 0; background: #000; border-top: 2px solid #3a3f55; padding: 10px; font-family: monospace; font-size: 0.8rem; overflow-y: auto; .info { color: #ccc; } .success { color: #4ade80; } .error { color: #ff4d4d; } }
+  .btn-next { margin: 10px; flex-shrink: 0; background: transparent; border: 2px solid #00ffff; color: #00ffff; padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+}
+
+@keyframes radarScan { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }

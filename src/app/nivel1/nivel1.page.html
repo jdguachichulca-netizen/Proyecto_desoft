@@ -1,0 +1,76 @@
+<ion-content>
+  <div class="header-section">
+    <h1>MISIÓN 1: DESPIERTA A W-BIT (Introducción a PSeInt)</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">OBJETIVO DE MISIÓN</div>
+      <div class="panel-body">
+        
+        <div class="mission-icon">
+          <img src="assets/robotdurmiendo.png" alt="Robot Dormido">
+        </div>
+        
+        <h3>OBJETIVO:</h3>
+        <p>Tu unidad asistente W-BIT está inactiva. Usa el comando <strong>Escribir</strong> en la terminal para enviar una señal de activación y hacer que diga "Hola Mundo".</p>
+        
+        <div class="hint-box">
+          <img src="assets/foco.png" alt="Pista" class="foco-img">
+          <p><strong>DATO DE INTELIGENCIA:</strong><br>
+          El comando <code>Escribir "Texto"</code> muestra mensajes en la pantalla. ¡No olvides las comillas!</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (Introducción a PSeInt)</div>
+      <div class="editor-container">
+        <div class="line-numbers">
+          1<br>2<br>3<br>4<br>5<br>6
+        </div>
+        <textarea 
+          class="code-input" 
+          [(ngModel)]="codigoUsuario" 
+          placeholder='Escribir "..."'
+          spellcheck="false">
+        </textarea>
+      </div>
+      <button class="btn-run" (click)="ejecutarCodigo()">
+        ACTIVAR UNIDAD
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">VISUALIZADOR DEL JUEGO</div>
+      
+      <div class="visualizer-screen">
+        
+        <div class="empty-hologram" *ngIf="!robotDespierto">
+          <div class="scanner-line"></div>
+          <span>SISTEMA OFFLINE</span>
+          <small>Esperando código...</small>
+        </div>
+
+        <img src="assets/robot_despierto.png" 
+             class="robot-display despierto" 
+             *ngIf="robotDespierto">
+        
+        <div class="speech-bubble" *ngIf="robotDespierto">
+          Hola Mundo
+        </div>
+      </div>
+
+      <div class="console-log">
+        <div *ngFor="let log of consolaLogs" [class]="log.tipo">
+          > {{ log.mensaje }}
+        </div>
+      </div>
+
+      <button class="btn-next" *ngIf="robotDespierto" (click)="avanzarNivel()">
+  CONTINUAR +50 XP
+</button>
+
+    </div> </div> </ion-content>

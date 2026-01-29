@@ -1,0 +1,160 @@
+ion-toolbar {
+  /* Color de fondo oscuro original */
+  --background: #050614;
+  /* Quitamos padding vertical excesivo para tener control total de la altura */
+  padding: 0 20px; 
+  /* Definimos una altura fija para la barra para asegurar el centrado perfecto */
+  height: 70px;
+  /* Esto asegura que el contenido se centre verticalmente en esa altura */
+  display: flex;
+  align-items: center;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* ESTO ES CLAVE: Centra verticalmente todo el contenido (logo, menú, usuario) */
+  width: 100%;
+  height: 100%; /* Ocupa toda la altura de la barra */
+}
+
+/* --- CAJA DEL LOGO --- */
+.logo-box {
+  /* Mantenemos el contenedor limpio */
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border: none;
+  display: flex;
+  align-items: center;
+  /* Reducimos un poco el margen derecho porque ahora la imagen tiene su propio padding */
+  margin-right: 5px; 
+
+  img {
+    height: 55px;
+    width: auto;
+    display: block;
+    
+    /* --- LA SOLUCIÓN A LA LÍNEA CORTADA --- */
+    /* Agregamos espacio invisible DENTRO de la imagen a la izquierda y derecha.
+       Esto le da espacio al 'drop-shadow' para difuminarse sin chocarse con el borde. */
+    padding: 0 20px; 
+    /* ------------------------------------- */
+
+    /* El filtro de luz neón (se mantiene igual) */
+    filter: 
+      drop-shadow(0 0 15px rgba(168, 85, 247, 0.9))
+      drop-shadow(0 0 2px rgba(255, 255, 255, 1));
+      
+    animation: logo-pulse 3s ease-in-out infinite;
+  }
+}
+
+@keyframes logo-pulse {
+  0%, 100% { filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.9)) drop-shadow(0 0 2px white); }
+  50% { filter: drop-shadow(0 0 25px rgba(192, 132, 252, 1)) drop-shadow(0 0 3px white); }
+}
+
+.nav-links {
+  display: none; /* Oculto en móviles, visible en PC */
+  
+  @media (min-width: 768px) {
+    display: flex;
+    gap: 30px;
+  }
+
+  a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.8;
+    &:hover, &.active {
+      color: #00ffff; /* Cian neón */
+      opacity: 1;
+      text-shadow: 0 0 8px #00ffff;
+    }
+    &.active::after {
+      content: '•';
+      margin-left: 5px;
+      color: #00ffff;
+    }
+  }
+}
+
+.user-panel {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.btn-login {
+  --border-color: #00ffff;
+  --color: #fff;
+  --border-width: 2px;
+  --border-radius: 8px;
+  font-family: 'VT323', monospace;
+  font-size: 1.1rem;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+/* --- PANEL DE USUARIO (Avatar + Nombre + Salir) --- */
+.user-stats {
+  background: #1f2235;
+  padding: 5px 15px;      /* Espacio interno cómodo */
+  border-radius: 50px;    /* Bordes completamente redondos */
+  display: flex;          /* Para poner los elementos en fila */
+  align-items: center;    /* Centrados verticalmente */
+  gap: 12px;              /* Espacio entre la foto y el texto */
+  border: 1px solid #3a3f55; /* Borde sutil */
+  margin-right: 10px;
+
+  /* La foto del usuario */
+.avatar {
+  /* Tamaño y forma */
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid #00ffff;
+  
+  /* ESTO ES LO IMPORTANTE: El color de fondo que se ve cuando no hay foto */
+  background-color: #3a3f55; 
+  
+  /* Configuración para cuando SÍ hay foto */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+  /* Contenedor del texto (Nombre y Nivel) */
+  .stats-info {
+    display: flex;
+    flex-direction: column;   /* Uno arriba del otro */
+    justify-content: center;
+    line-height: 1.2;
+    
+    .username { 
+      color: #fff; 
+      font-weight: bold; 
+      font-size: 0.9rem;
+      text-transform: uppercase; /* Nombre en mayúsculas */
+    }
+    
+    .level-tag { 
+      color: #00ffff;         /* Color cian para el nivel */
+      font-size: 0.75rem; 
+      letter-spacing: 1px;
+    }
+  }
+
+  /* Estilo para el botón SALIR */
+  .btn-logout {
+    --padding-start: 5px;
+    --padding-end: 5px;
+    margin: 0;
+    height: auto;
+    font-size: 0.8rem;
+    border-left: 1px solid #555; /* Línea gris separadora vertical */
+    padding-left: 10px;          /* Separación de la línea */
+  }
+}
