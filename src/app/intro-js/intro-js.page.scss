@@ -1,0 +1,177 @@
+/* FUENTE CIBERNÉTICA */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Fira+Code&display=swap');
+
+ion-content {
+  /* Fondo más oscuro, casi negro puro */
+  --background: #050505;
+  font-family: 'Fira Code', monospace;
+}
+
+/* FONDO DE HEXÁGONOS (Diferente a la cuadrícula anterior) */
+.hex-bg {
+  position: absolute; width: 100%; height: 100%;
+  background-color: #050505;
+  opacity: 0.1;
+  background-image:  radial-gradient(#F7DF1E 1px, transparent 1px), radial-gradient(#F7DF1E 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: 0 0, 25px 25px;
+  pointer-events: none;
+}
+
+.briefing-container {
+  padding: 30px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* NIVEL DE SEGURIDAD */
+.security-level {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: #F7DF1E; /* Amarillo JS */
+  border: 1px solid #F7DF1E;
+  padding: 5px 15px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  background: rgba(247, 223, 30, 0.1);
+  box-shadow: 0 0 10px rgba(247, 223, 30, 0.2);
+}
+
+/* TÍTULO */
+.main-title {
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+  
+  .highlight {
+    color: #F7DF1E;
+    font-size: 3.5rem;
+    font-weight: 900;
+    text-shadow: 0 0 20px rgba(247, 223, 30, 0.5);
+    display: block;
+    margin-top: 5px;
+  }
+}
+
+/* TARJETA JS (Estilo más "Rudo/Industrial") */
+.js-card {
+  background: #111;
+  border-left: 5px solid #F7DF1E; /* Borde grueso a la izquierda */
+  padding: 30px;
+  margin-bottom: 40px;
+  position: relative;
+  box-shadow: 10px 10px 0px rgba(30, 30, 30, 1); /* Sombra dura, no difusa */
+
+  .card-visual {
+    margin-bottom: 20px;
+    
+    ion-icon {
+      font-size: 6rem;
+      color: #F7DF1E;
+      filter: drop-shadow(0 0 15px rgba(247, 223, 30, 0.6));
+      animation: glow-pulse 2s infinite alternate;
+    }
+  }
+
+  h3 {
+    color: #fff; font-family: 'Orbitron', sans-serif; 
+    border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px;
+  }
+
+  p { color: #ccc; line-height: 1.6; font-size: 0.95rem; margin-bottom: 10px; }
+  .text-gold { color: #F7DF1E; }
+}
+
+@keyframes glow-pulse {
+  0% { transform: scale(1); text-shadow: 0 0 10px #F7DF1E; }
+  100% { transform: scale(1.05); text-shadow: 0 0 30px #F7DF1E; }
+}
+
+/* GRID TÉCNICO - ACTUALIZADO PARA IMÁGENES */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 50px;
+
+  .tech-item {
+    background: #0a0a0a;
+    border: 1px solid #333;
+    padding: 25px 20px;
+    transition: all 0.3s ease;
+    
+    /* Centramos el contenido */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    &:hover {
+      border-color: #F7DF1E;
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(247, 223, 30, 0.1);
+      
+      /* Hacemos brillar más el icono al pasar el mouse */
+      .tech-icon {
+        transform: scale(1.1);
+        filter: invert(86%) sepia(61%) saturate(836%) hue-rotate(357deg) brightness(103%) contrast(106%) drop-shadow(0 0 15px #F7DF1E);
+      }
+    }
+
+    /* 👇 ESTILO NUEVO PARA LOS ICONOS (IMÁGENES) 👇 */
+    .tech-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 20px;
+      
+      /* FILTRO MÁGICO: Convierte cualquier imagen negra en Amarillo JS (#F7DF1E) */
+      filter: invert(86%) sepia(61%) saturate(836%) hue-rotate(357deg) brightness(103%) contrast(106%) drop-shadow(0 0 5px rgba(247, 223, 30, 0.7));
+      
+      transition: all 0.3s ease;
+    }
+
+    h4 { 
+      color: #F7DF1E; 
+      margin: 0 0 10px 0; 
+      font-family: 'Orbitron', sans-serif; 
+      font-size: 0.9rem; 
+      letter-spacing: 1px;
+    }
+    
+    p { color: #888; font-size: 0.8rem; margin: 0; line-height: 1.4; }
+  }
+}
+
+/* ÁREA DE ACCIÓN */
+.action-area {
+  .status-text {
+    color: #F7DF1E; font-size: 0.8rem; margin-bottom: 15px;
+    font-family: monospace; animation: typing 2s steps(40, end);
+  }
+
+  .btn-deploy {
+    background: #F7DF1E; /* Amarillo JS */
+    color: #000; /* Texto negro para contraste */
+    font-weight: 900;
+    font-family: 'Orbitron', sans-serif;
+    border: none;
+    padding: 20px 40px;
+    font-size: 1.1rem;
+    width: 100%;
+    max-width: 400px;
+    cursor: pointer;
+    /* Forma recortada en las esquinas (Cyberpunk) */
+    clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    transition: all 0.2s;
+
+    &:hover {
+      background: #fff;
+      transform: scale(1.02);
+      box-shadow: 0 0 20px rgba(247, 223, 30, 0.5);
+    }
+  }
+}

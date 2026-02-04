@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common'; // <--- Importante para *ngIf y *ngFor
-import { FormsModule } from '@angular/forms';     // <--- Importante para [(ngModel)]
-import { IonContent, IonIcon } from '@ionic/angular/standalone'; // <--- Importante para <ion-icon>
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms'; 
+import { IonContent, IonIcon } from '@ionic/angular/standalone'; 
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { addIcons } from 'ionicons';
@@ -12,23 +12,22 @@ import { rocket, warning } from 'ionicons/icons';
   templateUrl: './nivel5.page.html',
   styleUrls: ['./nivel5.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonIcon] // <--- AQUÍ SE SOLUCIONA EL ERROR DE ION-ICON
+  imports: [IonContent, CommonModule, FormsModule, IonIcon] 
 })
 export class Nivel5Page {
   
   private auth = inject(AuthService);
   private router = inject(Router);
 
-  // --- VARIABLES (AQUÍ SE SOLUCIONA EL ERROR DE MOTORESENCENDIDOS) ---
   codigoUsuario: string = 'Algoritmo Despegue\n\t\n\t// Define tu variable aquí\n\t\n\tMientras ... Hacer\n\t\t// Escribe...\n\t\t// ¡No olvides sumar 1!\n\tFinMientras\nFinAlgoritmo';
 
   nivelCompletado: boolean = false;
   ejecutando: boolean = false; 
-  motoresEncendidos: number = 0; // <--- ESTA ES LA VARIABLE QUE FALTABA
+  motoresEncendidos: number = 0; 
   consolaLogs: any[] = [{mensaje: 'Esperando código de secuencia...', tipo: 'info'}];
 
   constructor() {
-    addIcons({ rocket, warning }); // Registramos los iconos
+    addIcons({ rocket, warning }); 
   }
 
   async ejecutarCodigo() {
@@ -42,14 +41,22 @@ export class Nivel5Page {
     const tieneSuma = codigo.includes('+1') || codigo.includes('+ 1');
 
     if (tieneMientras && tieneLimite && tieneSuma) {
+      
+      // 👇 CAMBIO: Capturamos el texto que escribiste entre comillas
+      const matchTexto = codigo.match(/escribir\s*["']([^"']+)["']/);
+      // Si encontraste texto, úsalo. Si no, usa uno por defecto.
+      const mensajeUsuario = matchTexto ? matchTexto[1] : 'Encendiendo motor';
+
       this.ejecutando = true;
       this.consolaLogs.push({mensaje: '> Código validado. Iniciando ciclo...', tipo: 'info'});
       
       // Simulación visual del bucle
       for (let i = 1; i <= 4; i++) {
         await new Promise(r => setTimeout(r, 800));
-        this.motoresEncendidos = i; // Actualizamos la variable para que el HTML la vea
-        this.consolaLogs.push({mensaje: `> Iteración ${i}: Encendiendo motor ${i}...`, tipo: 'info'});
+        this.motoresEncendidos = i; 
+        
+        // 👇 CAMBIO: Aquí mostramos TU mensaje capturado
+        this.consolaLogs.push({mensaje: `> Iteración ${i}: "${mensajeUsuario}"`, tipo: 'info'});
       }
 
       await new Promise(r => setTimeout(r, 500));
@@ -73,8 +80,6 @@ export class Nivel5Page {
 
   finalizarMision() {
     this.auth.ganarXP(100); 
-    
-    // Al terminar el último nivel, volvemos al menú o a los logros
     this.router.navigate(['/nivel6']); 
   }
 }

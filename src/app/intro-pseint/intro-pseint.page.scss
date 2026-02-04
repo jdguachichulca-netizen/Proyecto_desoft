@@ -1,0 +1,218 @@
+/* FUENTES TECH */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Share+Tech+Mono&display=swap');
+
+ion-content {
+  --background: radial-gradient(circle at top, #0b1a2b 0%, #050510 100%);
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* FONDO DE REJILLA CIBERNÉTICA */
+.cyber-grid-bg {
+  position: absolute; width: 100%; height: 100%;
+  background-image: linear-gradient(rgba(0, 198, 255, 0.05) 1px, transparent 1px),
+  linear-gradient(90deg, rgba(0, 198, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.briefing-container {
+  padding: 30px 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* --- ENCABEZADO DE SISTEMA --- */
+.system-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 198, 255, 0.1);
+  padding: 5px 15px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 198, 255, 0.3);
+  margin-bottom: 20px;
+  
+  span {
+    color: #00c6ff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+  }
+
+  .blink-dot {
+    width: 8px; height: 8px; background: #00c6ff; border-radius: 50%;
+    animation: blink 1s infinite;
+  }
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* --- TÍTULO --- */
+.main-title {
+  color: #fff;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  
+  .highlight {
+    color: #00c6ff;
+    font-weight: 800;
+    text-shadow: 0 0 15px rgba(0, 198, 255, 0.6);
+    font-size: 3.5rem;
+    display: block;
+    letter-spacing: 4px;
+  }
+}
+
+/* --- TARJETA HOLOGRÁFICA (EXPLICACIÓN) --- */
+.holo-card {
+  background: rgba(10, 20, 40, 0.8);
+  border: 1px solid #00c6ff;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 198, 255, 0.15), inset 0 0 20px rgba(0, 198, 255, 0.05);
+  backdrop-filter: blur(5px);
+  position: relative;
+
+  &::before {
+    content: ''; position: absolute; top: -2px; left: -2px; width: 20px; height: 20px;
+    border-top: 3px solid #00c6ff; border-left: 3px solid #00c6ff;
+  }
+  &::after {
+    content: ''; position: absolute; bottom: -2px; right: -2px; width: 20px; height: 20px;
+    border-bottom: 3px solid #00c6ff; border-right: 3px solid #00c6ff;
+  }
+
+  /* ESTILO PARA TU IMAGEN CIRCULAR (CHIP) */
+  .card-icon {
+    margin-bottom: 20px;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 198, 255, 0.2) 0%, rgba(0,0,0,0.5) 100%);
+    border: 3px solid #00c6ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* EFECTO DE LUZ IRRADIADA */
+    box-shadow: 
+      0 0 20px rgba(0, 198, 255, 0.6), 
+      0 0 50px rgba(0, 198, 255, 0.4), 
+      0 0 80px rgba(0, 198, 255, 0.2);
+      
+    animation: core-pulse 3s ease-in-out infinite alternate;
+
+    img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 10px rgba(0, 198, 255, 0.8));
+    }
+  }
+
+  h3 { color: #fff; font-size: 1.2rem; margin-bottom: 10px; letter-spacing: 1px; }
+  
+  p { 
+    color: #b0c4de; font-size: 1rem; line-height: 1.5; margin-bottom: 10px; 
+    strong { color: #00c6ff; }
+  }
+}
+
+@keyframes core-pulse {
+  0% { transform: scale(1); box-shadow: 0 0 20px rgba(0, 198, 255, 0.6), 0 0 50px rgba(0, 198, 255, 0.4); }
+  100% { transform: scale(1.05); box-shadow: 0 0 30px rgba(0, 198, 255, 0.8), 0 0 70px rgba(0, 198, 255, 0.6), 0 0 100px rgba(0, 198, 255, 0.3); }
+}
+
+/* --- GRID DE MÓDULOS --- */
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 20px;
+  margin-bottom: 50px;
+
+  .module-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 25px 15px;
+    border-radius: 10px;
+    transition: transform 0.3s, border-color 0.3s;
+    
+    /* Centramos contenido */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      transform: translateY(-5px);
+      border-color: #00c6ff;
+      background: rgba(0, 198, 255, 0.05);
+
+      /* Hacemos que el icono brille más al pasar el mouse */
+      .module-icon {
+        transform: scale(1.1);
+        /* Brillo extra en hover */
+        filter: invert(66%) sepia(66%) saturate(4444%) hue-rotate(156deg) brightness(102%) contrast(102%) drop-shadow(0 0 15px #00c6ff);
+      }
+    }
+
+    /* 👇 CÓDIGO INTEGRADO PARA ICONOS CYAN 👇 */
+    /* 👇 CÓDIGO UNIVERSAL CORREGIDO 👇 */
+    .module-icon {
+      width: 60px;
+      height: 60px;
+      margin-bottom: 20px;
+      
+      /* 1. RESETEO: Forzamos cualquier color a NEGRO PURO primero */
+      /* 2. COLOR: Convertimos ese negro a CYAN NEÓN */
+      /* 3. GLOW: Agregamos el resplandor */
+      filter: brightness(0) saturate(100%) invert(66%) sepia(66%) saturate(4444%) hue-rotate(156deg) brightness(102%) contrast(102%) drop-shadow(0 0 8px rgba(0, 198, 255, 0.8));
+      
+      transition: all 0.3s ease;
+    }
+    /* 👆 FIN DEL CÓDIGO INTEGRADO 👆 */
+
+    h4 { color: #fff; margin: 0 0 5px 0; font-size: 1rem; }
+    p { color: #8899a6; font-size: 0.8rem; margin: 0; line-height: 1.2; }
+  }
+}
+
+/* --- ÁREA DE ACCIÓN --- */
+.action-area {
+  .ready-text {
+    color: #00c6ff;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    opacity: 0.8;
+  }
+
+  .btn-start {
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    color: #fff;
+    border: none;
+    padding: 18px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 198, 255, 0.4);
+    transition: all 0.2s;
+    width: 100%;
+    max-width: 400px;
+    letter-spacing: 1px;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(0, 198, 255, 0.6);
+    }
+  }
+}

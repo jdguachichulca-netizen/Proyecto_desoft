@@ -5,7 +5,6 @@ import { IonContent, IonHeader, IonToolbar, IonTitle, IonIcon, IonButtons, IonBa
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { addIcons } from 'ionicons';
-// Puedes agregar iconos si quieres, pero por ahora no usamos ion-icon nuevos
 
 @Component({
   selector: 'app-nivel6',
@@ -24,7 +23,7 @@ export class Nivel6Page {
 
   nivelCompletado: boolean = false;
   ejecutando: boolean = false;
-  sectorActual: number = 0; // Controla qué punto del radar brilla (0 a 5)
+  sectorActual: number = 0; 
   consolaLogs: any[] = [{mensaje: 'Esperando activación de barrido...', tipo: 'info'}];
 
   constructor() { }
@@ -35,22 +34,43 @@ export class Nivel6Page {
     this.sectorActual = 0;
 
     // VALIDACIÓN:
-    // 1. Debe tener "para"
-    // 2. Debe tener "hasta 5"
-    // 3. Debe tener "hacer"
-    // 4. NO debe tener "variable <- variable + 1" (error común de novatos en Para)
-    
     const tienePara = codigo.includes('para ');
     const tieneHasta = codigo.includes('hasta 5') || codigo.includes('hasta5');
     const tieneHacer = codigo.includes('hacer');
     const tieneSumaManual = codigo.includes('+1') || codigo.includes('+ 1');
 
+    // 1. VALIDACIÓN ESTRICTA DE "ESCRIBIR"
+    if (!codigo.includes('escribir')) {
+        this.consolaLogs.push({ 
+            mensaje: '❌ ERROR DE SINTAXIS: Comando no reconocido. ¿Quisiste decir "Escribir"?', 
+            tipo: 'error' 
+        });
+        return; 
+    }
+
+    // 2. VALIDACIÓN DE CIERRE "FINPARA"
+    if (!codigo.includes('finpara') && !codigo.includes('fin para')) {
+        this.consolaLogs.push({ 
+            mensaje: '❌ ERROR: El ciclo está abierto. Debes cerrarlo con "FinPara".', 
+            tipo: 'error' 
+        });
+        return; 
+    }
+
     if (tienePara && tieneHasta && tieneHacer) {
       
       if (tieneSumaManual) {
         this.consolaLogs.push({mensaje: 'ADVERTENCIA: En el ciclo PARA no necesitas sumar +1 manualmente. ¡Lo hace solo!', tipo: 'error'});
-        return; // Detenemos para que corrija
+        return; 
       }
+
+      // 👇👇👇 AQUÍ ESTÁ EL CAMBIO 👇👇👇
+      // Capturamos lo que escribiste entre comillas (Ej: "escaneando")
+      const matchTexto = codigo.match(/escribir\s*["']([^"']+)["']/);
+      // Si encontraste texto, úsalo. Si no, usa uno por defecto.
+      const mensajeUsuario = matchTexto ? matchTexto[1] : 'Escaneando...';
+      // 👆👆👆 FIN DEL CAMBIO 👆👆👆
+
 
       // ¡CÓDIGO CORRECTO!
       this.ejecutando = true;
@@ -58,10 +78,12 @@ export class Nivel6Page {
       
       // Simulación del barrido
       for (let i = 1; i <= 5; i++) {
-        await new Promise(r => setTimeout(r, 600)); // Espera entre sectores
+        await new Promise(r => setTimeout(r, 600)); 
         
         this.sectorActual = i;
-        this.consolaLogs.push({mensaje: `> Sector ${i} [OK] - Detectando...`, tipo: 'info'});
+        
+        // 👇 AQUÍ MOSTRAMOS TU MENSAJE EN LA CONSOLA
+        this.consolaLogs.push({mensaje: `> Sector ${i}: "${mensajeUsuario}"`, tipo: 'info'});
       }
 
       await new Promise(r => setTimeout(r, 500));
@@ -80,6 +102,6 @@ export class Nivel6Page {
 
   finalizarMision() {
     this.auth.ganarXP(150);
-    this.router.navigate(['/nivel7']); // O al siguiente nivel si lo creas
+    this.router.navigate(['/nivel7']); 
   }
 }

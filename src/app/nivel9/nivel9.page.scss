@@ -1,216 +1,237 @@
-/* FUENTE PIXELADA */
-@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+/* --- FUENTES --- */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;800&family=Fira+Code:wght@400&display=swap');
 
 ion-content {
-  --background: #1a0b2e; /* Púrpura muy oscuro de fondo */
-  font-family: 'VT323', monospace;
+  --background: radial-gradient(circle at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  font-family: 'Rajdhani', sans-serif;
 }
 
+/* --- CABECERA --- */
+.header-section {
+  text-align: center;
+  padding: 15px;
+  h1 {
+    color: #00fff5;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin: 0;
+    text-shadow: 0 0 10px rgba(0, 255, 245, 0.5);
+  }
+}
+
+/* --- GRID PRINCIPAL (AQUÍ ESTÁ EL ARREGLO) --- */
 .game-layout {
-  display: flex;
-  height: 100vh;
-  padding: 10px;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  gap: 20px;
   
-  @media (max-width: 768px) { flex-direction: column; height: auto; }
+  /* 👇 CAMBIO: 40px arriba para separar del título */
+  padding: 40px 20px 20px 20px; 
+  
+  /* Ajusté un poco la altura para compensar el nuevo espacio */
+  height: calc(100vh - 100px); 
+  
+  max-width: 1600px;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* --- PANELES --- */
+/* --- ESTILOS DE PANELES (CON EFECTO DE LUZ) --- */
 .panel {
-  background: rgba(45, 20, 60, 0.9); /* Púrpura translúcido */
-  border: 2px solid #ffd700; /* BORDE DORADO */
-  border-radius: 10px;
-  padding: 20px;
+  background: #151520; /* Fondo oscuro sólido */
+  border: 1px solid #333;
+  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
-}
-
-.left-panel { flex: 1; overflow: hidden; }
-.right-panel { flex: 1.5; }
-
-/* --- HISTORIA (IZQUIERDA) --- */
-.story-header {
-  border-bottom: 2px solid #b8860b;
-  margin-bottom: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
   
-  .level-badge {
-    background: #ffd700;
-    color: #2d143c;
-    display: inline-block;
-    padding: 2px 8px;
-    font-weight: bold;
-    border-radius: 4px;
-    font-size: 1.2rem;
-  }
-  
-  h2 { color: #ffd700; margin: 10px 0; font-size: 2.5rem; }
+  /* ✨ AQUÍ ESTÁ LA MAGIA DE LA TRANSICIÓN ✨ */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.scroll-content { overflow-y: auto; padding-right: 10px; }
-
-.story-box p { font-size: 1.3rem; color: #e0d0f0; line-height: 1.4; }
-
-.theory-box {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px dashed #b8860b;
-  margin: 20px 0;
-
-  h3 { color: #ffa500; margin-top: 0; }
-  h4 { color: #ffd700; margin-bottom: 5px; }
-  
-  .code-example {
-    background: #000;
-    color: #00ff00; /* Código verde clásico */
-    padding: 8px;
-    border-left: 4px solid #ffd700;
-    font-family: monospace;
-  }
+/* ✨ EFECTO AL PASAR EL MOUSE (HOVER) ✨ */
+.panel:hover {
+  border-color: #00fff5; /* Borde se vuelve Cyan Neón */
+  box-shadow: 0 0 25px rgba(0, 255, 245, 0.3); /* Resplandor exterior */
+  transform: translateY(-3px); /* Se levanta un poquito */
+  z-index: 10; /* Se pone por encima de otros elementos */
 }
 
-.mission-box {
-  background: rgba(255, 215, 0, 0.1);
-  padding: 15px;
-  border-radius: 8px;
-  border: 1px solid #ffd700;
-  li { font-size: 1.2rem; color: #fff; margin-bottom: 5px; }
-}
-
-/* --- EDITOR (DERECHA) --- */
 .panel-header {
-  color: #ffa500;
-  font-size: 1.5rem;
+  background: #0b0c10;
+  color: #fff;
+  padding: 12px;
   text-align: center;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #555;
+  font-weight: bold;
+  border-bottom: 2px solid #00fff5;
 }
 
-.code-editor {
-  background: #1e1e1e; /* Fondo oscuro tipo VS Code */
-  border: 2px solid #555;
-  border-radius: 5px;
-  height: 150px;
+.panel-body {
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+  color: #ccc;
+}
+
+/* --- PANEL CENTRAL (TERMINAL) --- */
+.center-panel {
   display: flex;
-  margin-bottom: 15px;
-  font-family: monospace;
-
-  .line-numbers {
-    background: #252526;
-    color: #858585;
-    padding: 10px 5px;
-    text-align: right;
-    border-right: 1px solid #444;
-    display: flex;
-    flex-direction: column;
-    span { display: block; height: 24px; }
-  }
-
-  textarea {
-    flex: 1;
-    background: transparent;
-    color: #d4d4d4; /* Color texto editor */
-    border: none;
-    padding: 10px;
-    resize: none;
-    font-family: 'Courier New', monospace;
-    font-size: 1.1rem;
-    line-height: 24px;
-    &:focus { outline: none; }
-  }
+  flex-direction: column;
 }
 
-/* --- BOTONES --- */
+.editor-container {
+  flex-grow: 1;
+  background: #000;
+  display: flex;
+  font-family: 'Fira Code', monospace;
+  border-bottom: 1px solid #333;
+}
+
+.line-numbers {
+  width: 40px;
+  background: #111;
+  color: #444;
+  text-align: right;
+  padding: 15px 5px;
+  border-right: 1px solid #222;
+  user-select: none;
+}
+
+.code-input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  color: #00ff88; /* Verde Hacker */
+  padding: 15px;
+  font-size: 1rem;
+  resize: none;
+  outline: none;
+  line-height: 1.5;
+}
+
 .btn-compile {
   width: 100%;
-  padding: 12px;
-  background: linear-gradient(90deg, #ff8c00, #ff4500); /* Naranja fuego */
-  color: white;
-  font-family: 'VT323', monospace;
-  font-size: 1.5rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0 4px 0 #8b0000;
-  
-  &:active { transform: translateY(4px); box-shadow: none; }
-  &:disabled { background: #555; box-shadow: none; cursor: not-allowed; }
-}
-
-/* --- VISUALIZADOR ARENA --- */
-.visualizer-arena {
-  margin-top: 20px;
-  background: #2a1010; /* Suelo de arena oscura */
-  border: 2px solid #8b4513;
-  border-radius: 8px;
   padding: 20px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  background-image: radial-gradient(#3e1616 10%, transparent 10%);
-  background-size: 20px 20px;
+  background: #00ff88;
+  color: #000;
+  font-weight: 800;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.gladiator {
-  position: relative;
-  margin-bottom: 20px;
-  
-  .hero-img {
-    height: 100px;
-    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
-  }
+.btn-compile:hover {
+  background: #00cc6a;
+  box-shadow: 0 0 15px #00ff88; /* El botón también brilla */
+}
 
-  .weapon-slot {
-    position: absolute;
-    top: 20px;
-    right: -40px;
-    font-size: 3rem;
-    opacity: 0;
-    transition: all 0.5s ease;
+/* --- ESTILOS DE CONTENIDO (IZQUIERDA) --- */
+.story-box {
+  margin-bottom: 20px;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+.syntax-card {
+  background: #0b0c10;
+  border: 1px solid #333;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+
+  h4 { color: #00fff5; margin-top: 0; font-size: 1rem; }
+  
+  .comparison-row {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #222; padding: 8px 0;
     
-    &.has-weapon {
-      opacity: 1;
-      transform: scale(1.2) rotate(15deg);
-      filter: drop-shadow(0 0 10px gold);
+    small { font-size: 0.7rem; color: #666; display: block; }
+    code { font-family: monospace; background: #222; padding: 2px 5px; }
+    .new { color: #00fff5; }
+    .arrow { color: #666; }
+  }
+}
+
+.mission-guide {
+  border-top: 1px solid #333; padding-top: 15px;
+  h4 { color: #e94560; margin: 0 0 10px 0; }
+  li { margin-bottom: 5px; font-size: 0.9rem; }
+  code { color: #00fff5; font-family: monospace; }
+}
+
+/* --- ESTILOS DERECHA --- */
+.centered-body {
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.satellite-container {
+  width: 80px; height: 80px; background: #222; border-radius: 50%;
+  border: 2px solid #444; margin-bottom: 15px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+  
+  .dish { width: 40px; height: 40px; background: #555; border-radius: 4px; }
+  
+  &.active { 
+    border-color: #00fff5; 
+    box-shadow: 0 0 20px #00fff5; 
+    transform: scale(1.1);
+    .dish { background: #00fff5; } 
+  }
+}
+
+.screen-output {
+  width: 100%; background: #000; border: 1px solid #333; padding: 10px;
+  text-align: center; margin-bottom: 10px;
+  .text-signal { color: #00fff5; font-family: monospace; font-size: 1.2rem; min-height: 24px;}
+}
+
+.system-logs {
+  width: 100%; height: 150px; background: #000; border: 1px solid #333;
+  padding: 10px; overflow-y: auto; font-family: monospace; font-size: 0.8rem;
+  
+  .info { color: #888; }
+  .success { color: #00ff88; }
+  .error { color: #ff4444; }
+}
+
+.btn-next {
+  width: 100%; margin-top: 10px; padding: 12px;
+  background: #e94560; color: #fff; font-weight: bold; border: none;
+  border-radius: 4px; cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-next:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #e94560;
+}
+
+/* --- AGREGA ESTO AL FINAL DE TU SCSS ACTUAL --- */
+
+/* Estilo para la imagen del robot en el panel izquierdo */
+.robot-scene {
+  text-align: center;
+  margin-bottom: 20px; /* Espacio debajo de la imagen */
+  
+  img {
+    width: 100%;
+    max-width: 220px; /* Que no sea gigante */
+    height: auto;
+    border-radius: 12px; /* Bordes redondeados */
+    
+    /* Borde y resplandor Neón Cian para que combine */
+    border: 2px solid #00fff5;
+    box-shadow: 0 0 20px rgba(0, 255, 245, 0.4);
+    
+    transition: transform 0.3s ease;
+    
+    /* Un pequeño efecto al pasar el mouse */
+    &:hover {
+      transform: scale(1.05);
     }
   }
-}
-
-/* CONSOLA DE SALIDA */
-.arena-console {
-  width: 100%;
-  background: #000;
-  border: 1px solid #444;
-  height: 100px;
-  padding: 10px;
-  overflow-y: auto;
-  font-family: 'Courier New', monospace;
-  
-  .console-header { color: #888; border-bottom: 1px solid #333; margin-bottom: 5px; font-size: 0.9rem;}
-  
-  .log-success { color: #00ff00; }
-  .log-error { color: #ff4500; }
-  .log-info { color: #00bfff; }
-}
-
-.btn-victory {
-  margin-top: 15px;
-  width: 100%;
-  padding: 15px;
-  background: linear-gradient(90deg, #ffd700, #daa520);
-  color: #2d143c;
-  font-weight: bold;
-  font-size: 1.4rem;
-  border: none;
-  border-radius: 8px;
-  animation: pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.02); }
-  100% { transform: scale(1); }
 }

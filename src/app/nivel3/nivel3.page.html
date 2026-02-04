@@ -51,7 +51,7 @@
       <div class="panel-header">SISTEMA DE SEGURIDAD</div>
       <div class="visualizer-screen">
         
-        <div class="lock-screen" *ngIf="estado === 'bloqueado'">
+        <div class="lock-screen" *ngIf="estado === 'inicial' || estado === 'bloqueado'">
            <ion-icon name="lock-closed" class="lock-icon"></ion-icon>
            <span>ACCESO DENEGADO</span>
            <small>Identidad desconocida</small>
@@ -82,9 +82,7 @@
         <div *ngFor="let log of consolaLogs" [class]="log.tipo">> {{ log.mensaje }}</div>
       </div>
 
-      <button class="btn-next" *ngIf="estado === 'completado'" routerLink="/misiones" (click)="finalizarMision()">
+      <button class="btn-next" *ngIf="estado === 'completado'" (click)="finalizarMision()">
         MISIÓN CUMPLIDA +50 XP
       </button>
-    </div>
-  </div>
-</ion-content>
+    </div> </div> </ion-content>

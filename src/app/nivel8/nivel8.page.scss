@@ -181,33 +181,49 @@ ion-content {
     flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
     background: radial-gradient(circle at center, #1a0b1a 0%, #000 100%); gap: 20px;
   }
-
-  .btn-finish-level {
+.btn-finish-level {
   margin-top: 15px;
   width: 100%;
-  background: linear-gradient(90deg, #00c6ff, #0072ff); /* Azul eléctrico */
-  color: white;
+  
+  /* Degradado Verde Neón a Lima (Muy estilo Hacker/Matrix) */
+  background: linear-gradient(90deg, #11998e, #38ef7d); 
+  
+  color: #003300; /* Texto oscuro para que se lea bien sobre el verde brillante */
   font-family: 'Segoe UI', sans-serif;
-  font-weight: bold;
-  font-size: 1rem;
+  font-weight: 800; /* Más gordita la letra */
+  font-size: 1.1rem; /* Un pelín más grande */
   padding: 15px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(0, 198, 255, 0.4);
-  animation: pulseButton 2s infinite; /* Efecto de latido para llamar la atención */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  
+  /* Sombra verde brillante */
+  box-shadow: 0 0 20px rgba(56, 239, 125, 0.5);
+  animation: pulseButton 2s infinite; 
   
   &:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 25px rgba(0, 198, 255, 0.6);
+    transform: scale(1.03);
+    /* Al pasar el mouse brilla más blanco/verde */
+    background: linear-gradient(90deg, #38ef7d, #11998e); 
+    box-shadow: 0 0 30px rgba(56, 239, 125, 0.8);
+    color: black;
   }
+}
 }
 
 @keyframes pulseButton {
-  0% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(0, 198, 255, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 198, 255, 0); }
-} 
+  0% {
+    box-shadow: 0 0 0 0 rgba(56, 239, 125, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(56, 239, 125, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(56, 239, 125, 0);
+  }
+}
 
   /* --- EL GRID INTERACTIVO --- */
   .matrix-grid {
@@ -267,7 +283,7 @@ ion-content {
       box-shadow: 0 0 20px #ff00ff;
     } 
   }
-}
+
 /* --- OVERLAY DE VICTORIA ÉPICA --- */
 /* --- OVERLAY DE ASCENSO (ESTILO TECH CLEAN) --- */
 .victory-overlay {

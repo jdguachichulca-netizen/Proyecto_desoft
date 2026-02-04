@@ -13,16 +13,20 @@
           <img src="assets/Robot Matrix.png" alt="Robot Matrix">
         </div>
         
-        <h3>EL MUNDO NO ES UNA LÍNEA</h3>
+        <h3>EL MUNDO ES UNA CUADRÍCULA</h3>
         <p>
-          Las dimensiones simples (`[1], [2]...`) son útiles, pero a veces necesitamos **Tablas** o **Mapas**. En programación, esto se llama <strong>Matriz</strong>.
+          Las variables normales son como una fila india. Una <strong>MATRIZ</strong> es como un <strong>Edificio de Departamentos</strong>.
         </p>
 
         <div class="logic-box">
-          <h4>COORDENADAS [FILA, COLUMNA]</h4>
-          <p>
-            Para encontrar un punto, primero eliges el piso (Fila) y luego la habitación (Columna).
+          <h4 style="color: #d946ef;">¿CÓMO ENCUENTRAS UN DATO?</h4>
+          <p style="font-size: 0.9rem;">
+            Para ubicar una celda, necesitas dos llaves:
           </p>
+          <ul style="text-align: left; padding-left: 20px; color: #ccc; font-size: 0.85rem; margin-bottom: 10px;">
+            <li> <strong>FILA (Piso):</strong> Qué tan abajo estás.</li>
+            <li> <strong>COLUMNA (Puerta):</strong> Qué tan a la derecha vas.</li>
+          </ul>
           
           <div class="matrix-guide">
             <div class="guide-row">
@@ -31,7 +35,7 @@
             </div>
             <div class="guide-row">
               <span class="label-y">Fila 2 ➔</span>
-              <div class="cell">[2,1]</div><div class="cell highlight">[2,2]</div><div class="cell">[2,3]</div>
+              <div class="cell">[2,1]</div><div class="cell highlight" style="border-color: #d946ef; color: #d946ef;">[2,2]</div><div class="cell">[2,3]</div>
             </div>
             <div class="guide-row">
               <span class="label-y">Fila 3 ➔</span>
@@ -41,7 +45,7 @@
               <span>Col 1</span><span>Col 2</span><span>Col 3</span>
             </div>
           </div>
-          <small>Ejemplo: <code>red[2,2]</code> es el centro exacto.</small>
+          <small>Ejemplo: <code>red[2,2]</code> es el departamento del centro.</small>
         </div>
 
         <div class="uses-box">
@@ -49,12 +53,12 @@
           <p>Dominar matrices te permite crear:</p>
           <ul>
             <li>
-              🎮 <strong>Mapas de Juegos:</strong>
-              <br>Tableros de Ajedrez, mapas de RPG o terrenos de Minecraft son matrices gigantes.
+               <strong>Mapas de Juegos:</strong>
+              <br>Tableros de Ajedrez, terrenos de Minecraft o mapas de RPG.
             </li>
             <li>
-              🖼️ <strong>Imágenes Digitales:</strong>
-              <br>Cada foto en tu celular es una matriz donde cada celda es un píxel de color.
+               <strong>Imágenes Digitales:</strong>
+              <br>Cada foto es una matriz donde cada celda es un píxel de color.
             </li>
           </ul>
         </div>
@@ -73,7 +77,6 @@
 
       </div>
     </div>
-
     <div class="panel center-panel">
       <div class="panel-header">TERMINAL DE COMANDO (PSeInt)</div>
       <div class="editor-container">
@@ -116,10 +119,11 @@
       </div>
 
       <button class="btn-finish-level" *ngIf="nivelCompletado" (click)="mostrarVictoriaManual()">
-        VER RECOMPENSA 🏆
+        VER RECOMPENSA 
       </button>
     </div>
   </div>
+
   <div class="victory-overlay" *ngIf="mostrarOverlay">
     <div class="victory-card">
       <div class="glow-effect"></div>
@@ -132,9 +136,9 @@
         <p>NUEVO RANGO ASIGNADO:</p>
         <h2 class="rank-name">PROGRAMADOR HÁBIL</h2>
         <div class="xp-container">
-  <span class="xp-gain">+300 XP</span>
-  <span class="xp-total"> / TOTAL: {{ puntosTotales }} XP</span>
-</div>
+          <span class="xp-gain">+300 XP</span>
+          <span class="xp-total"> / TOTAL: {{ puntosTotales }} XP</span>
+        </div>
       </div>
 
       <div class="unlock-message">

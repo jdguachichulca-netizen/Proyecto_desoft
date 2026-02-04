@@ -44,6 +44,16 @@ export class Nivel4Page {
       
       if (codigo.includes('entonces')) {
         
+        // 👇👇👇 AGREGA ESTE BLOQUE NUEVO AQUÍ 👇👇👇
+        // Validamos que exista "FinSi" antes de dar la victoria
+        if (!codigo.includes('finsi')) {
+          this.consolaLogs.push({
+            mensaje: '❌ Error Crítico: Debes cerrar el bloque con "FinSi".', 
+            tipo: 'error'
+          });
+          return; // ⛔ ESTO DETIENE TODO SI FALTA EL FINSI
+        }
+
         // ¡CÓDIGO CORRECTO!
         this.nivelCompletado = true;
         

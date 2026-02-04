@@ -1,93 +1,111 @@
 <ion-content>
+  <div class="stars-bg"></div>
+
+  <div class="header-section">
+    <h1>PLANETA JS: PRIMER CONTACTO</h1>
+  </div>
+
   <div class="game-layout">
-
+    
     <div class="panel left-panel">
-      <div class="story-header">
-        <div class="level-badge">NIVEL 9</div>
-        <h2>LA ARENA DE SINTAXIS</h2>
-      </div>
-
-      <div class="scroll-content">
+      <div class="panel-header">XENO-TRADUCTOR</div>
+      <div class="panel-body">
+        
+        <div class="robot-scene">
+          <img src="assets/wbit_js_contact.png" alt="W-BIT descubriendo JavaScript">
+        </div>
+        
         <div class="story-box">
           <p>
-            ¡Salve, Scriptor! 🏛️ Has dejado atrás los simuladores.
-            Ahora estás en la <strong>Arena de JavaScript</strong>.
-            El público espera, pero estás desarmado.
-          </p>
-          <p>
-            Para sobrevivir, debes aprender a invocar objetos usando 
-            <strong>VARIABLES</strong>.
+            <strong style="color: #e94560;">¡ERROR CRÍTICO!</strong> 
+            El robot W-BIT ha perdido su voz. El protocolo antiguo no funciona aquí.
+            Debes usar <strong>JavaScript</strong> para reiniciar sus sistemas de audio.
           </p>
         </div>
 
-        <div class="theory-box">
-          <h3>📜 Pergamino de Entrenamiento</h3>
+        <div class="syntax-card">
+          <h4>MANUAL DE REACTIVACIÓN</h4>
           
-          <div class="concept">
-            <h4>1. Variables (La Caja)</h4>
-            <p>En JS, usamos <code>let</code> para crear una caja y guardar algo.</p>
-            <div class="code-example">
-              let arma = "Espada";
+          <div class="comparison-row">
+            <div class="col">
+              <small>ANTES (Guardar)</small>
+              <code>Definir voz...</code>
+            </div>
+            <div class="arrow">➜</div>
+            <div class="col">
+              <small>AHORA (JS)</small>
+              <code class="new">let voz = ...</code>
             </div>
           </div>
 
-          <div class="concept">
-            <h4>2. Mostrar (El Grito)</h4>
-            <p>Para que el público vea tu arma, úsala con <code>console.log()</code>.</p>
-            <div class="code-example">
-              console.log(arma);
+          <div class="comparison-row">
+            <div class="col">
+              <small>ANTES (Hablar)</small>
+              <code>Escribir "Hola"</code>
+            </div>
+            <div class="arrow">➜</div>
+            <div class="col">
+              <small>AHORA (JS)</small>
+              <code class="new">console.log("Hola")</code>
             </div>
           </div>
         </div>
 
-        <div class="mission-box">
-          <h3>⚔️ TU MISIÓN</h3>
+        <div class="mission-guide">
+          <h4> OBJETIVO DE MISIÓN</h4>
           <ol>
-            <li>Declara una variable llamada <code>equipo</code>.</li>
-            <li>Guarda el texto <code>"Escudo Dorado"</code> dentro de ella.</li>
-            <li>Muestra el equipo al público usando <code>console.log</code>.</li>
+            <li>Declara una variable <code>estado</code> con <strong>let</strong>.</li>
+            <li>Guarda el texto <code>"SISTEMA ONLINE"</code>.</li>
+            <li>Envíalo con <strong>console.log(estado)</strong>.</li>
           </ol>
         </div>
+
       </div>
     </div>
 
-    <div class="panel right-panel">
-      <div class="panel-header">EDITOR DE ESCRITURA (JS)</div>
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (JS)</div>
       
-      <div class="code-editor">
-        <div class="line-numbers">
-          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
-        </div>
-        <textarea [(ngModel)]="codigoUsuario" spellcheck="false"></textarea>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+        <textarea 
+          class="code-input" 
+          [(ngModel)]="codigoUsuario" 
+          spellcheck="false" 
+          placeholder="// Escribe tu código aquí...">
+        </textarea>
       </div>
 
-      <button class="btn-compile" (click)="ejecutarCodigo()" [disabled]="nivelCompletado">
-        INVOCAR EQUIPO ⚡
+      <button class="btn-compile" (click)="ejecutarCodigo()">
+        REINICIAR VOZ DE W-BIT
       </button>
+    </div>
 
-      <div class="visualizer-arena">
+    <div class="panel right-panel">
+      <div class="panel-header">ESTADO DE SEÑAL</div>
+      <div class="panel-body centered-body">
         
-        <div class="gladiator">
-          <img src="assets/avatars/av-1.png" alt="Gladiador" class="hero-img">
-          
-          <div class="weapon-slot" [class.has-weapon]="nivelCompletado">
-            <span *ngIf="nivelCompletado">🛡️</span>
-          </div>
+        <div class="satellite-container" [class.active]="nivelCompletado">
+          <div class="dish"></div>
         </div>
 
-        <div class="arena-console">
-          <div class="console-header">📜 REGISTRO DE ARENA</div>
+        <div class="screen-output">
+          <small>SEÑAL DE SALIDA:</small>
+          <div class="text-signal">{{ mensajeSistema }}</div>
+        </div>
+
+        <div class="system-logs">
           <div *ngFor="let log of consolaLogs" [class]="log.tipo">
             > {{ log.mensaje }}
           </div>
         </div>
 
+        <button *ngIf="nivelCompletado" class="btn-next" (click)="siguienteNivel()">
+          MISIÓN CUMPLIDA (+200 XP)
+        </button>
+
       </div>
-
-      <button class="btn-victory" *ngIf="nivelCompletado" (click)="irSiguienteNivel()">
-        VICTORIA - SIGUIENTE NIVEL 🏆
-      </button>
-
     </div>
+
   </div>
-</ion-content>
+</ion-content>s

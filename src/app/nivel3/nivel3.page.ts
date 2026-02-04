@@ -2,8 +2,10 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
-import { Router, RouterLink } from '@angular/router'; // Agregamos RouterLink
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+
+// 👇 1. IMPORTAMOS LAS HERRAMIENTAS DE ICONOS (ESTO FALTABA)
 import { addIcons } from 'ionicons';
 import { lockClosed } from 'ionicons/icons';
 
@@ -12,59 +14,64 @@ import { lockClosed } from 'ionicons/icons';
   templateUrl: './nivel3.page.html',
   styleUrls: ['./nivel3.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonIcon, RouterLink] // RouterLink aquí
+  imports: [IonContent, CommonModule, FormsModule, IonIcon]
 })
 export class Nivel3Page {
-  
-  auth = inject(AuthService); // Public para usarlo en el HTML (avatar)
+
   private router = inject(Router);
+  
+  public auth = inject(AuthService); 
 
   codigoUsuario: string = 'Algoritmo Identidad\n\t\nFinAlgoritmo';
-  
-  // Estados: 'bloqueado', 'esperando' (input), 'completado' (id card)
-  estado: 'bloqueado' | 'esperando' | 'completado' = 'bloqueado';
-  
-  nombreComandante: string = ''; // Aquí guardaremos lo que escriba el usuario
-  consolaLogs: any[] = [{mensaje: 'Sistema Bloqueado. Esperando protocolo...', tipo: 'error'}];
+  consolaLogs: any[] = []; 
+  estado: string = 'inicial'; 
+  nombreComandante: string = '';
 
-  constructor() {
+  constructor() { 
+    // 👇 2. REGISTRAMOS EL CANDADO AQUÍ PARA QUE APAREZCA (ESTO FALTABA)
     addIcons({ lockClosed });
   }
 
   ejecutarCodigo() {
-    const codigo = this.codigoUsuario.toLowerCase().replace(/\s+/g, ' ');
+    this.consolaLogs = [];
+    this.estado = 'inicial'; 
+    
+    const codigo = this.codigoUsuario.toLowerCase().trim();
 
-    // Validación: Busca "leer" seguido de cualquier cosa
-    if (codigo.includes('leer ')) {
-      
-      this.estado = 'esperando';
-      
-      // --- MENSAJES QUE EXPLICAN LO QUE PASA ---
-      this.consolaLogs = []; // Limpiamos consola anterior
-      this.consolaLogs.push({mensaje: '> Ejecutando línea 1: Algoritmo...', tipo: 'info'});
-      this.consolaLogs.push({mensaje: '> Ejecutando línea 2: Leer nombre...', tipo: 'info'});
-      this.consolaLogs.push({mensaje: 'PAUSA DEL SISTEMA: El programa se ha detenido esperando datos del usuario.', tipo: 'warning'});
-      this.consolaLogs.push({mensaje: '>> Por favor, escribe en la pantalla de la derecha.', tipo: 'success'});
-
-    } else {
-      this.consolaLogs.push({mensaje: 'Error: No encuentro el comando "Leer". Intenta: Leer nombre', tipo: 'error'});
+    // Validaciones
+    if (!codigo.includes('leer')) {
+      this.consolaLogs.push({ mensaje: '❌ ERROR: Falta el comando "Leer".', tipo: 'error' });
+      return;
     }
+
+    const validacionEstricta = /leer\s+nombre/i;
+    if (!validacionEstricta.test(codigo)) {
+      this.consolaLogs.push({ mensaje: '❌ ERROR: Comando incompleto. Ej: "Leer nombre"', tipo: 'error' });
+      return;
+    }
+
+    // ÉXITO
+    this.consolaLogs.push({ mensaje: '> Analizando sintaxis...', tipo: 'info' });
+
+    setTimeout(() => {
+      this.consolaLogs.push({ mensaje: '✅ Sintaxis Correcta.', tipo: 'success' });
+      this.consolaLogs.push({ mensaje: '⏸ Esperando entrada de datos...', tipo: 'warning' });
+      
+      this.estado = 'esperando'; 
+    }, 800);
   }
 
   confirmarNombre() {
-    if (this.nombreComandante.trim().length > 0) {
-      this.estado = 'completado';
-      
-      // --- CONFIRMACIÓN DE QUE EL DATO SE GUARDÓ ---
-      this.consolaLogs.push({mensaje: `> Dato recibido: "${this.nombreComandante}"`, tipo: 'info'});
-      this.consolaLogs.push({mensaje: `> Guardado en memoria: variable [nombre] <- "${this.nombreComandante}"`, tipo: 'info'});
-      this.consolaLogs.push({mensaje: '¡ACCESO CONCEDIDO! +50 XP', tipo: 'success'});
-    }
+    if (this.nombreComandante.trim() === '') return;
+
+    this.estado = 'completado';
+
+    this.consolaLogs.push({ mensaje: `> Dato recibido: "${this.nombreComandante}"`, tipo: 'success' });
+    this.consolaLogs.push({ mensaje: '🏆 IDENTIDAD CONFIRMADA', tipo: 'success' });
   }
 
   finalizarMision() {
-    this.auth.ganarXP(50);
-    // Aquí podrías ir al nivel 4 o volver a misiones
+    this.auth.ganarXP(150);
     this.router.navigate(['/nivel4']); 
   }
 }

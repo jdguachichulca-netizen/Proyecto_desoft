@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
-// 1. IMPORTAMOS RouterLink AQUÍ 👇
 import { Router, RouterLink } from '@angular/router'; 
+// Si AuthService no se usa, puedes borrar el import, pero lo dejo por si acaso
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -11,28 +11,36 @@ import { AuthService } from '../auth.service';
   templateUrl: './misiones.page.html',
   styleUrls: ['./misiones.page.scss'],
   standalone: true,
-  // 2. AGREGAMOS RouterLink A LA LISTA DE IMPORTS 👇
   imports: [IonContent, CommonModule, FormsModule, IonIcon, RouterLink]
 })
 export class MisionesPage {
   
   private router = inject(Router);
-  
   programadorHabilDesbloqueado: boolean = false;
 
   constructor() { }
 
+  // ESTA FUNCIÓN SE EJECUTA CADA VEZ QUE ENTRAS A LA PANTALLA
   ionViewWillEnter() {
     const nivelGuardado = localStorage.getItem('nivel_desbloqueado');
+    console.log("Progreso detectado:", nivelGuardado); // 👇 MIRA ESTO EN CONSOLA
+
     if (nivelGuardado === 'intermedio' || nivelGuardado === 'avanzado') {
       this.programadorHabilDesbloqueado = true;
+    } else {
+        // Aseguramos que esté bloqueado si no cumple
+        this.programadorHabilDesbloqueado = false;
     }
   }
 
-  // Ya no necesitas la función irACadete() porque lo estás haciendo directo en el HTML con routerLink
-  
+  irACadete() {
+    this.router.navigate(['/intro-pseint']);
+  }
+
   irANivelJavascript() {
-    console.log("Navegando a JS...");
-    this.router.navigate(['/nivel9']); 
+    // Solo navega si está desbloqueado
+    if (this.programadorHabilDesbloqueado) {
+        this.router.navigate(['/intro-js']); 
+    }
   }
 }
