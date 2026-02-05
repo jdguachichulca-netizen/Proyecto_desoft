@@ -4,56 +4,74 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthService {
-  // Datos del usuario
+  // --- SEÑALES (ESTADO DE LA APP) ---
   currentUser = signal<string | null>(null);
   currentAvatar = signal<string>('');
   
-  // --- NUEVO: SISTEMA DE XP ---
-  currentXP = signal<number>(0); // Empieza en 0
+  // SISTEMA DE XP
+  currentXP = signal<number>(0); 
   currentLevel = signal<number>(1);
 
   constructor() { 
-    // Recuperar datos al abrir la app
+    // 1. RECUPERAR DATOS AL ABRIR LA APP (Persistencia)
+    this.cargarDatosGuardados();
+  }
+
+  // Función privada para leer del localStorage al inicio
+  private cargarDatosGuardados() {
     const savedUser = localStorage.getItem('usuarioLogueado');
     const savedAvatar = localStorage.getItem('avatarLogueado');
-    const savedXP = localStorage.getItem('xpLogueado'); // Recuperamos XP
+    const savedXP = localStorage.getItem('xpLogueado'); 
 
     if (savedUser) this.currentUser.set(savedUser);
     if (savedAvatar) this.currentAvatar.set(savedAvatar);
     if (savedXP) this.currentXP.set(parseInt(savedXP));
   }
 
+  // 2. LOGIN (GUARDAMOS TODO)
   login(nombre: string, avatar: string = '') {
+    // Actualizamos las señales
     this.currentUser.set(nombre);
-    this.currentAvatar.set(avatar);
+    if (avatar) this.currentAvatar.set(avatar);
+
+    // Guardamos en el navegador
     localStorage.setItem('usuarioLogueado', nombre);
-    localStorage.setItem('avatarLogueado', avatar);
+    if (avatar) localStorage.setItem('avatarLogueado', avatar);
   }
 
-  // --- FUNCIÓN PARA SUMAR XP ---
+  // --- VALIDACIONES DE SESIÓN ---
+
+  // Opción A: La que usa tu Registro
+  isAuthenticated(): boolean {
+    return this.currentUser() !== null || localStorage.getItem('usuarioLogueado') !== null;
+  }
+
+  // 👇 Opción B: ¡ESTA ES LA QUE FALTABA! (La que usa tu HTML)
+  // Simplemente llama a la otra para que ambas funcionen igual.
+  isLoggedIn(): boolean {
+    return this.isAuthenticated();
+  }
+
+  // --- SISTEMA DE XP ---
   ganarXP(cantidad: number) {
-    // 1. Actualizamos la señal sumando el valor
     this.currentXP.update(valorActual => valorActual + cantidad);
-    
-    // 2. Guardamos en memoria del navegador
     localStorage.setItem('xpLogueado', this.currentXP().toString());
   }
 
+  // LOGOUT
   logout() {
     this.currentUser.set(null);
     this.currentAvatar.set('');
-    this.currentXP.set(0); // Reseteamos XP al salir
-    localStorage.clear();
+    this.currentXP.set(0); 
+    
+    localStorage.removeItem('usuarioLogueado');
+    localStorage.removeItem('avatarLogueado');
+    localStorage.removeItem('xpLogueado');
   }
 
-  isLoggedIn() {
-    return this.currentUser() !== null;
-  }
-
-updateAvatar(avatarUrl: string) {
-    if (!avatarUrl) return; // Protección contra vacíos
-
-    this.currentAvatar.set(avatarUrl); // Actualiza el círculo al instante
-    localStorage.setItem('avatarLogueado', avatarUrl); // Lo guarda para después
+  updateAvatar(avatarUrl: string) {
+    if (!avatarUrl) return; 
+    this.currentAvatar.set(avatarUrl); 
+    localStorage.setItem('avatarLogueado', avatarUrl); 
   }
 }

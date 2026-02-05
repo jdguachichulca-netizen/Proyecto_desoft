@@ -9,7 +9,7 @@ import { AuthService } from '../auth.service';
   selector: 'app-registro',
   standalone: true,
   
-  // 👇 HTML (ESTRUCTURA LIMPIA)
+  // 👇 HTML (ESTRUCTURA LIMPIA NEON TECH)
   template: `
     <ion-content>
       <div class="login-wrapper">
@@ -47,13 +47,12 @@ import { AuthService } from '../auth.service';
     </ion-content>
   `,
 
-  // 👇 CSS (ESTILO EXACTO DE LA IMAGEN)
+  // 👇 CSS (ESTILO EXACTO NEON TECH)
   styles: [`
     @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
     ion-content {
       --background: #1a0b2e; /* Fondo Morado Oscuro base */
-      /* Un degradado sutil para darle profundidad como en la foto */
       --background: linear-gradient(135deg, #130722 0%, #2a103e 100%);
       font-family: 'VT323', monospace;
     }
@@ -99,7 +98,7 @@ import { AuthService } from '../auth.service';
       width: 100%;
       max-width: 420px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); /* Sombra suave */
-      backdrop-filter: blur(10px); /* Efecto cristal (opcional) */
+      backdrop-filter: blur(10px); /* Efecto cristal */
     }
 
     /* INPUTS */
@@ -195,10 +194,28 @@ export class RegistroPage {
 
   constructor(private authService: AuthService, private router: Router) { }
 
+  // 👇 ESTO ES LO NUEVO: Detectar si ya entró antes
+  ionViewWillEnter() {
+    // Si el servicio dice "True" (ya existen datos guardados), saltamos
+    if (this.authService.isAuthenticated()) {
+      console.log("¡Usuario detectado! Saltando registro...");
+      this.router.navigate(['/avatar-selector']);
+    }
+  }
+
   registrar() {
-    console.log("Registrando usuario:", this.usuario.nombre);
+    // 1. Validación simple para no guardar nombres vacíos
+    if (this.usuario.nombre.trim() === '') {
+      alert("¡Recluta! Debes ingresar un nombre.");
+      return;
+    }
+
+    console.log("Registrando y GUARDANDO usuario:", this.usuario.nombre);
+    
+    // 2. Llamamos al servicio (que ahora guarda en localStorage)
     this.authService.login(this.usuario.nombre); 
-    console.log("Navegando a selección de avatar...");
+    
+    // 3. Navegamos
     this.router.navigate(['/avatar-selector']);
   }
 }
