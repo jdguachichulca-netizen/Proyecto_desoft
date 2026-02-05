@@ -8,8 +8,8 @@ import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-registro',
-  templateUrl: './registro.page.html',
-  styleUrls: ['./registro.page.scss'],
+  templateUrl: './registro-vista.html',
+  styleUrls: ['./registro-estilo.scss'],
   standalone: true,
   // 👇 2. Y AQUÍ LOS REGISTRAMOS PARA QUE EL HTML LOS RECONOZCA
   imports: [
