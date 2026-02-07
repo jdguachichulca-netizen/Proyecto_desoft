@@ -1,30 +1,71 @@
 <ion-content>
-  <div class="hero-section">
-    <ion-grid>
-      <ion-row class="ion-align-items-center">
+  <div class="dashboard-wrapper">
+    
+    <div class="terminal-screen">
+      <div class="terminal-header">
+        <div class="buttons-container">
+          <span class="dot red"></span>
+          <span class="dot yellow"></span>
+          <span class="dot green"></span>
+        </div>
+        <span class="terminal-title">TERMINAL DE COMANDO // USUARIO: {{ auth.currentUser() | uppercase }}</span>
+      </div>
+      <div class="terminal-body">
+        <pre>{{ mensajeTerminal }}<span class="cursor"></span></pre>
+      </div>
+    </div>
+
+    <ion-grid fixed>
+      <ion-row class="ion-justify-content-center" style="gap: 20px;">
         
-        <ion-col size="12" size-md="6" class="text-col">
-          <div class="hero-text">
-            <h1>Domina la lógica de<br>programación sin aburrirte.</h1>
-            <p>Una plataforma gamificada diseñada para estudiantes de primer ciclo. Aprende programación jugando, no memorizando.</p>
+        <ion-col size="12" size-md="5">
+          <div class="cyber-panel status-panel">
+            <h3>ESTADO DEL AGENTE</h3>
             
-            <div class="cta-wrapper">
-              <button class="btn-start" routerLink="/registro">
-                Empezar Aventura
-              </button>
-              
-              <a class="link-register" routerLink="/registro">
-                Registrarse
-              </a>
+            <div class="stat-item">
+              <label><span>LÓGICA</span> <span>{{ auth.userStats().logica }}%</span></label>
+              <ion-progress-bar [value]="auth.userStats().logica / 100" color="primary"></ion-progress-bar>
+            </div>
+            
+            <div class="stat-item">
+              <label><span>SINTAXIS</span> <span>{{ auth.userStats().sintaxis }}%</span></label>
+              <ion-progress-bar [value]="auth.userStats().sintaxis / 100" color="warning"></ion-progress-bar>
+            </div>
+            
+            <div class="stat-item">
+              <label><span>DEPURACIÓN</span> <span>{{ auth.userStats().depuracion }}%</span></label>
+              <ion-progress-bar [value]="auth.userStats().depuracion / 100" color="danger"></ion-progress-bar>
+            </div>
+
+            <div class="stat-item">
+              <label><span>XP TOTAL</span> <span>{{ auth.currentXP() }} XP</span></label>
+              <ion-progress-bar [value]="auth.currentXP() / 1000" color="success"></ion-progress-bar>
             </div>
           </div>
         </ion-col>
 
-        <ion-col size="12" size-md="6" class="img-col">
-          <img src="assets/joven-trofeo.png" alt="Personaje Programador" class="hero-img">
+        <ion-col size="12" size-md="6">
+          <div class="cyber-panel action-panel">
+            
+            <div class="tip-display">
+              <ion-icon name="bulb"></ion-icon>
+              <p>{{ currentTip }}</p>
+            </div>
+
+            <div class="mission-callout">
+              <h4>PRÓXIMO OBJETIVO: VARIABLES</h4>
+              <p>Domina el almacenamiento de datos.</p>
+              
+              <button class="neon-button" (click)="irAMisiones()">
+                DESPLEGAR MISIÓN
+              </button>
+            </div>
+
+          </div>
         </ion-col>
 
       </ion-row>
     </ion-grid>
+
   </div>
 </ion-content>

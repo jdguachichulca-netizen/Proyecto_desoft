@@ -5,7 +5,7 @@ import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
-// 👇 1. IMPORTAMOS LAS HERRAMIENTAS DE ICONOS (ESTO FALTABA)
+//  1. IMPORTAMOS LAS HERRAMIENTAS DE ICONOS
 import { addIcons } from 'ionicons';
 import { lockClosed } from 'ionicons/icons';
 
@@ -19,7 +19,6 @@ import { lockClosed } from 'ionicons/icons';
 export class Nivel3Page {
 
   private router = inject(Router);
-  
   public auth = inject(AuthService); 
 
   codigoUsuario: string = 'Algoritmo Identidad\n\t\nFinAlgoritmo';
@@ -28,7 +27,7 @@ export class Nivel3Page {
   nombreComandante: string = '';
 
   constructor() { 
-    // 👇 2. REGISTRAMOS EL CANDADO AQUÍ PARA QUE APAREZCA (ESTO FALTABA)
+    //  2. REGISTRAMOS EL CANDADO
     addIcons({ lockClosed });
   }
 
@@ -40,13 +39,13 @@ export class Nivel3Page {
 
     // Validaciones
     if (!codigo.includes('leer')) {
-      this.consolaLogs.push({ mensaje: '❌ ERROR: Falta el comando "Leer".', tipo: 'error' });
+      this.consolaLogs.push({ mensaje: ' ERROR: Falta el comando "Leer".', tipo: 'error' });
       return;
     }
 
     const validacionEstricta = /leer\s+nombre/i;
     if (!validacionEstricta.test(codigo)) {
-      this.consolaLogs.push({ mensaje: '❌ ERROR: Comando incompleto. Ej: "Leer nombre"', tipo: 'error' });
+      this.consolaLogs.push({ mensaje: ' ERROR: Comando incompleto. Ej: "Leer nombre"', tipo: 'error' });
       return;
     }
 
@@ -54,7 +53,7 @@ export class Nivel3Page {
     this.consolaLogs.push({ mensaje: '> Analizando sintaxis...', tipo: 'info' });
 
     setTimeout(() => {
-      this.consolaLogs.push({ mensaje: '✅ Sintaxis Correcta.', tipo: 'success' });
+      this.consolaLogs.push({ mensaje: ' Sintaxis Correcta.', tipo: 'success' });
       this.consolaLogs.push({ mensaje: '⏸ Esperando entrada de datos...', tipo: 'warning' });
       
       this.estado = 'esperando'; 
@@ -67,11 +66,19 @@ export class Nivel3Page {
     this.estado = 'completado';
 
     this.consolaLogs.push({ mensaje: `> Dato recibido: "${this.nombreComandante}"`, tipo: 'success' });
-    this.consolaLogs.push({ mensaje: '🏆 IDENTIDAD CONFIRMADA', tipo: 'success' });
+    this.consolaLogs.push({ mensaje: ' IDENTIDAD CONFIRMADA', tipo: 'success' });
   }
 
+  // AQUÍ ESTÁ EL CAMBIO PARA GUARDAR PROGRESO
   finalizarMision() {
-    this.auth.ganarXP(150);
+    // ANTES: this.auth.ganarXP(150);
+
+    // AHORA: Guardamos nivel, subimos habilidad DEPURACIÓN y damos XP
+    // Parámetros: ('ID_NIVEL', 'TIPO_HABILIDAD', XP)
+    this.auth.completarNivel('nivel3', 'depuracion', 150);
+    
+    // Con esto subirá la barra ROJA en tu inicio.
+    
     this.router.navigate(['/nivel4']); 
   }
 }

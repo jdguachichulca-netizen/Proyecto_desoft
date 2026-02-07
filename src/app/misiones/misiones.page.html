@@ -7,46 +7,47 @@
       
       <div class="mission-card active-card">
         <div class="icon-box">
-          <img src="assets/chip.png" alt="Chip"> </div>
+          <img src="assets/chip.png" alt="Chip"> 
+        </div>
         <h2>CADETE NOVATO</h2>
         <span class="level-badge">(Nivel 1-8)</span>
         
         <ul class="checklist">
-          <p>. Conceptos Básicos de PSeint</p>
-          <p>. Declaración de Variables y más</p>
+          <p>. Conceptos Básicos de PSeInt</p>
+          <p>. Declaración de Variables</p>
           <p>. 8 Misiones Iniciales</p>
         </ul>
 
-        <button class="btn-action" routerLink="/intro-pseint">VER MISIONES DE CADETE</button>
+        <button class="btn-action" (click)="irACadete()">VER MISIONES DE CADETE</button>
       </div>
 
       <div class="mission-card" 
            [class.locked]="!programadorHabilDesbloqueado" 
-           [class.unlocked]="programadorHabilDesbloqueado">
+           [class.active-card-js]="programadorHabilDesbloqueado">
         
         <div class="icon-box">
           <img src="assets/trofeo.png" alt="Trofeo">
         </div>
 
         <h2>PROGRAMADOR HÁBIL</h2>
-        <p>(NIVEL 9-15)</p>
+        <span class="level-badge">(NIVEL 9-15)</span>
 
         <div class="checklist">
           <div *ngIf="!programadorHabilDesbloqueado">
-            <p>🔒 Fundamentos Básicos JavaScript</p>
+            <p>🔒 Fundamentos JavaScript</p>
             <p>🔒 Sintaxis Básica</p>
             <p>🔒 Operadores</p>
           </div>
 
           <div *ngIf="programadorHabilDesbloqueado">
-            <p>. Fundamentos Básicos JavaScript</p>
+            <p>. Fundamentos JavaScript</p>
             <p>. Sintaxis Básica</p>
             <p>. Operadores</p>
           </div>
         </div>
 
-        <button class="btn-action" *ngIf="!programadorHabilDesbloqueado" disabled>
-          BLOQUEADO
+        <button class="btn-action locked-btn" *ngIf="!programadorHabilDesbloqueado" disabled>
+          BLOQUEADO (Completa Nivel 8)
         </button>
 
         <button class="btn-action start-btn" 
@@ -69,7 +70,7 @@
           <p>🔒 Acceso a desafíos</p>
         </ul>
 
-        <button class="btn-action" disabled>BLOQUEADO</button>
+        <button class="btn-action locked-btn" disabled>PRÓXIMAMENTE</button>
       </div>
 
     </div>

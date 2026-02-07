@@ -30,13 +30,11 @@ export class Nivel9Page {
     addIcons({ planet, codeSlash, terminal });
   }
 
- // En nivel9.page.ts
-
-ejecutarCodigo() {
+  ejecutarCodigo() {
     this.consolaLogs = [];
     const codigo = this.codigoUsuario.trim();
 
-    // Validamos que use let y console.log
+    // Validamos que use let y console.log (Regex básica para JS)
     const tieneLet = /let\s+[a-zA-Z0-9_]+\s*=\s*["'].+["'];?/.test(codigo);
     const tieneConsole = /console\.log\([a-zA-Z0-9_]+\);?/.test(codigo);
 
@@ -44,7 +42,7 @@ ejecutarCodigo() {
       
       // Capturamos el texto (ej: "SISTEMA ONLINE")
       const matchTexto = codigo.match(/["']([^"']+)["']/);
-      const textoMensaje = matchTexto ? matchTexto[1] : 'SISTEMA ONLINE'; // Valor por defecto si falla el regex
+      const textoMensaje = matchTexto ? matchTexto[1] : 'SISTEMA ONLINE'; 
 
       this.mensajeSistema = textoMensaje;
       
@@ -58,12 +56,21 @@ ejecutarCodigo() {
       }, 1000);
 
     } else {
-        // ... (Tu código de error existente) ...
+        // Errores específicos para ayudar al estudiante
+        this.consolaLogs.push({ mensaje: '❌ Error de Sintaxis JavaScript:', tipo: 'error' });
+        if (!tieneLet) this.consolaLogs.push({ mensaje: '- Debes declarar la variable usando "let nombre = ..."', tipo: 'error' });
+        if (!tieneConsole) this.consolaLogs.push({ mensaje: '- Debes imprimir usando "console.log(nombre)"', tipo: 'error' });
     }
-}
+  }
 
+  // 👇👇👇 AQUÍ ESTÁ EL CAMBIO IMPORTANTE 👇👇👇
   siguienteNivel() {
-    this.auth.ganarXP(200);
+    // ANTES: this.auth.ganarXP(200);
+    
+    // AHORA: Guardamos nivel, subimos SINTAXIS (Por ser JavaScript) y damos XP
+    this.auth.completarNivel('nivel9', 'sintaxis', 200);
+
+    // Volvemos a misiones (o a donde desees)
     this.router.navigate(['/misiones']); 
   }
 }

@@ -5,6 +5,8 @@ import { IonContent, IonHeader, IonToolbar, IonTitle, IonIcon, IonButtons, IonBa
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { addIcons } from 'ionicons';
+// 👇 IMPORTAMOS ICONOS DE RADAR Y ALERTA
+import { radio, warning, checkmarkCircle } from 'ionicons/icons'; 
 
 @Component({
   selector: 'app-nivel6',
@@ -26,7 +28,10 @@ export class Nivel6Page {
   sectorActual: number = 0; 
   consolaLogs: any[] = [{mensaje: 'Esperando activación de barrido...', tipo: 'info'}];
 
-  constructor() { }
+  constructor() { 
+    // 👇 REGISTRAMOS LOS ICONOS
+    addIcons({ radio, warning, checkmarkCircle });
+  }
 
   async ejecutarCodigo() {
     const codigo = this.codigoUsuario.toLowerCase().replace(/\s+/g, ' ');
@@ -42,7 +47,7 @@ export class Nivel6Page {
     // 1. VALIDACIÓN ESTRICTA DE "ESCRIBIR"
     if (!codigo.includes('escribir')) {
         this.consolaLogs.push({ 
-            mensaje: '❌ ERROR DE SINTAXIS: Comando no reconocido. ¿Quisiste decir "Escribir"?', 
+            mensaje: ' ERROR DE SINTAXIS: Comando no reconocido. ¿Quisiste decir "Escribir"?', 
             tipo: 'error' 
         });
         return; 
@@ -51,7 +56,7 @@ export class Nivel6Page {
     // 2. VALIDACIÓN DE CIERRE "FINPARA"
     if (!codigo.includes('finpara') && !codigo.includes('fin para')) {
         this.consolaLogs.push({ 
-            mensaje: '❌ ERROR: El ciclo está abierto. Debes cerrarlo con "FinPara".', 
+            mensaje: ' ERROR: El ciclo está abierto. Debes cerrarlo con "FinPara".', 
             tipo: 'error' 
         });
         return; 
@@ -64,13 +69,9 @@ export class Nivel6Page {
         return; 
       }
 
-      // 👇👇👇 AQUÍ ESTÁ EL CAMBIO 👇👇👇
-      // Capturamos lo que escribiste entre comillas (Ej: "escaneando")
+      // Capturamos lo que escribiste entre comillas
       const matchTexto = codigo.match(/escribir\s*["']([^"']+)["']/);
-      // Si encontraste texto, úsalo. Si no, usa uno por defecto.
       const mensajeUsuario = matchTexto ? matchTexto[1] : 'Escaneando...';
-      // 👆👆👆 FIN DEL CAMBIO 👆👆👆
-
 
       // ¡CÓDIGO CORRECTO!
       this.ejecutando = true;
@@ -82,7 +83,6 @@ export class Nivel6Page {
         
         this.sectorActual = i;
         
-        // 👇 AQUÍ MOSTRAMOS TU MENSAJE EN LA CONSOLA
         this.consolaLogs.push({mensaje: `> Sector ${i}: "${mensajeUsuario}"`, tipo: 'info'});
       }
 
@@ -100,8 +100,16 @@ export class Nivel6Page {
     }
   }
 
+  // 👇👇👇 AQUÍ ESTÁ EL CAMBIO PARA GUARDAR PROGRESO 👇👇👇
   finalizarMision() {
-    this.auth.ganarXP(150);
+    // ANTES: this.auth.ganarXP(150);
+
+    // AHORA: Guardamos nivel, subimos habilidad SINTAXIS (Ciclos estrictos) y damos XP
+    this.auth.completarNivel('nivel6', 'sintaxis', 150);
+    
+    // Elegimos SINTAXIS porque el ciclo Para es el más estricto
+    // en cuanto a su estructura (Para... Hasta... Hacer... FinPara).
+    
     this.router.navigate(['/nivel7']); 
   }
 }

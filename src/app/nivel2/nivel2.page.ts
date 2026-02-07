@@ -21,7 +21,7 @@ export class Nivel2Page {
   // Variable donde se guarda lo que escribe el usuario
   codigoUsuario: string = 'Algoritmo Recargar\n\t\nFinAlgoritmo';
   
-  // Estado del nivel (false = Batería vacía, true = Batería llena)
+  // Estado del nivel
   nivelCompletado: boolean = false;
   
   // Logs de la consola simulada
@@ -33,12 +33,10 @@ export class Nivel2Page {
   constructor() { }
 
   ejecutarCodigo() {
-    // 1. Limpiamos el código (quitamos espacios y pasamos a minúsculas)
-    // Esto permite que "energia <- 100", "Energia = 100", etc., funcionen igual.
+    // 1. Limpiamos el código
     const codigoLimpio = this.codigoUsuario.toLowerCase().replace(/\s+/g, '');
 
     // 2. Validamos si escribió la asignación correcta
-    // Aceptamos tanto la flecha de PSeInt (<-) como el igual (=)
     if (codigoLimpio.includes('energia<-100') || codigoLimpio.includes('energia=100')) {
       
       // ¡ÉXITO!
@@ -46,9 +44,6 @@ export class Nivel2Page {
       this.consolaLogs.push({mensaje: '> Creando variable [energia]...', tipo: 'info'});
       this.consolaLogs.push({mensaje: '> Asignando valor: 100', tipo: 'info'});
       this.consolaLogs.push({mensaje: '¡SISTEMAS OPERATIVOS! BATERÍA AL 100%', tipo: 'success'});
-      
-      // Opcional: Sumar XP aquí si no lo haces en el botón de continuar
-      // this.auth.ganarXP(50); 
 
     } else {
       
@@ -58,9 +53,17 @@ export class Nivel2Page {
     }
   }
 
-  // Función para volver al menú de misiones y sumar XP
+  // 👇👇👇 AQUÍ ESTÁ EL CAMBIO PARA GUARDAR EL PROGRESO 👇👇👇
   finalizarMision() {
-    this.auth.ganarXP(50); 
-    this.router.navigate(['/nivel3']); // <--- AHORA VAMOS AL NIVEL 3
+    // ANTES: this.auth.ganarXP(50); 
+    
+    // AHORA: Guardamos nivel, subimos habilidad LÓGICA y damos XP
+    // Parámetros: ('ID_NIVEL', 'TIPO_HABILIDAD', XP)
+    this.auth.completarNivel('nivel2', 'logica', 50);
+
+    // Nota: He puesto 'logica' porque las variables son la base de la lógica.
+    // Así subirá la barra azul en tu inicio.
+
+    this.router.navigate(['/nivel3']); 
   }
 }

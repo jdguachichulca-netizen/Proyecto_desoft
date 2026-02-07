@@ -1,9 +1,9 @@
-import { Component, inject } from '@angular/core'; // <--- Agregamos inject
+import { Component, inject } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
-import { Router } from '@angular/router'; // <--- Importante para navegar
-import { AuthService } from '../auth.service'; // <--- Importante para la XP
+import { Router } from '@angular/router'; 
+import { AuthService } from '../auth.service'; 
 
 @Component({
   selector: 'app-nivel1',
@@ -14,14 +14,11 @@ import { AuthService } from '../auth.service'; // <--- Importante para la XP
 })
 export class Nivel1Page {
 
-  // --- INYECCIÓN DE SERVICIOS ---
-  private auth = inject(AuthService); // Para manejar la XP
-  private router = inject(Router);    // Para cambiar de página
+  private auth = inject(AuthService); 
+  private router = inject(Router);    
 
-  // Lo que escribe el usuario
   codigoUsuario: string = 'Algoritmo DespertarRobot\n\t\nFinAlgoritmo';
 
-  // Estado del juego
   robotDespierto: boolean = false;
   consolaLogs: {mensaje: string, tipo: string}[] = [
     {mensaje: 'Iniciando secuencia...', tipo: 'info'},
@@ -31,15 +28,10 @@ export class Nivel1Page {
   constructor() { }
 
   ejecutarCodigo() {
-    // 1. Limpiamos y normalizamos el texto para comparar fácil
-    // (Quitamos espacios extra y lo hacemos minúsculas)
     const codigoLimpio = this.codigoUsuario.toLowerCase().replace(/\s+/g, ' ');
 
-    // 2. Verificamos si escribió el comando correcto
-    // Buscamos: escribir "hola mundo"
     if (codigoLimpio.includes('escribir "hola mundo"')) {
       
-      // ¡ÉXITO!
       this.robotDespierto = true;
       this.consolaLogs.push({mensaje: '> Ejecutando línea 2...', tipo: 'info'});
       this.consolaLogs.push({mensaje: 'R-B1T dice: "Hola Mundo"', tipo: 'success'});
@@ -47,16 +39,25 @@ export class Nivel1Page {
 
     } else {
       
-      // ERROR
       this.robotDespierto = false;
       this.consolaLogs.push({mensaje: 'Error de sintaxis: Comando no reconocido o texto incorrecto.', tipo: 'error'});
       this.consolaLogs.push({mensaje: 'Pista: Usa Escribir "Hola Mundo"', tipo: 'info'});
     }
   }
 
-  // --- NUEVA FUNCIÓN: Se ejecuta al dar clic en CONTINUAR ---
+  // 👇👇👇 AQUÍ ESTÁ EL CAMBIO IMPORTANTE 👇👇👇
   avanzarNivel() {
-    this.auth.ganarXP(50); // 1. Sumamos 50 puntos al usuario
-    this.router.navigate(['/nivel2']); // 2. Nos vamos a la página del Nivel 2
+    // ANTES: this.auth.ganarXP(50);
+    
+    // AHORA: Usamos completarNivel para guardar stats y evitar trampas
+    // Parámetros: ('ID_UNICO', 'TIPO_HABILIDAD', XP_GANADA)
+    this.auth.completarNivel('nivel1', 'sintaxis', 50); 
+    
+    // Explicación:
+    // 'nivel1'   -> Identificador único (para que no te den XP 2 veces por el mismo nivel)
+    // 'sintaxis' -> Qué barra va a subir (puede ser 'logica', 'sintaxis' o 'depuracion')
+    // 50         -> La cantidad de XP total
+
+    this.router.navigate(['/nivel2']); 
   }
 }

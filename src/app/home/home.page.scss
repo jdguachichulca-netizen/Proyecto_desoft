@@ -1,106 +1,196 @@
-/* --- FONDO GENERAL --- */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
 ion-content {
-  --background: linear-gradient(135deg, #0b0e2b 0%, #240b36 100%);
+  --background: #0d0221; 
+  /* Fondo con una cuadrícula muy sutil estilo Tron/Cyberpunk */
+  --background: radial-gradient(circle at 50% 50%, #1a0b2e 0%, #05010a 100%);
   font-family: 'VT323', monospace;
 }
 
-.hero-section {
-  height: 100%;
-  display: flex;
-  align-items: center; /* Mantiene el centrado vertical en la página */
-  padding: 0 5%; /* Un poco de margen a los lados */
-}
-
-/* --- COLUMNA DE TEXTO (Izquierda) --- */
-.text-col {
-  text-align: left; /* <--- AQUÍ ESTÁ EL CAMBIO CLAVE */
+.dashboard-wrapper {
+  /* 👇 ESTO ARREGLA EL CHOQUE CON LA BARRA SUPERIOR */
+  padding-top: 120px; 
+  padding-bottom: 50px;
+  padding-left: 20px;
   padding-right: 20px;
   
-  /* En pantallas grandes, empujamos un poco el texto para que no pegue al borde */
-  @media (min-width: 768px) {
-    padding-left: 50px;
-  }
+  /* 👇 ESTO HACE QUE LOS RECUADROS SEAN MÁS GRANDES A LO ANCHO */
+  max-width: 1400px; 
+  margin: 0 auto;
 }
 
-.hero-text {
-  color: white;
-
-  h1 {
-    font-size: 3.5rem;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-  }
-
-  p {
-    font-size: 1.3rem;
-    color: #b0b0b0;
-    max-width: 500px; /* Limitamos el ancho para que sea fácil de leer */
-    margin-bottom: 40px;
-    font-family: sans-serif; /* Fuente legible para párrafos */
-    line-height: 1.6;
-  }
+/* --- TERMINAL --- */
+.terminal-screen {
+  background: rgba(10, 10, 15, 0.95);
+  border: 1px solid #333;
+  border-radius: 12px;
+  margin-bottom: 40px; /* Separación con los paneles de abajo */
+  box-shadow: 0 0 25px rgba(0, 255, 0, 0.15); /* Brillo verde sutil */
+  overflow: hidden;
+  position: relative;
 }
 
-/* --- CONTENEDOR DE BOTONES --- */
-.cta-wrapper {
+/* Decoración superior de la terminal */
+.terminal-header {
+  background: #1f1f1f;
+  padding: 8px 15px;
   display: flex;
-  flex-direction: column; /* Pone el enlace DEBAJO del botón */
-  align-items: flex-start; /* Alinea todo a la IZQUIERDA */
-  gap: 15px; /* Espacio entre el botón y el texto de registrarse */
-}
-
-/* --- BOTÓN VERDE --- */
-.btn-start {
-  background: #4ade80;
-  color: #050614;
-  font-family: 'VT323', monospace;
-  font-size: 1.5rem;
-  padding: 15px 40px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
-  transition: transform 0.2s, box-shadow 0.2s;
-
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(74, 222, 128, 0.9);
-  }
-}
-
-/* --- ENLACE REGISTRARSE --- */
-.link-register {
-  color: #4ade80; /* Mismo verde que el botón */
-  font-size: 1.2rem;
-  text-decoration: underline;
-  cursor: pointer;
-  margin-left: 5px; /* Un pelín de margen si lo ves muy pegado al borde izquierdo */
-  opacity: 0.9;
-  
-  &:hover {
-    color: white;
-    opacity: 1;
-  }
-}
-
-/* --- COLUMNA IMAGEN (Derecha) --- */
-.img-col {
-  display: flex;
-  justify-content: center;
   align-items: center;
+  border-bottom: 1px solid #333;
 }
 
-.hero-img {
-  max-width: 100%;
-  height: auto;
-  filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+.terminal-title { margin-left: 15px; color: #aaa; font-size: 1.1rem; letter-spacing: 1px; }
+
+.terminal-body {
+  padding: 25px;
+  min-height: 140px; /* Más altura para el texto */
   
-  /* Animación de flotación suave */
-  animation: float 4s ease-in-out infinite;
+  pre {
+    color: #00ff41; /* Verde Hacker clásico */
+    font-size: 1.4rem; /* Letra más grande */
+    line-height: 1.5;
+    margin: 0;
+    white-space: pre-wrap;
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.4); /* Resplandor en el texto */
+  }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+.cursor { 
+  display: inline-block;
+  width: 10px;
+  height: 20px;
+  background: #00ff41;
+  animation: blink 1s infinite;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* --- PANELES PRINCIPALES --- */
+.cyber-panel {
+  background: rgba(20, 20, 35, 0.6); /* Fondo semi-transparente */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 30px; /* Más espacio interno */
+  height: 100%;
+  min-height: 400px; /* 👇 ESTO HACE LOS CUADROS MÁS ALTOS */
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  h3 {
+    color: #fff;
+    margin-top: 0;
+    font-size: 2rem; /* Títulos más grandes */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+    letter-spacing: 2px;
+  }
+}
+
+/* Efecto Hover en los paneles */
+.cyber-panel:hover {
+  transform: translateY(-5px);
+  background: rgba(25, 25, 45, 0.8);
+}
+
+/* Panel Izquierdo (Estado) */
+.status-panel {
+  border-left: 6px solid #00d2ff; /* Borde de color más grueso */
+  box-shadow: -5px 0 20px rgba(0, 210, 255, 0.1);
+}
+
+/* Panel Derecho (Acción) */
+.action-panel {
+  border-left: 6px solid #ff00de;
+  box-shadow: -5px 0 20px rgba(255, 0, 222, 0.1);
+}
+
+/* --- BARRAS DE PROGRESO --- */
+.stat-item {
+  margin-bottom: 25px;
+  
+  label { 
+    color: #e0e0e0; 
+    display: flex; 
+    justify-content: space-between;
+    margin-bottom: 8px; 
+    font-size: 1.4rem; /* Letra más grande */
+  }
+  
+  ion-progress-bar { 
+    height: 16px; /* Barras más gorditas */
+    border-radius: 8px; 
+    background: rgba(255,255,255,0.1);
+  }
+}
+
+/* --- TIP Y BOTONES --- */
+.tip-display {
+  background: rgba(255, 215, 0, 0.05);
+  border: 2px dashed #ffd700; /* Borde punteado más visible */
+  padding: 20px;
+  border-radius: 12px;
+  color: #ffd700;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 1.3rem;
+  line-height: 1.4;
+  margin-bottom: 30px;
+  box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.1);
+  
+  ion-icon { 
+    font-size: 2.5rem; 
+    min-width: 40px;
+  }
+}
+
+.mission-callout {
+  text-align: center;
+  margin-top: auto; /* Empuja esto al fondo */
+  
+  h4 { 
+    color: #fff; 
+    font-size: 1.8rem; 
+    margin: 15px 0; 
+    text-shadow: 0 0 10px rgba(255,255,255,0.3);
+  }
+  
+  p { 
+    color: #aaa; 
+    font-size: 1.2rem;
+    margin-bottom: 20px; 
+  }
+}
+
+.neon-button {
+  width: 100%;
+  background: linear-gradient(90deg, rgba(255,0,222,0.1) 0%, rgba(255,0,222,0.3) 100%);
+  border: 2px solid #ff00de;
+  color: #fff;
+  padding: 18px;
+  font-family: 'VT323', monospace;
+  font-size: 1.8rem; /* Botón grande */
+  cursor: pointer;
+  transition: 0.3s;
+  text-shadow: 0 0 5px #ff00de;
+  box-shadow: 0 0 15px rgba(255, 0, 222, 0.3);
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  
+  &:hover {
+    background: #ff00de;
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 0, 222, 0.8);
+    font-weight: bold;
+  }
 }

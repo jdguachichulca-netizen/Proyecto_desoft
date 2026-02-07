@@ -110,21 +110,22 @@ ion-toolbar {
   margin-right: 10px;
 
   /* La foto del usuario */
-.avatar {
-  /* Tamaño y forma */
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  border: 2px solid #00ffff;
-  
-  /* ESTO ES LO IMPORTANTE: El color de fondo que se ve cuando no hay foto */
-  background-color: #3a3f55; 
-  
-  /* Configuración para cuando SÍ hay foto */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+  .avatar {
+    /* Tamaño y forma */
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid #00ffff;
+    
+    /* ESTO ES LO IMPORTANTE: El color de fondo que se ve cuando no hay foto */
+    background-color: #3a3f55; 
+    
+    /* Configuración para cuando SÍ hay foto */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0; /* Evita que el avatar se aplaste */
+  }
 
   /* Contenedor del texto (Nombre y Nivel) */
   .stats-info {
@@ -138,6 +139,13 @@ ion-toolbar {
       font-weight: bold; 
       font-size: 0.9rem;
       text-transform: uppercase; /* Nombre en mayúsculas */
+
+      /* 👇👇👇 AQUÍ ESTÁN LOS CAMBIOS PARA QUE NO SE DEFORME 👇👇👇 */
+      white-space: nowrap;      /* Fuerza a que sea una sola línea */
+      overflow: hidden;         /* Oculta lo que se salga del ancho */
+      text-overflow: ellipsis;  /* Agrega "..." al final */
+      max-width: 100px;         /* Define un ancho máximo para el nombre */
+      display: block;
     }
     
     .level-tag { 

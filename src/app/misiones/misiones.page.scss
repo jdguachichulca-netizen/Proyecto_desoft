@@ -1,6 +1,5 @@
 /* =========================================
-   EN src/app/misiones/misiones.page.scss
-   (CÓDIGO DEFINITIVO SIN CÍRCULO EN EL CHIP)
+   ESTILOS DE MISIONES (CON CLASE AMARILLA JS)
    ========================================= */
 
 /* 1. CONFIGURACIÓN GENERAL */
@@ -52,7 +51,6 @@ ion-content {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Ya no hay padding ni fondos aquí */
 
     img {
       height: 85px; /* Tamaño base */
@@ -115,16 +113,15 @@ ion-content {
 
 /* 4. ESTILOS POR TIPO DE TARJETA */
 
-/* --- TIPO A: AZUL (Izquierda) --- */
+/* --- TIPO A: AZUL (Izquierda - Cadete) --- */
 .active-card {
   border: 2px solid #00c6ff;
   box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
 
-  /* 👇 AQUÍ ESTÁ EL CAMBIO: BRILLO DIRECTO EN LA IMAGEN 👇 */
+  /* BRILLO AZUL EN EL CHIP */
   .icon-box img {
-    /* Quitamos el fondo circular y aplicamos resplandor azul intenso al chip */
     filter: drop-shadow(0 0 15px rgba(0, 198, 255, 0.8));
-    height: 95px; /* Un poco más grande para que destaque */
+    height: 95px; 
   }
 
   .btn-action {
@@ -134,34 +131,36 @@ ion-content {
   }
 }
 
-/* --- TIPO B: DORADA (Medio Desbloqueado) --- */
-.unlocked {
-  border: 2px solid #ffd700;
+/* --- TIPO B: AMARILLO (Centro - JavaScript) --- */
+/* 👇 ESTA ES LA CLASE NUEVA QUE PEDISTE 👇 */
+.active-card-js {
+  border: 2px solid #ffd700; /* Borde Amarillo JS */
   box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
-  transform: scale(1.05);
-  background: linear-gradient(145deg, #1a1a1a, #2a2510);
+  transform: scale(1.05); /* Un poquito más grande para destacar */
+  background: linear-gradient(145deg, #1a1a1a, #2a2510); /* Fondo sutilmente cálido */
   z-index: 10;
 
   h2 {
-    color: #ffd700;
+    color: #ffd700; /* Texto Amarillo */
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
   }
 
   /* Brillo dorado para el trofeo */
   .icon-box img {
-      filter: brightness(1.1) drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
-      height: 95px;
+      filter: brightness(1.1) drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+      height: 100px; /* Trofeo grande */
   }
 
+  /* Botón Amarillo */
   .btn-action {
-    background: linear-gradient(90deg, #ff8c00, #ffd700);
-    color: #3e2700 !important; 
-    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.2);
-    box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
+    background: linear-gradient(90deg, #ffca28, #ff8c00); /* Gradiente JS */
+    color: #000 !important; /* Texto negro para contraste */
+    text-shadow: none;
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
 
     &:hover {
-      background: linear-gradient(90deg, #ffa500, #ffe44d);
-      color: #2a1800 !important;
+      background: linear-gradient(90deg, #ffd54f, #ffa000);
+      color: #000 !important;
     }
   }
 }

@@ -2,20 +2,23 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'home',
-    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
+    path: '',
+    redirectTo: 'landing', // 👈 AHORA SÍ: Arranca en la página de presentación (Landing)
+    pathMatch: 'full',
   },
   {
-    path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
+    path: 'landing', // 👈 Tu página bonita del chico saltando
+    loadComponent: () => import('./landing/landing.page').then( m => m.LandingPage)
+  },
+  {
+    path: 'home', // El Dashboard Futurista (Terminal y Tips)
+    loadComponent: () => import('./home/home.page').then((m) => m.HomePage),
   },
   {
     path: 'login',
     loadComponent: () => import('./login/login.page').then( m => m.LoginPage)
   },
   {
-    /* --- ESTE ES EL BLOQUE QUE TE PUEDE FALTAR --- */
     path: 'misiones',
     loadComponent: () => import('./misiones/misiones.page').then( m => m.MisionesPage)
   },

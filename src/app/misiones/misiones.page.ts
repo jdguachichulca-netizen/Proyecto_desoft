@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { Router, RouterLink } from '@angular/router'; 
-// Si AuthService no se usa, puedes borrar el import, pero lo dejo por si acaso
-import { AuthService } from '../auth.service';
+import { AuthService } from '../auth.service'; // 👈 Asegúrate de importar esto
 
 @Component({
   selector: 'app-misiones',
@@ -16,20 +15,24 @@ import { AuthService } from '../auth.service';
 export class MisionesPage {
   
   private router = inject(Router);
+  public auth = inject(AuthService); // 👈 Inyectamos el servicio público para usarlo
+
   programadorHabilDesbloqueado: boolean = false;
 
   constructor() { }
 
-  // ESTA FUNCIÓN SE EJECUTA CADA VEZ QUE ENTRAS A LA PANTALLA
+  // Se ejecuta cada vez que entras a la pantalla
   ionViewWillEnter() {
-    const nivelGuardado = localStorage.getItem('nivel_desbloqueado');
-    console.log("Progreso detectado:", nivelGuardado); // 👇 MIRA ESTO EN CONSOLA
+    // 1. Obtenemos la lista de niveles que el usuario ha completado
+    const niveles = this.auth.userStats().nivelesCompletados;
+    
+    console.log("Niveles completados:", niveles);
 
-    if (nivelGuardado === 'intermedio' || nivelGuardado === 'avanzado') {
+    // 2. Verificamos si 'nivel8' está en esa lista
+    if (niveles.includes('nivel8')) {
       this.programadorHabilDesbloqueado = true;
     } else {
-        // Aseguramos que esté bloqueado si no cumple
-        this.programadorHabilDesbloqueado = false;
+      this.programadorHabilDesbloqueado = false;
     }
   }
 
@@ -38,8 +41,8 @@ export class MisionesPage {
   }
 
   irANivelJavascript() {
-    // Solo navega si está desbloqueado
     if (this.programadorHabilDesbloqueado) {
+        // Asegúrate de que esta ruta '/intro-js' o '/nivel9' exista en tu app-routes
         this.router.navigate(['/intro-js']); 
     }
   }

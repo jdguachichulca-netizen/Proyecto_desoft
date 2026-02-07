@@ -42,9 +42,7 @@ export class Nivel5Page {
 
     if (tieneMientras && tieneLimite && tieneSuma) {
       
-      // 👇 CAMBIO: Capturamos el texto que escribiste entre comillas
       const matchTexto = codigo.match(/escribir\s*["']([^"']+)["']/);
-      // Si encontraste texto, úsalo. Si no, usa uno por defecto.
       const mensajeUsuario = matchTexto ? matchTexto[1] : 'Encendiendo motor';
 
       this.ejecutando = true;
@@ -55,7 +53,6 @@ export class Nivel5Page {
         await new Promise(r => setTimeout(r, 800));
         this.motoresEncendidos = i; 
         
-        // 👇 CAMBIO: Aquí mostramos TU mensaje capturado
         this.consolaLogs.push({mensaje: `> Iteración ${i}: "${mensajeUsuario}"`, tipo: 'info'});
       }
 
@@ -78,8 +75,16 @@ export class Nivel5Page {
     }
   }
 
+  // 👇👇👇 AQUÍ ESTÁ EL CAMBIO PARA GUARDAR PROGRESO 👇👇👇
   finalizarMision() {
-    this.auth.ganarXP(100); 
+    // ANTES: this.auth.ganarXP(100); 
+
+    // AHORA: Guardamos nivel, subimos habilidad SINTAXIS (Bucles) y damos XP
+    this.auth.completarNivel('nivel5', 'sintaxis', 100); 
+    
+    // Al subir SINTAXIS equilibramos las barras, ya que los bucles
+    // requieren mucha precisión en la escritura.
+    
     this.router.navigate(['/nivel6']); 
   }
 }

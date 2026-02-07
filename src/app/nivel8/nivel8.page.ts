@@ -79,8 +79,8 @@ export class Nivel8Page {
       this.nivelCompletado = true;
       this.puntosTotales = 1000;
       
-      // Guardamos el progreso pero NO mostramos el overlay aún
-      localStorage.setItem('nivel_desbloqueado', 'intermedio');
+      // Opcional: Esto lo puedes quitar si ya no usas el bloqueo manual por localStorage
+      // localStorage.setItem('nivel_desbloqueado', 'intermedio');
 
     } else {
       this.consolaLogs.push({mensaje: `Advertencia: Patrón incompleto. (${nodosActivos}/5 nodos)`, tipo: 'error'});
@@ -88,13 +88,18 @@ export class Nivel8Page {
     }
   }
 
-  // --- ESTAS SON LAS FUNCIONES QUE TE FALTABAN ---
   mostrarVictoriaManual() {
     this.mostrarOverlay = true;
   }
 
+  //  AQUÍ ESTÁ EL CAMBIO PARA GUARDAR PROGRESO
   irAlMenuMisiones() {
-    this.auth.ganarXP(300);
+    // ANTES: this.auth.ganarXP(300);
+
+    // AHORA: Guardamos nivel, subimos LÓGICA (Matrices avanzadas) y damos 300 XP
+    this.auth.completarNivel('nivel8', 'logica', 300);
+    
+    // Regresamos al menú de misiones para ver el progreso desbloqueado
     this.router.navigate(['/misiones']);
   }
 }
