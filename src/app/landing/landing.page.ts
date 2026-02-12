@@ -1,19 +1,29 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonButton } from '@ionic/angular/standalone';
-import { Router } from '@angular/router';
-import { AuthService } from '../auth.service'; // 👈 Importamos el cerebro
+import { Router, RouterLink } from '@angular/router'; // 👈 1. IMPORTAMOS RouterLink
+import { IonContent, IonButton, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.page.html',
   styleUrls: ['./landing.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, IonButton]
+  // 👇 2. LO AGREGAMOS AQUÍ (Sin esto, el botón no funciona)
+  imports: [
+    IonContent, 
+    CommonModule, 
+    FormsModule, 
+    IonButton, 
+    IonGrid, 
+    IonRow, 
+    IonCol, 
+    RouterLink // <--- ¡ESTO ES LA CLAVE!
+  ]
 })
 export class LandingPage implements OnInit {
-
+  
   private router = inject(Router);
   private auth = inject(AuthService);
 
@@ -21,18 +31,11 @@ export class LandingPage implements OnInit {
 
   ngOnInit() {}
 
-  // 👇 ESTO SOLUCIONA TU PROBLEMA
   ionViewWillEnter() {
-    // Si el usuario ya existe, ¡no le mostramos la intro de nuevo!
-    // Lo mandamos directo a su panel de misiones para que continúe.
+    // Si ya existe un usuario logueado, lo mandamos a misiones
     if (this.auth.isAuthenticated()) {
-      console.log('Veterano detectado. Redirigiendo a la base...');
-      this.router.navigate(['/misiones']); 
+      console.log('Veterano detectado. Redirigiendo...');
+      this.router.navigate(['/misiones']);
     }
-  }
-
-  empezarAventura() {
-    // Esta función es solo para usuarios NUEVOS
-    this.router.navigate(['/registro']);
   }
 }

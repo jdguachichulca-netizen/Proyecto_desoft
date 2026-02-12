@@ -26,11 +26,10 @@ export class AuthService {
   private STORAGE_KEY = 'WBIT_FINAL_V3';
 
   constructor() { 
-    // Al iniciar, intentamos cargar (pero no borramos nada si falla)
     this.cargarDatos();
   }
 
-  // --- 1. GESTIÓN DE SESIÓN ---
+  // --- 1. GESTIÓN DE SESIÓN (NUEVO SISTEMA) ---
 
   // Crea una partida nueva y la guarda INMEDIATAMENTE
   crearNuevaPartida(nombre: string, avatar: string = '') {
@@ -49,7 +48,7 @@ export class AuthService {
 
   // Restaura una sesión existente sin borrar nada
   recuperarSesion(datos: any) {
-    console.log(' RECUPERANDO SESIÓN:', datos.user);
+    console.log('🔄 RECUPERANDO SESIÓN:', datos.user);
     this.currentUser.set(datos.user);
     this.currentLevel.set(datos.level || 1);
     this.currentXP.set(datos.xp || 0);
@@ -60,7 +59,24 @@ export class AuthService {
     this.guardarDatos();
   }
 
-  // --- 2. LOGOUT SEGURO (AQUÍ ESTABA EL PELIGRO) ---
+  // --- 2. ZONA DE COMPATIBILIDAD (ESTO ARREGLA TUS ERRORES ROJOS) ---
+  
+  // 👇 Tu Login Page buscaba esta función
+  login(nombre: string, avatar: string = '') {
+    this.crearNuevaPartida(nombre, avatar);
+  }
+
+  // 👇 Tu App Component buscaba esta función
+  isLoggedIn(): boolean {
+    return this.currentUser() !== null;
+  }
+
+  // 👇 Tu Registro Page buscaba esta función
+  isAuthenticated(): boolean {
+    return this.isLoggedIn();
+  }
+
+  // --- 3. LOGOUT SEGURO ---
   logout() {
     console.log('🔒 CERRANDO SESIÓN (RAM)...');
     
@@ -72,32 +88,28 @@ export class AuthService {
     // ⚠️ IMPORTANTE: VERIFICAMOS QUE LOS DATOS SIGAN EN EL DISCO
     const datosDisco = localStorage.getItem(this.STORAGE_KEY);
     if (datosDisco) {
-      console.log(' CONFIRMADO: Los datos siguen seguros en el disco.');
+      console.log('✅ CONFIRMADO: Los datos siguen seguros en el disco.');
     } else {
-      console.error(' ALERTA: ¡No hay datos en el disco! Algo los borró.');
+      console.error('❌ ALERTA: ¡No hay datos en el disco! Algo los borró.');
     }
   }
 
-  // Borrado manual (Solo si el usuario lo pide explícitamente)
+  // Borrado manual
   borrarPartida() {
     console.warn('🗑️ BORRANDO PARTIDA DEL DISCO...');
     localStorage.removeItem(this.STORAGE_KEY);
     this.logout();
   }
 
-  // --- 3. UTILIDADES ---
+  // --- 4. UTILIDADES ---
   
-  // Esta función es la que usa el Registro para ver si hay datos
   getLastSession(): any | null {
     const guardado = localStorage.getItem(this.STORAGE_KEY);
     console.log('📂 Consultando disco...', guardado ? 'DATOS ENCONTRADOS' : 'VACÍO');
     return guardado ? JSON.parse(guardado) : null;
   }
 
-  isAuthenticated(): boolean { return this.currentUser() !== null; }
-  isLoggedIn(): boolean { return this.isAuthenticated(); }
-
-  // --- 4. JUEGO Y PROGRESO ---
+  // --- 5. JUEGO Y PROGRESO ---
 
   completarNivel(idNivel: string, tipoHabilidad: 'logica'|'sintaxis'|'depuracion', xpGanada: number) {
     const stats = this.userStats();
@@ -120,7 +132,6 @@ export class AuthService {
       this.currentLevel.update(l => l + 1);
     }
     
-    // 💾 GUARDADO AUTOMÁTICO
     this.guardarDatos();
   }
 
@@ -129,10 +140,9 @@ export class AuthService {
     this.guardarDatos();
   }
 
-  // --- 5. PERSISTENCIA (EL MOTOR) ---
+  // --- 6. PERSISTENCIA ---
 
   private guardarDatos() {
-    // Solo guardamos si hay un usuario válido
     if (this.currentUser()) {
       const estado = {
         user: this.currentUser(),
@@ -144,7 +154,7 @@ export class AuthService {
       
       const json = JSON.stringify(estado);
       localStorage.setItem(this.STORAGE_KEY, json);
-      console.log(' GUARDADO EXITOSO en disco:', this.currentLevel());
+      console.log('💾 GUARDADO EXITOSO en disco:', this.currentLevel());
     }
   }
 
@@ -154,9 +164,7 @@ export class AuthService {
       try {
         const datos = JSON.parse(guardado);
         if (datos.user) {
-          console.log(' Auto-Carga detectada para:', datos.user);
-          // Opcional: Si quieres auto-login descomenta la siguiente línea
-          // this.recuperarSesion(datos);
+          console.log('⚡ Auto-Carga detectada para:', datos.user);
         }
       } catch (e) {
         console.error('Error al cargar datos', e);
