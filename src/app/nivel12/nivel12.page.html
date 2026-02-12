@@ -1,0 +1,107 @@
+<ion-content>
+  <div class="stars-bg"></div>
+
+  <div class="header-section">
+    <h1>NIVEL 12: PROYECCIÓN HOLOGRÁFICA</h1>
+  </div>
+
+  <div class="game-layout">
+
+    <div class="panel left-panel">
+      <div class="panel-header">MÓDULO HOLOGRÁFICO</div>
+      <div class="panel-body">
+        
+        <div class="robot-scene">
+          <img src="assets/robotpanel.png" alt="Holograma" onerror="this.src='assets/wbit_js_contact.png'">
+        </div>
+        
+        <div class="story-box">
+          <p>
+            <strong style="color: #00fff5;">REPORTE DE ESTADO:</strong><br>
+            Los circuitos de voz de W-BIT estan "sobre cargados" por usar el método antiguo de sumar textos (+).
+            <br><br>
+            Solución: Activar el <strong>Proyector Holográfico</strong>. 
+            Esta tecnología inyecta datos directamente dentro del texto usando el código: <code>$&#123;...&#125;</code>.
+          </p>
+        </div>
+
+        <div class="syntax-card">
+          <h4>MANUAL: TEMPLATE LITERALS</h4>
+          
+          <div class="comparison-row error-style">
+            <small>ANTIGUO (Lento)</small>
+            <code>"Hola " + nombre</code>
+          </div>
+
+          <div class="comparison-row success-style">
+            <div class="arrow-down">⬇️ NUEVO (Holográfico) ⬇️</div>
+            <small>MODERNO (Rápido)</small>
+            <code class="new">&#96;Hola $&#123;nombre&#125;&#96;</code>
+          </div>
+        </div>
+
+        <div class="mission-guide">
+          <h4>OBJETIVO:</h4>
+          <ol>
+            <li>Crea: <code>let sector = "Alfa";</code></li>
+            <li>Crea: <code>let amenaza = 0;</code></li>
+            <li>Muestra en consola:</li>
+            <li><code>&#96;Reporte: Sector $&#123;sector&#125;. Amenaza: $&#123;amenaza&#125;&#96;</code></li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL JS</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+        
+        <textarea 
+          class="code-input" 
+          [(ngModel)]="codigoUsuario" 
+          spellcheck="false" 
+          placeholder="// Usa `backticks` y ${variables}"></textarea>
+      </div>
+
+      <button class="btn-compile" (click)="ejecutarCodigo()" [disabled]="nivelCompletado">
+        ACTIVAR PROYECCIÓN
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">VISOR HOLOGRÁFICO</div>
+      <div class="panel-body centered-body">
+        
+        <div class="hologram-container" [class.active]="nivelCompletado">
+          <div class="scan-line"></div>
+          <div class="hologram-content">
+             <ion-icon name="cube-outline" class="holo-icon"></ion-icon>
+             <span *ngIf="!nivelCompletado">SIN SEÑAL</span>
+             <span *ngIf="nivelCompletado" class="holo-text">ESTABLE</span>
+          </div>
+        </div>
+
+        <div class="screen-output">
+          <small>SALIDA:</small>
+          <div class="text-signal">
+            {{ mensajeSistema || 'ESPERANDO...' }}
+          </div>
+        </div>
+
+        <div class="system-logs">
+          <div *ngFor="let log of consolaLogs" [class]="log.tipo">
+            > {{ log.mensaje }}
+          </div>
+        </div>
+
+        <button *ngIf="nivelCompletado" class="btn-next" (click)="guardarProgreso()">
+          MISIÓN CUMPLIDA (+350 XP)
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>

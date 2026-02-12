@@ -1,221 +1,139 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { IonContent, IonHeader, IonToolbar, IonTitle, IonItem, IonLabel, IonInput, IonButton } from '@ionic/angular/standalone';
+import { Router } from '@angular/router';
+import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { AuthService } from '../auth.service';
+import { addIcons } from 'ionicons';
+import { play, trash, personAdd } from 'ionicons/icons';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  
-  // 👇 HTML (ESTRUCTURA LIMPIA NEON TECH)
+  // ❌ BORRAMOS 'templateUrl' PARA EVITAR EL ERROR
+  // Usamos solo 'template' para tener el HTML aquí mismo:
   template: `
     <ion-content>
-      <div class="login-wrapper">
+      <div class="container">
         
-        <div class="header-text">
-          <h1>NUEVO RECLUTA</h1>
-          <h2>CREA TU CUENTA</h2>
-        </div>
-
-        <div class="login-card">
+        <div class="card" *ngIf="partidaGuardada">
+          <h1>¡HOLA DE NUEVO!</h1>
           
-          <div class="input-group">
-            <label>Nombre de Usuario</label>
-            <input type="text" class="modern-input" [(ngModel)]="usuario.nombre" placeholder="Ej. MasterChief">
-          </div>
+          <img [src]="partidaGuardada.avatar || 'assets/avatars/default.png'" class="avatar-preview">
+          <h2>{{ partidaGuardada.user }}</h2>
+          <p>NIVEL {{ partidaGuardada.level }} • {{ partidaGuardada.xp }} XP</p>
 
-          <div class="input-group">
-            <label>Correo Electrónico</label>
-            <input type="email" class="modern-input" [(ngModel)]="usuario.email" placeholder="ejemplo@correo.com">
-          </div>
-
-          <div class="input-group">
-            <label>Crear Contraseña</label>
-            <input type="password" class="modern-input" [(ngModel)]="usuario.password">
-          </div>
-
-          <button class="btn-neon" (click)="registrar()">
-            REGISTRARME E INICIAR
+          <button class="btn-main" (click)="continuar()">
+            <ion-icon name="play"></ion-icon> CONTINUAR AVENTURA
           </button>
 
-          <a class="forgot-link" routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
+          <button class="btn-danger" (click)="borrar()">
+            <ion-icon name="trash"></ion-icon> BORRAR Y EMPEZAR DE CERO
+          </button>
+        </div>
+
+        <div class="card" *ngIf="!partidaGuardada">
+          <h1>NUEVO RECLUTA</h1>
+          <p>Identifícate para ingresar al sistema.</p>
+
+          <input type="text" [(ngModel)]="nuevoNombre" placeholder="Tu nombre...">
+
+          <button class="btn-main" (click)="registrar()">
+            <ion-icon name="person-add"></ion-icon> CREAR CUENTA
+          </button>
         </div>
 
       </div>
     </ion-content>
   `,
-
-  // 👇 CSS (ESTILO EXACTO NEON TECH)
   styles: [`
     @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+    ion-content { --background: linear-gradient(135deg, #130722 0%, #2a103e 100%); font-family: 'VT323', monospace; }
+    .container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+    
+    .card {
+      background: rgba(30, 25, 45, 0.9); border: 1px solid #8a2be2;
+      border-radius: 16px; padding: 30px; width: 100%; max-width: 400px;
+      text-align: center; box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+    }
+    
+    h1 { color: #fff; font-size: 2.5rem; margin-bottom: 10px; }
+    h2 { color: #4ade80; margin: 0; font-size: 1.5rem; }
+    p { color: #ccc; font-size: 1.2rem; }
 
-    ion-content {
-      --background: #1a0b2e; /* Fondo Morado Oscuro base */
-      --background: linear-gradient(135deg, #130722 0%, #2a103e 100%);
-      font-family: 'VT323', monospace;
+    /* Estilos Continuar */
+    .avatar-preview { width: 80px; height: 80px; border-radius: 50%; border: 3px solid #4ade80; margin: 20px auto; display: block; object-fit: cover; }
+    
+    .btn-main {
+      width: 100%; background: #4ade80; color: #000; padding: 15px;
+      font-size: 1.5rem; font-weight: bold; border-radius: 8px; border: none;
+      font-family: 'VT323'; cursor: pointer; margin-top: 20px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: transform 0.2s;
+    }
+    .btn-main:hover { transform: scale(1.02); }
+    
+    .btn-danger {
+      background: transparent; color: #ff4d4d; border: 1px solid #ff4d4d;
+      margin-top: 15px; font-size: 1rem; padding: 10px; width: 100%; cursor: pointer;
+      font-family: 'VT323'; display: flex; align-items: center; justify-content: center; gap: 5px;
     }
 
-    .login-wrapper {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
-      padding-top: 60px;
-    }
-
-    /* TEXTOS HEADER */
-    .header-text {
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .header-text h1 {
-      color: #fff;
-      font-size: 2.8rem;
-      margin: 0;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-    }
-
-    .header-text h2 {
-      color: #ccc;
-      font-size: 1.2rem;
-      margin-top: 5px;
-      font-weight: normal;
-      letter-spacing: 1px;
-    }
-
-    /* TARJETA PRINCIPAL */
-    .login-card {
-      background: rgba(30, 25, 45, 0.7); /* Fondo oscuro semitransparente */
-      border: 1px solid rgba(138, 43, 226, 0.3); /* Borde morado muy sutil */
-      border-radius: 16px; /* Bordes redondeados */
-      padding: 30px;
-      width: 100%;
-      max-width: 420px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); /* Sombra suave */
-      backdrop-filter: blur(10px); /* Efecto cristal */
-    }
-
-    /* INPUTS */
-    .input-group {
-      margin-bottom: 20px;
-    }
-
-    .input-group label {
-      display: block;
-      color: #e0e0e0;
-      font-size: 1.1rem;
-      margin-bottom: 8px;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-    }
-
-    .modern-input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.08); /* Fondo grisaseo/transparente */
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px; /* Bordes redondeados inputs */
-      padding: 12px 15px;
-      color: #fff;
-      font-family: 'VT323', monospace; /* Mantenemos fuente del juego */
-      font-size: 1.3rem; /* Letra un poco más grande */
-      outline: none;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
-
-    .modern-input::placeholder {
-      color: rgba(255, 255, 255, 0.3);
-    }
-
-    .modern-input:focus {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: #8a2be2; /* Borde morado al enfocar */
-      box-shadow: 0 0 10px rgba(138, 43, 226, 0.3);
-    }
-
-    /* BOTÓN VERDE NEÓN */
-    .btn-neon {
-      width: 100%;
-      background: linear-gradient(90deg, #4ade80 0%, #22c55e 100%); /* Degradado verde */
-      color: #000; /* Texto negro */
-      border: none;
-      border-radius: 8px; /* Bordes redondeados */
-      padding: 14px;
-      font-family: 'VT323', monospace;
-      font-size: 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 15px;
-      box-shadow: 0 0 15px rgba(74, 222, 128, 0.4); /* Resplandor verde */
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .btn-neon:hover {
-      box-shadow: 0 0 25px rgba(74, 222, 128, 0.6); /* Más brillo al pasar el mouse */
-      transform: translateY(-1px);
-    }
-
-    .btn-neon:active {
-      transform: translateY(1px);
-      box-shadow: 0 0 5px rgba(74, 222, 128, 0.4);
-    }
-
-    /* LINKS */
-    .forgot-link {
-      display: block;
-      text-align: center;
-      margin-top: 20px;
-      color: #4ade80; /* Texto verde */
-      text-decoration: underline;
-      font-size: 1.1rem;
-      cursor: pointer;
-    }
-
-    .forgot-link:hover {
-      color: #fff;
-      text-shadow: 0 0 5px #4ade80;
+    /* Inputs */
+    input { 
+      width: 100%; padding: 12px; margin-top: 10px; background: rgba(0,0,0,0.3);
+      border: 1px solid #666; color: #fff; font-family: 'VT323'; font-size: 1.3rem;
+      border-radius: 4px;
     }
   `],
-
-  imports: [
-    IonContent, IonHeader, IonToolbar, IonTitle, IonItem, IonLabel, 
-    IonInput, IonButton, 
-    CommonModule, FormsModule, RouterLink
-  ]
+  imports: [CommonModule, FormsModule, IonContent, IonIcon]
 })
 export class RegistroPage {
-  usuario = { nombre: '', email: '', password: '' };
+  auth = inject(AuthService);
+  router = inject(Router);
+  
+  partidaGuardada: any = null;
+  nuevoNombre: string = '';
 
-  constructor(private authService: AuthService, private router: Router) { }
-
-  // 👇 ESTO ES LO NUEVO: Detectar si ya entró antes
-  ionViewWillEnter() {
-    // Si el servicio dice "True" (ya existen datos guardados), saltamos
-    if (this.authService.isAuthenticated()) {
-      console.log("¡Usuario detectado! Saltando registro...");
-      this.router.navigate(['/avatar-selector']);
-    }
+  constructor() {
+    addIcons({ play, trash, personAdd });
   }
 
-  registrar() {
-    // 1. Validación simple para no guardar nombres vacíos
-    if (this.usuario.nombre.trim() === '') {
-      alert("¡Recluta! Debes ingresar un nombre.");
+  ionViewWillEnter() {
+    // 1. Verificamos si ya hay alguien logueado en memoria (RAM)
+    if (this.auth.isAuthenticated()) {
+      this.router.navigate(['/misiones']);
       return;
     }
 
-    console.log("Registrando y GUARDANDO usuario:", this.usuario.nombre);
+    // 2. Buscamos en el DISCO DURO (LocalStorage)
+    // NOTA: Asegúrate de haber actualizado el AuthService con el código del paso anterior
+    const datosDisco = this.auth.getLastSession();
     
-    // 2. Llamamos al servicio (que ahora guarda en localStorage)
-    this.authService.login(this.usuario.nombre); 
-    
-    // 3. Navegamos
+    if (datosDisco && datosDisco.user) {
+      console.log("Partida encontrada en disco:", datosDisco);
+      this.partidaGuardada = datosDisco;
+    } else {
+      this.partidaGuardada = null;
+    }
+  }
+
+  continuar() {
+    this.auth.recuperarSesion(this.partidaGuardada);
+    this.router.navigate(['/misiones']);
+  }
+
+  registrar() {
+    if (!this.nuevoNombre.trim()) return;
+    this.auth.crearNuevaPartida(this.nuevoNombre);
     this.router.navigate(['/avatar-selector']);
+  }
+
+  borrar() {
+    if (confirm('¿Estás seguro? Se borrará todo tu progreso para siempre.')) {
+      this.auth.borrarPartida();
+      this.partidaGuardada = null; 
+      this.nuevoNombre = '';
+    }
   }
 }

@@ -1,0 +1,161 @@
+/* --- IMPORTAMOS FUENTES Y ESTRUCTURA BASE (Igual que N9-N11) --- */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;800&family=Fira+Code:wght@400&display=swap');
+
+ion-content {
+  --background: radial-gradient(circle at center, #0f0c29 0%, #302b63 50%, #24243e 100%);
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.header-section {
+  text-align: center; padding: 15px;
+  h1 {
+    color: #00fff5; /* Cian Holográfico */
+    font-weight: 800; letter-spacing: 2px; margin: 0;
+    text-shadow: 0 0 15px rgba(0, 255, 245, 0.6);
+  }
+}
+
+/* --- GRID PRINCIPAL (ESTÁNDAR) --- */
+.game-layout {
+  display: grid; grid-template-columns: 320px 1fr 320px; gap: 20px; padding: 20px;
+  height: calc(100vh - 80px); max-width: 1600px; margin: 0 auto; box-sizing: border-box;
+}
+
+/* --- PANELES --- */
+.panel {
+  background: #101015; border: 1px solid #333; border-radius: 8px;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: all 0.3s ease;
+  &:hover {
+    border-color: #00fff5; box-shadow: 0 0 25px rgba(0, 255, 245, 0.3);
+    transform: translateY(-3px); z-index: 10;
+  }
+}
+
+.panel-header {
+  background: #0a0a0a; color: #fff; padding: 12px; text-align: center;
+  font-weight: bold; border-bottom: 2px solid #00fff5; text-transform: uppercase;
+}
+
+.panel-body { padding: 20px; flex-grow: 1; overflow-y: auto; color: #ccc; }
+
+/* --- IZQUIERDA --- */
+.robot-scene {
+  text-align: center; margin-bottom: 20px;
+  img {
+    width: 100%; max-width: 200px; border-radius: 12px;
+    border: 2px solid #00fff5; box-shadow: 0 0 20px rgba(0, 255, 245, 0.4);
+  }
+}
+
+.story-box { margin-bottom: 20px; line-height: 1.4; font-size: 0.95rem; }
+
+.syntax-card {
+  background: #1a1a20; border: 1px solid #444; padding: 10px;
+  border-radius: 6px; margin-bottom: 20px;
+
+  h4 { color: #00fff5; margin: 0 0 10px 0; font-size: 1rem; }
+  
+  .comparison-row {
+    padding: 8px 0; border-bottom: 1px solid #333;
+    small { font-size: 0.7rem; color: #888; display: block; }
+    code { font-family: 'Fira Code', monospace; background: #222; padding: 4px 6px; color: #fff; font-size: 0.85rem; display: block; margin-top: 4px;}
+    
+    &.error-style code { border-left: 3px solid #ff4d4d; color: #aaa; }
+    &.success-style { 
+        border: none; margin-top: 10px;
+        code { border-left: 3px solid #00fff5; background: rgba(0, 255, 245, 0.1); }
+    }
+    .arrow-down { text-align: center; font-size: 0.8rem; color: #00fff5; margin: 5px 0;}
+  }
+}
+
+.mission-guide {
+  border-top: 1px solid #333; padding-top: 15px;
+  h4 { color: #00fff5; margin: 0 0 10px 0; }
+  li { margin-bottom: 8px; font-size: 0.9rem; }
+  code { color: #00fff5; font-family: monospace; background: #222; padding: 2px 4px; border-radius: 4px;}
+}
+
+/* --- CENTRO --- */
+.editor-container {
+  flex-grow: 1; background: #000; display: flex;
+  font-family: 'Fira Code', monospace; border-bottom: 1px solid #333;
+}
+.line-numbers {
+  width: 40px; background: #111; color: #444; text-align: right;
+  padding: 15px 5px; border-right: 1px solid #222; user-select: none; font-size: 0.9rem; line-height: 1.5;
+}
+.code-input {
+  flex-grow: 1; background: transparent; border: none; color: #00fff5;
+  padding: 15px; font-size: 1rem; resize: none; outline: none; line-height: 1.5;
+}
+.btn-compile {
+  width: 100%; padding: 20px; background: #00fff5; color: #000;
+  font-weight: 800; font-size: 1.2rem; text-transform: uppercase;
+  border: none; cursor: pointer; transition: background 0.3s;
+  &:hover { background: #00e6dd; box-shadow: 0 0 20px #00fff5; }
+  &:disabled { background: #333; color: #555; cursor: not-allowed; box-shadow: none; }
+}
+
+/* --- DERECHA (NUEVO EFECTO HOLOGRAMA) --- */
+.centered-body { display: flex; flex-direction: column; align-items: center; }
+
+.hologram-container {
+  width: 120px; height: 120px; position: relative; margin-bottom: 20px;
+  border: 2px solid #333; border-radius: 8px; overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 255, 245, 0.05);
+
+  /* Línea de escaneo */
+  .scan-line {
+    position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+    background: rgba(0, 255, 245, 0.8);
+    box-shadow: 0 0 10px rgba(0, 255, 245, 0.8);
+    animation: scanDown 2s linear infinite; opacity: 0.5;
+  }
+
+  .hologram-content {
+      text-align: center; color: #555; display: flex; flex-direction: column; align-items: center;
+      .holo-icon { font-size: 3rem; margin-bottom: 5px; opacity: 0.5; }
+  }
+
+  /* ESTADO ACTIVO (Cuando gana) */
+  &.active {
+    border-color: #00fff5; box-shadow: 0 0 25px rgba(0, 255, 245, 0.4);
+    .scan-line { display: none; } /* Se detiene el escaneo */
+    .hologram-content {
+        color: #00fff5; animation: hologramFlicker 0.1s infinite alternate;
+        .holo-icon { opacity: 1; }
+        .holo-text { font-weight: bold; letter-spacing: 1px; }
+    }
+  }
+}
+
+.screen-output {
+  width: 100%; background: #000; border: 1px solid #333; padding: 10px;
+  text-align: center; margin-bottom: 10px;
+  small { color: #666; font-size: 0.7rem; display: block; margin-bottom: 5px; }
+  .text-signal { color: #00fff5; font-family: 'Fira Code', monospace; font-size: 1.1rem; min-height: 24px; }
+}
+
+.system-logs {
+  width: 100%; flex-grow: 1; background: #000; border: 1px solid #333;
+  padding: 10px; overflow-y: auto; font-family: 'Fira Code', monospace; font-size: 0.8rem;
+  margin-bottom: 10px;
+  .info { color: #888; } .success { color: #00ff88; } .error { color: #ff4d4d; }
+}
+
+.btn-next {
+  width: 100%; padding: 12px; background: #00fff5; color: #000; font-weight: bold; border: none; border-radius: 4px; cursor: pointer;
+  &:hover { box-shadow: 0 0 15px #00fff5; }
+}
+
+@keyframes scanDown { 0% { top: -10%; } 100% { top: 110%; } }
+@keyframes hologramFlicker { 0% { opacity: 0.8; } 100% { opacity: 1; text-shadow: 0 0 5px #00fff5; } }
+
+/* Ajuste móvil */
+@media (max-width: 900px) {
+  .game-layout { grid-template-columns: 1fr; height: auto; }
+  .panel { height: 500px; }
+}

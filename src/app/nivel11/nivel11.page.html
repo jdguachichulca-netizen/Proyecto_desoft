@@ -1,0 +1,114 @@
+<ion-content>
+  <div class="stars-bg"></div>
+
+  <div class="header-section">
+    <h1>NIVEL 11: EL REACTOR DE FUSIÓN</h1>
+  </div>
+
+  <div class="game-layout">
+    
+    <div class="panel left-panel">
+      <div class="panel-header">SISTEMA DE ENERGÍA</div>
+      <div class="panel-body">
+        
+        <div class="robot-scene">
+          <img src="assets/robotfusion.png" alt="Reactor Core" onerror="this.src='assets/wbit_js_contact.png'">
+        </div>
+        
+        <div class="story-box">
+          <p>
+            <strong style="color: #e94560;">¡ALERTA DE ENERGÍA!</strong> 
+            El reactor está inestable. Necesitas calcular la energía total y restar lo que consumen los escudos.
+            <br><br>
+            En JavaScript, los números <strong>NO llevan comillas</strong>.
+          </p>
+        </div>
+
+        <div class="syntax-card">
+          <h4>MANUAL: MATEMÁTICAS JS</h4>
+          
+          <div class="comparison-row">
+            <div class="col">
+              <small>SUMAR (+)</small>
+              <code class="new">let total = 100 + 50;</code>
+            </div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="col">
+              <small>RESTAR (-)</small>
+              <code class="new">let resto = total - 30;</code>
+            </div>
+          </div>
+
+          <div class="comparison-row">
+            <div class="col">
+              <small>MULTIPLICAR (*)</small>
+              <code class="new">let doble = 10 * 2;</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="mission-guide">
+          <h4>OBJETIVO DE MISIÓN</h4>
+          <ol>
+            <li>Crea: <code>let reactor = 2000;</code></li>
+            <li>Crea: <code>let escudos = 500;</code></li>
+            <li>Calcula: <code>let final = reactor - escudos;</code></li>
+            <li>Muestra: <code>console.log(final);</code></li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE COMANDO (JS)</div>
+      
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+        
+        <textarea 
+          class="code-input" 
+          [(ngModel)]="codigoUsuario" 
+          spellcheck="false" 
+          placeholder="// 1. Define la energía del reactor&#10;let reactor = ...&#10;&#10;// 2. Define el consumo de escudos&#10;let escudos = ...&#10;&#10;// 3. Resta y muestra el resultado&#10;console.log(...)">
+        </textarea>
+      </div>
+
+      <button class="btn-compile" (click)="ejecutarCodigo()" [disabled]="nivelCompletado">
+        ESTABILIZAR REACTOR
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">NÚCLEO DEL REACTOR</div>
+      <div class="panel-body centered-body">
+        
+        <div class="reactor-container" [class.stable]="nivelCompletado">
+          <div class="core-energy"></div>
+          <div class="reactor-ring"></div>
+        </div>
+
+        <div class="screen-output">
+          <small>NIVEL DE ENERGÍA:</small>
+          <div class="text-signal">
+            {{ mensajeSistema || 'CALCULANDO...' }}
+          </div>
+        </div>
+
+        <div class="system-logs">
+          <div *ngFor="let log of consolaLogs" [class]="log.tipo">
+            > {{ log.mensaje }}
+          </div>
+        </div>
+
+        <button *ngIf="nivelCompletado" class="btn-next" (click)="guardarProgreso()">
+          MISIÓN CUMPLIDA (+300 XP)
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>

@@ -10,7 +10,7 @@
           <img src="assets/chip.png" alt="Chip"> 
         </div>
         <h2>CADETE NOVATO</h2>
-        <span class="level-badge">(Nivel 1-8)</span>
+        <span class="level-badge">(NIVEL 1-8)</span>
         
         <ul class="checklist">
           <p>. Conceptos Básicos de PSeInt</p>
@@ -18,12 +18,15 @@
           <p>. 8 Misiones Iniciales</p>
         </ul>
 
-        <button class="btn-action" (click)="irACadete()">VER MISIONES DE CADETE</button>
+        <button class="btn-action" (click)="jugarNivelActual()">
+          <span *ngIf="auth.currentLevel() === 1">EMPEZAR ENTRENAMIENTO</span>
+          <span *ngIf="auth.currentLevel() > 1">CONTINUAR: NIVEL {{ auth.currentLevel() }}</span>
+        </button>
       </div>
 
       <div class="mission-card" 
-           [class.locked]="!programadorHabilDesbloqueado" 
-           [class.active-card-js]="programadorHabilDesbloqueado">
+           [class.locked]="auth.currentLevel() < 9" 
+           [class.active-card-js]="auth.currentLevel() >= 9">
         
         <div class="icon-box">
           <img src="assets/trofeo.png" alt="Trofeo">
@@ -33,27 +36,28 @@
         <span class="level-badge">(NIVEL 9-15)</span>
 
         <div class="checklist">
-          <div *ngIf="!programadorHabilDesbloqueado">
+          <div *ngIf="auth.currentLevel() < 9">
             <p>🔒 Fundamentos JavaScript</p>
             <p>🔒 Sintaxis Básica</p>
             <p>🔒 Operadores</p>
           </div>
 
-          <div *ngIf="programadorHabilDesbloqueado">
+          <div *ngIf="auth.currentLevel() >= 9">
             <p>. Fundamentos JavaScript</p>
             <p>. Sintaxis Básica</p>
             <p>. Operadores</p>
           </div>
         </div>
 
-        <button class="btn-action locked-btn" *ngIf="!programadorHabilDesbloqueado" disabled>
+        <button class="btn-action locked-btn" *ngIf="auth.currentLevel() < 9" disabled>
           BLOQUEADO (Completa Nivel 8)
         </button>
 
         <button class="btn-action start-btn" 
-                *ngIf="programadorHabilDesbloqueado"
-                (click)="irANivelJavascript()">
-          COMENZAR JS
+                *ngIf="auth.currentLevel() >= 9"
+                (click)="jugarNivelActual()">
+          <span *ngIf="auth.currentLevel() === 9">COMENZAR JS</span>
+          <span *ngIf="auth.currentLevel() > 9">CONTINUAR: NIVEL {{ auth.currentLevel() }}</span>
         </button>
 
       </div>

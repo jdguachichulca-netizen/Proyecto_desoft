@@ -1,0 +1,43 @@
+<ion-content>
+  <div class="stars-bg"></div>
+  
+  <div class="header-container">
+    <h1>SALÓN DE LA FAMA</h1>
+    <p class="subtitle">COLECCIÓN DE MÓDULOS DE W-BIT</p>
+    
+    <div class="stats-bar">
+      <span>INSIGNIAS: <strong>{{ contarDesbloqueadas() }} / {{ insignias.length }}</strong></span>
+    </div>
+  </div>
+
+  <div class="achievements-grid">
+    
+    <div *ngFor="let item of insignias" 
+         class="achievement-card" 
+         [class.locked]="!esDesbloqueado(item.nivelRequerido)">
+      
+      <div class="glow-border" [style.--item-color]="item.color"></div>
+      
+      <div class="card-content">
+        
+        <div class="icon-wrapper" [style.color]="esDesbloqueado(item.nivelRequerido) ? item.color : '#555'">
+          <ion-icon [name]="esDesbloqueado(item.nivelRequerido) ? item.icono : 'lock-closed'"></ion-icon>
+        </div>
+
+        <div class="text-info">
+          <h3>{{ item.titulo }}</h3>
+          <p *ngIf="esDesbloqueado(item.nivelRequerido)">{{ item.desc }}</p>
+          <p *ngIf="!esDesbloqueado(item.nivelRequerido)" class="locked-text">
+            Completa el Nivel {{ item.nivelRequerido }} para desencriptar.
+          </p>
+        </div>
+
+        <div class="status-badge" [style.background]="esDesbloqueado(item.nivelRequerido) ? item.color : '#333'">
+          {{ esDesbloqueado(item.nivelRequerido) ? 'INSTALADO' : 'LOCKED' }}
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>s

@@ -2,7 +2,7 @@
   <div class="stars-bg"></div>
 
   <div class="header-section">
-    <h1>PLANETA JS: PRIMER CONTACTO</h1>
+    <h1>NIVEL 10: IDENTIDAD FRAGMENTADA</h1>
   </div>
 
   <div class="game-layout">
@@ -12,51 +12,46 @@
       <div class="panel-body">
         
         <div class="robot-scene">
-          <img src="assets/wbit_js_contact.png" alt="W-BIT descubriendo JavaScript">
+          <img src="assets/robotfragmentado.png" alt="W-BIT Fragmentado" onerror="this.src='assets/wbit_js_contact.png'">
         </div>
         
         <div class="story-box">
           <p>
             <strong style="color: #e94560;">¡ERROR CRÍTICO!</strong> 
-            El robot W-BIT ha perdido su voz. El protocolo antiguo no funciona aquí.
-            Debes usar <strong>JavaScript</strong> para reiniciar sus sistemas de audio.
+            Los datos de identidad de W-BIT están separados en diferentes sectores de memoria.
+            Necesitas <strong style="color: #00fff5;">unir (concatenar)</strong> las variables para restaurar su sistema.
           </p>
         </div>
 
         <div class="syntax-card">
-          <h4>MANUAL DE REACTIVACIÓN</h4>
+          <h4>MANUAL: CONCATENACIÓN (+)</h4>
           
           <div class="comparison-row">
             <div class="col">
-              <small>ANTES (Guardar)</small>
-              <code>Definir voz...</code>
+              <small>TEXTOS SUELTOS</small>
+              <code>"Hola" "Mundo"</code>
             </div>
             <div class="arrow">➜</div>
             <div class="col">
-              <small>AHORA (JS)</small>
-              <code class="new">let voz = ...</code>
+              <small>UNIÓN CON (+)</small>
+              <code class="new">"Hola" <span style="color:#e94560">+</span> "Mundo"</code>
             </div>
           </div>
 
           <div class="comparison-row">
             <div class="col">
-              <small>ANTES (Hablar)</small>
-              <code>Escribir "Hola"</code>
-            </div>
-            <div class="arrow">➜</div>
-            <div class="col">
-              <small>AHORA (JS)</small>
-              <code class="new">console.log("Hola")</code>
+              <small>VARIABLE + TEXTO</small>
+              <code>nombre + " está listo"</code>
             </div>
           </div>
         </div>
 
         <div class="mission-guide">
-          <h4> OBJETIVO DE MISIÓN</h4>
+          <h4>OBJETIVO DE MISIÓN</h4>
           <ol>
-            <li>Declara una variable <code>estado</code> con <strong>let</strong>.</li>
-            <li>Guarda el texto <code>"SISTEMA ONLINE"</code>.</li>
-            <li>Envíalo con <strong>console.log(estado)</strong>.</li>
+            <li>Crea: <code>let modelo = "W-BIT v2";</code></li>
+            <li>Crea: <code>let estado = "Operativo";</code></li>
+            <li>Une todo en un: <code>console.log(...)</code></li>
           </ol>
         </div>
 
@@ -67,17 +62,18 @@
       <div class="panel-header">TERMINAL DE COMANDO (JS)</div>
       
       <div class="editor-container">
-        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8</div>
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+        
         <textarea 
           class="code-input" 
           [(ngModel)]="codigoUsuario" 
           spellcheck="false" 
-          placeholder="// Escribe tu código aquí...">
+          placeholder="// 1. Define las variables...&#10;let modelo = ...&#10;&#10;// 2. Une las piezas...&#10;console.log(...)">
         </textarea>
       </div>
 
-      <button class="btn-compile" (click)="ejecutarCodigo()">
-        REINICIAR VOZ DE W-BIT
+      <button class="btn-compile" (click)="ejecutarCodigo()" [disabled]="nivelCompletado">
+        EJECUTAR SECUENCIA DE UNIÓN
       </button>
     </div>
 
@@ -91,7 +87,9 @@
 
         <div class="screen-output">
           <small>SEÑAL DE SALIDA:</small>
-          <div class="text-signal">{{ mensajeSistema }}</div>
+          <div class="text-signal">
+            {{ consolaLogs.length > 0 ? 'PROCESANDO...' : 'ESPERANDO DATOS...' }}
+          </div>
         </div>
 
         <div class="system-logs">
@@ -100,8 +98,8 @@
           </div>
         </div>
 
-        <button *ngIf="nivelCompletado" class="btn-next" (click)="siguienteNivel()">
-          MISIÓN CUMPLIDA (+200 XP)
+        <button *ngIf="nivelCompletado" class="btn-next" (click)="guardarProgreso()">
+          MISIÓN CUMPLIDA (+250 XP)
         </button>
 
       </div>

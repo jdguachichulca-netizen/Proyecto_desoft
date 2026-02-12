@@ -74,4 +74,20 @@ export const routes: Routes = [
     path: 'intro-js',
     loadComponent: () => import('./intro-js/intro-js.page').then( m => m.IntroJsPage)
   },
+  {
+    path: 'nivel10',
+    loadComponent: () => import('./nivel10/nivel10.page').then( m => m.Nivel10Page)
+  },
+  {
+    path: 'nivel11',
+    loadComponent: () => import('./nivel11/nivel11.page').then( m => m.Nivel11Page)
+  },
+  {
+    path: 'nivel12',
+    loadComponent: () => import('./nivel12/nivel12.page').then( m => m.Nivel12Page)
+  },
+  {
+    path: 'logros',
+    loadComponent: () => import('./logros/logros.page').then( m => m.LogrosPage)
+  },
 ];
