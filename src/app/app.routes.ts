@@ -90,4 +90,8 @@ export const routes: Routes = [
     path: 'logros',
     loadComponent: () => import('./logros/logros.page').then( m => m.LogrosPage)
   },
+  {
+    path: 'nivel13',
+    loadComponent: () => import('./nivel13/nivel13.page').then( m => m.Nivel13Page)
+  },
 ];

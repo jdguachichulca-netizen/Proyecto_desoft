@@ -19,16 +19,17 @@ export class Nivel10Page {
   private auth = inject(AuthService);
   private router = inject(Router);
 
-  // Código inicial para ayudar al usuario
-  codigoUsuario: string = `// 1. Define las variables fragmentadas
+  // Código inicial limpio
+  codigoUsuario: string = `// 1. Define las variables
 let modelo = "W-BIT v2";
-// Define la variable 'estado' aquí...
+// Crea la variable 'estado' aquí...
 
-// 2. Une las piezas en la consola
-// console.log("Identidad: " + ... + " Estado: " + ...);
+// 2. Une las piezas (Escribe tu console.log abajo)
+
 `;
   
   nivelCompletado: boolean = false;
+  mensajeSalida: string = ''; 
   consolaLogs: { mensaje: string, tipo: 'info' | 'success' | 'error' }[] = [];
 
   constructor() {
@@ -37,61 +38,75 @@ let modelo = "W-BIT v2";
 
   ejecutarCodigo() {
     this.consolaLogs = [];
-    const codigo = this.codigoUsuario.trim();
+    this.mensajeSalida = '';
+    const codigo = this.codigoUsuario;
 
-    this.consolaLogs.push({ mensaje: 'Analizando sintaxis de unión...', tipo: 'info' });
+    this.consolaLogs.push({ mensaje: 'Compilando fusión de datos...', tipo: 'info' });
 
-    // --- VALIDACIONES ---
+    // --- VALIDACIÓN PASO A PASO ---
 
-    // 1. Validar que haya al menos DOS declaraciones 'let'
-    // Usamos una expresión regular (regex) para contar las ocurrencias de "let "
-    const matchLet = codigo.match(/let\s+[a-zA-Z0-9_]+/g);
-    const cantidadVariables = matchLet ? matchLet.length : 0;
-
-    if (cantidadVariables < 2) {
-      this.logsError('Faltan variables. Debes definir al menos dos (modelo y estado).');
+    // 1. Validar variable 'modelo'
+    if (!codigo.includes('let modelo = "W-BIT v2"') && !codigo.includes("let modelo = 'W-BIT v2'")) {
+      this.logsError('Falta definir: let modelo = "W-BIT v2";');
       return;
     }
 
-    // 2. Validar que exista un console.log que use el operador '+' para unir
-    // Esta regex busca: console.log( ... cualquier cosa ... + ... cualquier cosa ... )
-    const tieneConsoleConSuma = /console\.log\(.*[\w"']\s*\+\s*[\w"'].*\)/.test(codigo);
+    // 👇 CAMBIO 1: AHORA ACEPTAMOS "operativo" EN MINÚSCULA
+    const tieneEstado = 
+      codigo.includes('let estado = "Operativo"') || 
+      codigo.includes("let estado = 'Operativo'") ||
+      codigo.includes('let estado = "operativo"') || 
+      codigo.includes("let estado = 'operativo'");
 
-    if (!tieneConsoleConSuma) {
-      this.logsError('No se detectó una unión. Usa el símbolo "+" dentro de console.log() para juntar texto y variables.');
+    if (!tieneEstado) {
+      this.logsError('Falta definir: let estado = "Operativo";');
+      return;
+    }
+
+    // 3. Validar console.log y el uso de '+'
+    if (!codigo.includes('console.log') || !codigo.includes('+')) {
+      this.logsError('Debes usar console.log() y el símbolo "+" para unir.');
+      return;
+    }
+
+    // 4. Validar la palabra "esta" / "está" (Flexible)
+    const tieneLaPalabra = 
+      codigo.includes('"está"') || codigo.includes("'está'") || 
+      codigo.includes('"esta"') || codigo.includes("'esta'"); 
+
+    if (!tieneLaPalabra) {
+      this.logsError('Falta concatenar el texto intermedio: + "está" +');
       return;
     }
 
     // --- ÉXITO ---
-    // Si pasa las validaciones, simulamos una ejecución exitosa.
-    // En un entorno real, usaríamos eval() o new Function(), pero por seguridad lo simulamos.
-    
     setTimeout(() => {
-      this.consolaLogs = []; // Limpiamos logs anteriores
-      // Simulamos el resultado esperado basado en las instrucciones
-      this.consolaLogs.push({ mensaje: 'Identidad: W-BIT v2 Estado: Operativo', tipo: 'success' });
-      this.consolaLogs.push({ mensaje: '--------------------------------', tipo: 'info' });
-      this.consolaLogs.push({ mensaje: '¡IDENTIDAD RECONSTRUIDA EXITOSAMENTE!', tipo: 'success' });
+      // Autocorrección Visual: Siempre mostramos la frase perfecta
+      this.mensajeSalida = "W-BIT v2 está Operativo";
+      
+      this.consolaLogs.push({ mensaje: 'Concatenación detectada.', tipo: 'success' });
+      
+      // Mensaje amable si detectamos minúsculas o falta de espacios
+      const necesitaCorreccion = !codigo.includes('" está "') || !codigo.includes("Operativo");
+      
+      if (necesitaCorreccion) {
+         this.consolaLogs.push({ mensaje: ' Auto-ajustando mayúsculas y espacios...', tipo: 'info' });
+      }
+
+      this.consolaLogs.push({ mensaje: 'SISTEMA RESTAURADO.', tipo: 'success' });
       
       this.nivelCompletado = true;
-      this.guardarProgreso();
-    }, 800); // Pequeño delay para realismo
+    }, 500);
   }
 
   logsError(mensaje: string) {
     setTimeout(() => {
-      this.consolaLogs.push({ mensaje: `❌ ERROR SINTAXIS: ${mensaje}`, tipo: 'error' });
+      this.consolaLogs.push({ mensaje: ` ERROR: ${mensaje}`, tipo: 'error' });
     }, 400);
   }
 
   guardarProgreso() {
-    // Guardamos el nivel 10. Damos más XP porque es un concepto nuevo.
-    // Seguimos en 'sintaxis' porque JS requiere precisión al escribir las uniones.
     this.auth.completarNivel('nivel10', 'sintaxis', 250);
-    
-    setTimeout(() => {
-      // Redirigir a misiones o al siguiente nivel después de un momento de celebración
-      this.router.navigate(['/nivel11']);
-    }, 3000);
+    this.router.navigate(['/nivel11']); 
   }
 }

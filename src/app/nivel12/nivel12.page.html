@@ -2,51 +2,60 @@
   <div class="stars-bg"></div>
 
   <div class="header-section">
-    <h1>NIVEL 12: PROYECCIÓN HOLOGRÁFICA</h1>
+    <h1>NIVEL 12: ACCESO RESTRINGIDO</h1>
   </div>
 
   <div class="game-layout">
 
     <div class="panel left-panel">
-      <div class="panel-header">MÓDULO HOLOGRÁFICO</div>
+      <div class="panel-header">GENERADOR DE ID</div>
       <div class="panel-body">
         
         <div class="robot-scene">
-          <img src="assets/robotpanel.png" alt="Holograma" onerror="this.src='assets/wbit_js_contact.png'">
+          <img src="assets/robotpanel.png" alt="Seguridad" onerror="this.src='assets/wbit_js_contact.png'">
         </div>
         
         <div class="story-box">
           <p>
-            <strong style="color: #00fff5;">REPORTE DE ESTADO:</strong><br>
-            Los circuitos de voz de W-BIT estan "sobre cargados" por usar el método antiguo de sumar textos (+).
+            <strong style="color: #00fff5;">NUEVA TECNOLOGÍA:</strong><br>
+            W-BIT necesita crear su identificación. El método antiguo de sumar textos (<code>"A" + "B"</code>) es lento.
             <br><br>
-            Solución: Activar el <strong>Proyector Holográfico</strong>. 
-            Esta tecnología inyecta datos directamente dentro del texto usando el código: <code>$&#123;...&#125;</code>.
+            Hoy usarás los <strong>"Template Literals"</strong>.
+            Es como escribir una frase normal dejando <strong>huecos mágicos</strong> para las variables usando <code>$&#123;...&#125;</code>.
           </p>
         </div>
 
         <div class="syntax-card">
-          <h4>MANUAL: TEMPLATE LITERALS</h4>
+          <h4>MANUAL: PLANTILLAS DE TEXTO</h4>
           
           <div class="comparison-row error-style">
-            <small>ANTIGUO (Lento)</small>
-            <code>"Hola " + nombre</code>
+            <small> ANTIGUO (Pegamento)</small>
+            <code>"Hola " + nombre + " !"</code>
           </div>
 
           <div class="comparison-row success-style">
-            <div class="arrow-down">⬇️ NUEVO (Holográfico) ⬇️</div>
-            <small>MODERNO (Rápido)</small>
-            <code class="new">&#96;Hola $&#123;nombre&#125;&#96;</code>
+            <div class="arrow-down"> NUEVO (Plantilla)</div>
+            <small>1. Usa comillas invertidas (`)</small>
+            <small>2. Usa <code>$&#123;...&#125;</code> para rellenar.</small>
+            
+            <code class="new" style="margin-top: 5px;">
+              &#96;Hola <span style="color: #00fff5;">$&#123;nombre&#125;</span> !&#96;
+            </code>
           </div>
         </div>
 
         <div class="mission-guide">
-          <h4>OBJETIVO:</h4>
+          <h4>TAREA: CREAR TARJETA</h4>
+          <p style="font-size: 0.9rem;">Formato requerido:</p>
+          <div style="background:#222; padding:5px; border-left:3px solid #00fff5; font-family:monospace; margin-bottom:10px;">
+            Agente: W-BIT (Rango: 5)
+          </div>
+
           <ol>
-            <li>Crea: <code>let sector = "Alfa";</code></li>
-            <li>Crea: <code>let amenaza = 0;</code></li>
-            <li>Muestra en consola:</li>
-            <li><code>&#96;Reporte: Sector $&#123;sector&#125;. Amenaza: $&#123;amenaza&#125;&#96;</code></li>
+            <li>Define: <code>let agente = "W-BIT";</code></li>
+            <li>Define: <code>let rango = 5;</code></li>
+            <li>Usa <code>console.log</code> con backticks (<code>`</code>):</li>
+            <li style="color: #00fff5; font-family: monospace;">`Agente: $&#123;agente&#125; (Rango: $&#123;rango&#125;)`</li>
           </ol>
         </div>
 
@@ -62,31 +71,31 @@
           class="code-input" 
           [(ngModel)]="codigoUsuario" 
           spellcheck="false" 
-          placeholder="// Usa `backticks` y ${variables}"></textarea>
+          placeholder="// 1. Crea las variables agente y rango&#10;// 2. console.log(`Texto ${variable}...`)"></textarea>
       </div>
 
       <button class="btn-compile" (click)="ejecutarCodigo()" [disabled]="nivelCompletado">
-        ACTIVAR PROYECCIÓN
+        IMPRIMIR CREDENCIAL
       </button>
     </div>
 
     <div class="panel right-panel">
-      <div class="panel-header">VISOR HOLOGRÁFICO</div>
+      <div class="panel-header">LECTOR DE TARJETA</div>
       <div class="panel-body centered-body">
         
         <div class="hologram-container" [class.active]="nivelCompletado">
           <div class="scan-line"></div>
           <div class="hologram-content">
-             <ion-icon name="cube-outline" class="holo-icon"></ion-icon>
-             <span *ngIf="!nivelCompletado">SIN SEÑAL</span>
-             <span *ngIf="nivelCompletado" class="holo-text">ESTABLE</span>
+             <ion-icon name="card-outline" class="holo-icon"></ion-icon>
+             <span *ngIf="!nivelCompletado">ESCANEO PENDIENTE</span>
+             <span *ngIf="nivelCompletado" class="holo-text">ACCESO CONCEDIDO</span>
           </div>
         </div>
 
         <div class="screen-output">
-          <small>SALIDA:</small>
+          <small>LECTURA DE DATOS:</small>
           <div class="text-signal">
-            {{ mensajeSistema || 'ESPERANDO...' }}
+            {{ mensajeSistema || 'Esperando credencial...' }}
           </div>
         </div>
 
@@ -97,7 +106,7 @@
         </div>
 
         <button *ngIf="nivelCompletado" class="btn-next" (click)="guardarProgreso()">
-          MISIÓN CUMPLIDA (+350 XP)
+          ENTRAR AL LABORATORIO (+350 XP)
         </button>
 
       </div>

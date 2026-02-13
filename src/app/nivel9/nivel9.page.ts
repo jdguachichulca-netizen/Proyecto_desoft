@@ -57,7 +57,7 @@ export class Nivel9Page {
 
     } else {
         // Errores específicos para ayudar al estudiante
-        this.consolaLogs.push({ mensaje: '❌ Error de Sintaxis JavaScript:', tipo: 'error' });
+        this.consolaLogs.push({ mensaje: ' Error de Sintaxis JavaScript:', tipo: 'error' });
         if (!tieneLet) this.consolaLogs.push({ mensaje: '- Debes declarar la variable usando "let nombre = ..."', tipo: 'error' });
         if (!tieneConsole) this.consolaLogs.push({ mensaje: '- Debes imprimir usando "console.log(nombre)"', tipo: 'error' });
     }
@@ -71,6 +71,6 @@ export class Nivel9Page {
     this.auth.completarNivel('nivel9', 'sintaxis', 200);
 
     // Volvemos a misiones (o a donde desees)
-    this.router.navigate(['/misiones']); 
+    this.router.navigate(['/nivel10']); 
   }
 }

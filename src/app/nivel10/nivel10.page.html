@@ -18,8 +18,8 @@
         <div class="story-box">
           <p>
             <strong style="color: #e94560;">¡ERROR CRÍTICO!</strong> 
-            Los datos de identidad de W-BIT están separados en diferentes sectores de memoria.
-            Necesitas <strong style="color: #00fff5;">unir (concatenar)</strong> las variables para restaurar su sistema.
+            Los datos de identidad están separados.
+            Debes <strong style="color: #00fff5;">concatenar (+)</strong> las variables para formar la frase de reinicio.
           </p>
         </div>
 
@@ -28,13 +28,9 @@
           
           <div class="comparison-row">
             <div class="col">
-              <small>TEXTOS SUELTOS</small>
-              <code>"Hola" "Mundo"</code>
-            </div>
-            <div class="arrow">➜</div>
-            <div class="col">
-              <small>UNIÓN CON (+)</small>
-              <code class="new">"Hola" <span style="color:#e94560">+</span> "Mundo"</code>
+              <small>EJEMPLO BÁSICO</small>
+              <code class="new">"Hola " <span style="color:#e94560">+</span> "Mundo"</code>
+              <small style="color: #666; margin-top: 5px;">Resultado: "Hola Mundo"</small>
             </div>
           </div>
 
@@ -48,10 +44,14 @@
 
         <div class="mission-guide">
           <h4>OBJETIVO DE MISIÓN</h4>
+          <p style="font-size: 0.9rem; margin-bottom: 10px;">Debes formar la frase exacta:</p>
+          <div style="background: #222; color: #00ff88; padding: 5px; margin-bottom: 10px; font-family: monospace; text-align: center;">
+            "W-BIT v2 está Operativo"
+          </div>
           <ol>
             <li>Crea: <code>let modelo = "W-BIT v2";</code></li>
             <li>Crea: <code>let estado = "Operativo";</code></li>
-            <li>Une todo en un: <code>console.log(...)</code></li>
+            <li>Une todo con <code>console.log</code> (¡Cuidado con los espacios!)</li>
           </ol>
         </div>
 
@@ -68,7 +68,7 @@
           class="code-input" 
           [(ngModel)]="codigoUsuario" 
           spellcheck="false" 
-          placeholder="// 1. Define las variables...&#10;let modelo = ...&#10;&#10;// 2. Une las piezas...&#10;console.log(...)">
+          placeholder="// 1. Crea las variables...&#10;let modelo = ...&#10;&#10;// 2. Une con + ...&#10;console.log(modelo + ...)">
         </textarea>
       </div>
 
@@ -87,8 +87,8 @@
 
         <div class="screen-output">
           <small>SEÑAL DE SALIDA:</small>
-          <div class="text-signal">
-            {{ consolaLogs.length > 0 ? 'PROCESANDO...' : 'ESPERANDO DATOS...' }}
+          <div class="text-signal" style="white-space: pre-wrap;">
+            {{ mensajeSalida || 'ESPERANDO DATOS...' }}
           </div>
         </div>
 

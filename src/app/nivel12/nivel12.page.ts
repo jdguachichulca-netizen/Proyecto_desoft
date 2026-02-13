@@ -2,17 +2,18 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IonContent, IonIcon } from '@ionic/angular/standalone'; // 👈 Importamos IonIcon
+import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { AuthService } from '../auth.service';
 import { addIcons } from 'ionicons'; 
-import { cubeOutline } from 'ionicons/icons'; // 👈 El icono del cubo
+// 👇 Cambiamos al icono de tarjeta de identificación
+import { cardOutline } from 'ionicons/icons'; 
 
 @Component({
   selector: 'app-nivel12',
   templateUrl: './nivel12.page.html',
   styleUrls: ['./nivel12.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonContent, IonIcon] // 👈 Agregamos IonIcon aquí
+  imports: [CommonModule, FormsModule, IonContent, IonIcon]
 })
 export class Nivel12Page {
 
@@ -25,61 +26,68 @@ export class Nivel12Page {
   mensajeSistema: string = '';
 
   constructor() {
-    // 👇 Registramos el icono para que se vea en el HTML
-    addIcons({ cubeOutline });
+    // 👇 Registramos el nuevo icono
+    addIcons({ cardOutline });
   }
 
   ejecutarCodigo() {
     this.consolaLogs = [];
+    this.mensajeSistema = '';
     const codigo = this.codigoUsuario;
 
-    // --- VALIDACIONES ---
+    this.consolaLogs.push({ mensaje: 'Generando credencial...', tipo: 'info' });
 
-    // 1. Validar BACKTICKS (`)
+    // --- VALIDACIONES ESTRICTAS ---
+
+    // 1. Validar uso de BACKTICKS (Es el objetivo del nivel)
     if (!codigo.includes('`')) {
-      this.logError('¡Error! Debes usar comillas invertidas (`) para el holograma.');
+      this.logError('Debes usar comillas invertidas (`...`) para crear la plantilla.');
       return;
     }
 
-    // 2. Validar interpolación ${}
+    // 2. Validar interpolación ${} (Es el objetivo del nivel)
     if (!codigo.includes('${')) {
-      this.logError('No se detectaron variables. Usa ${nombreVariable} dentro del texto.');
+      this.logError('No estás inyectando datos. Usa la sintaxis ${variable} dentro del texto.');
       return;
     }
 
-    // 3. Validar variables
-    if (!codigo.includes('let sector') || !codigo.includes('let amenaza')) {
-      this.logError('Faltan las variables "sector" y "amenaza".');
+    // 3. Validar variables solicitadas
+    if (!codigo.includes('let agente') || !codigo.includes('let rango')) {
+      this.logError('Debes definir las variables "agente" y "rango".');
       return;
     }
 
     // 4. Validar console.log
     if (!codigo.includes('console.log')) {
-      this.logError('Falta la instrucción console.log(...)');
+      this.logError('Falta imprimir la credencial con console.log(...)');
       return;
     }
 
     // --- ÉXITO ---
-    this.consolaLogs.push({ mensaje: '> Calibrando holograma...', tipo: 'info' });
-    
     setTimeout(() => {
-      const resultado = 'Reporte: Sector Alfa limpio. Amenaza: 0';
-      this.consolaLogs.push({ mensaje: `> ${resultado}`, tipo: 'success' });
-      this.consolaLogs.push({ mensaje: '> PROYECCIÓN ESTABLE', tipo: 'info' });
+      // Simulamos la salida correcta basada en la petición
+      const resultado = 'ID: W-BIT | Rango: 5';
+      
+      this.consolaLogs.push({ mensaje: `> Credencial creada:`, tipo: 'success' });
+      this.consolaLogs.push({ mensaje: `> "${resultado}"`, tipo: 'info' });
+      this.consolaLogs.push({ mensaje: '> ACCESO AUTORIZADO', tipo: 'success' });
       
       this.mensajeSistema = resultado;
       this.nivelCompletado = true;
-    }, 1000);
+    }, 800);
   }
 
   logError(msg: string) {
-    this.consolaLogs.push({ mensaje: ` ${msg}`, tipo: 'error' });
+    // Timeout pequeño para que se sienta natural después de "Generando..."
+    setTimeout(() => {
+        this.consolaLogs.push({ mensaje: ` ERROR: ${msg}`, tipo: 'error' });
+    }, 400);
   }
 
   guardarProgreso() {
     this.auth.completarNivel('nivel12', 'sintaxis', 350);
     setTimeout(() => {
-      this.router.navigate(['/misiones']);
+      this.router.navigate(['/nivel13']);
     }, 500);
   }
 }

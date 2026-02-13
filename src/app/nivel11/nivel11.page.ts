@@ -2,8 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-// 👇 IMPORTANTE: Importamos IonContent para que funcione el HTML
-import { IonContent } from '@ionic/angular/standalone';
+import { IonContent } from '@ionic/angular/standalone'; // Importante
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -11,7 +10,6 @@ import { AuthService } from '../auth.service';
   templateUrl: './nivel11.page.html',
   styleUrls: ['./nivel11.page.scss'],
   standalone: true,
-  // 👇 Agregamos IonContent aquí para que desaparezca el error rojo
   imports: [CommonModule, FormsModule, IonContent]
 })
 export class Nivel11Page {
@@ -29,58 +27,67 @@ export class Nivel11Page {
 
   ejecutarCodigo() {
     this.consolaLogs = [];
+    this.mensajeSistema = '';
     const codigo = this.codigoUsuario;
 
-    // --- VALIDACIONES ---
+    this.consolaLogs.push({ mensaje: 'Analizando núcleo...', tipo: 'info' });
 
-    // 1. Validar que NO usen comillas en los números
-    const usaComillasEnNumeros = /["']\d+["']/.test(codigo);
+    // --- VALIDACIONES ESTRICTAS ---
 
-    if (usaComillasEnNumeros) {
-      this.logError('¡ERROR DE SINTAXIS! Los números NO llevan comillas (ej: 2000, no "2000").');
+    // 1. ¿Tiene la variable reactor en 2000?
+    if (!codigo.includes('let reactor = 2000')) {
+      this.logError('El reactor debe iniciar en 2000 (let reactor = 2000;)');
       return;
     }
 
-    // 2. Validar que exista la resta (-)
-    if (!codigo.includes('-')) {
-      this.logError('No se detectó ninguna resta. Debes restar el consumo de los escudos.');
+    // 2. ¿Calculó correctamente los escudos (500)?
+    if (!codigo.includes('= 500') && !codigo.includes('= 500')) {
+      this.logError('Cálculo incorrecto. Para bajar de 2000 a 1500, ¿cuánto valen los escudos?');
       return;
     }
 
-    // 3. Validar que definan las variables correctas
-    if (!codigo.includes('let reactor') || !codigo.includes('let escudos')) {
-      this.logError('Debes definir las variables "reactor" y "escudos".');
+    // 3. VALIDACIÓN DE ESPACIOS EN LA RESTA (ESTRICTO)
+    if (!codigo.includes(' - ')) {
+      this.logError('¡Sintaxis comprimida! En JS profesional usamos espacios: variable - variable');
       return;
     }
 
-    // 4. Validar console.log
-    if (!codigo.includes('console.log')) {
-      this.logError('Falta mostrar el resultado final con console.log().');
+    // 4. VALIDACIÓN DE CONSOLE.LOG (ANTI-TRAMPAS)
+    const matchLog = codigo.match(/console\.log\(([^)]+)\)/);
+    
+    if (!matchLog) {
+      this.logError('Falta mostrar el resultado con console.log()');
+      return;
+    }
+
+    const contenidoLog = matchLog[1].trim(); 
+
+    // Verificamos que NO sea un número directo ni un texto entre comillas
+    if (contenidoLog.includes('"') || contenidoLog.includes("'") || !isNaN(Number(contenidoLog))) {
+      this.logError('No hagas trampa escribiendo el valor manual. Imprime la VARIABLE del resultado.');
       return;
     }
 
     // --- ÉXITO ---
-    this.consolaLogs.push({ mensaje: '> Analizando núcleo...', tipo: 'info' });
-    
     setTimeout(() => {
-      this.consolaLogs.push({ mensaje: '> Energía Base: 2000', tipo: 'info' });
-      this.consolaLogs.push({ mensaje: '> Consumo Escudos: -500', tipo: 'info' });
-      this.consolaLogs.push({ mensaje: '> RESULTADO: 1500 (ESTABLE)', tipo: 'success' });
+      this.mensajeSistema = "1500 GW (ESTABLE)";
+      this.consolaLogs.push({ mensaje: 'Energía Base: 2000', tipo: 'info' });
+      this.consolaLogs.push({ mensaje: 'Consumo Escudos: -500', tipo: 'info' });
+      this.consolaLogs.push({ mensaje: 'RESULTADO: 1500 (ESTABLE)', tipo: 'success' });
       
-      this.mensajeSistema = '1500 GW';
       this.nivelCompletado = true;
-    }, 1000);
+    }, 600);
   }
 
   logError(msg: string) {
-    this.consolaLogs.push({ mensaje: ` ${msg}`, tipo: 'error' });
+    // Usamos setTimeout para que el mensaje aparezca después de "Analizando..."
+    setTimeout(() => {
+        this.consolaLogs.push({ mensaje: ` ERROR: ${msg}`, tipo: 'error' });
+    }, 400);
   }
 
   guardarProgreso() {
     this.auth.completarNivel('nivel11', 'logica', 300);
-    
-    setTimeout(() => {
-      this.router.navigate(['/nivel12']);
-    }, 500);
+    this.router.navigate(['/nivel12']); // O al nivel 12
   }
 }

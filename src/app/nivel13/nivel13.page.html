@@ -1,0 +1,107 @@
+<ion-content>
+  <div class="stars-bg"></div>
+
+  <div class="header-section">
+    <h1>NIVEL 13: TÚNEL TÓXICO</h1>
+  </div>
+
+  <div class="game-layout">
+
+    <div class="panel left-panel">
+      <div class="panel-header">PROTOCOLO DE EMERGENCIA</div>
+      <div class="panel-body">
+        
+        <div class="robot-scene">
+          <img src="assets/robot-toxico.png" alt="Robot Túnel" onerror="this.src='assets/robot-toxico.png'">
+        </div>
+        
+        <div class="story-box">
+          <p>
+            <strong style="color: #39ff14;">ALERTA DE RADIACIÓN:</strong><br>
+            W-BIT ha entrado en un túnel oscuro. No sabemos qué tan largo es, pero el sensor detecta residuos tóxicos.
+            <br><br>
+            No podemos usar pasos fijos. Debemos avanzar <strong>MIENTRAS</strong> el sensor indique que el camino es "seguro".
+          </p>
+        </div>
+
+        <div class="syntax-card">
+          <h4>MANUAL: BUCLE WHILE (MIENTRAS)</h4>
+          
+          <div class="comparison-row error-style">
+            <small>CONDICIONAL IF (Solo revisa 1 vez)</small>
+            <code>if (sensor == "seguro") &#123; avanzar() &#125;</code>
+          </div>
+
+          <div class="comparison-row success-style">
+            <div class="arrow-down"> REPETIR HASTA EL FINAL </div>
+            <small>BUCLE WHILE (Revisa muchas veces)</small>
+            <code class="new">while (sensor == "seguro") &#123;<br>  avanzar();<br>&#125;</code>
+          </div>
+        </div>
+
+        <div class="mission-guide">
+          <h4>OBJETIVO DE MISIÓN:</h4>
+          <ol>
+            <li>Crea una variable: <code>let sensor = "seguro";</code></li>
+            <li>Escribe el bucle:</li>
+            <li><code>while (sensor == "seguro") &#123;</code></li>
+            <li>Dentro del bucle: <code>avanzar();</code></li>
+            <li>Cierra el bucle: <code>&#125;</code></li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE CONTROL</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+        
+        <textarea 
+          class="code-input" 
+          [(ngModel)]="codigoUsuario" 
+          spellcheck="false" 
+          placeholder="// Escribe tu bucle while aquí..."></textarea>
+      </div>
+
+      <button class="btn-compile" (click)="ejecutarCodigo()" [disabled]="nivelCompletado">
+        INICIAR SECUENCIA
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">ESCÁNER DE TERRENO</div>
+      <div class="panel-body centered-body">
+        
+        <div class="hologram-container" [class.active]="nivelCompletado">
+          <div class="scan-line"></div>
+          <div class="hologram-content">
+             <ion-icon name="nuclear-outline" class="holo-icon"></ion-icon>
+             <span *ngIf="!nivelCompletado">ESCANEO...</span>
+             <span *ngIf="nivelCompletado" class="holo-text">SALIDA</span>
+          </div>
+        </div>
+
+        <div class="screen-output">
+          <small>ESTADO DEL MOTOR:</small>
+          <div class="text-signal">
+            {{ mensajeSistema || 'EN ESPERA...' }}
+          </div>
+        </div>
+
+        <div class="system-logs">
+          <div *ngFor="let log of consolaLogs" [class]="log.tipo">
+            > {{ log.mensaje }}
+          </div>
+        </div>
+
+        <button *ngIf="nivelCompletado" class="btn-next" (click)="guardarProgreso()">
+          TÚNEL SUPERADO (+400 XP)
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>

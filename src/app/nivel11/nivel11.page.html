@@ -2,11 +2,11 @@
   <div class="stars-bg"></div>
 
   <div class="header-section">
-    <h1>NIVEL 11: EL REACTOR DE FUSIÓN</h1>
+    <h1>NIVEL 11: FUGAS DE ENERGÍA</h1>
   </div>
 
   <div class="game-layout">
-    
+
     <div class="panel left-panel">
       <div class="panel-header">SISTEMA DE ENERGÍA</div>
       <div class="panel-body">
@@ -17,10 +17,11 @@
         
         <div class="story-box">
           <p>
-            <strong style="color: #e94560;">¡ALERTA DE ENERGÍA!</strong> 
-            El reactor está inestable. Necesitas calcular la energía total y restar lo que consumen los escudos.
+            <strong style="color: #ff0055;">¡PELIGRO DE SOBRECARGA!</strong> 
+            El núcleo del reactor está demasiado caliente (2000 GW).
+            Necesitamos reducir la energía exactamente a <strong>1500 GW</strong>.
             <br><br>
-            En JavaScript, los números <strong>NO llevan comillas</strong>.
+             <strong>DATO CLAVE:</strong> En JavaScript, los números <strong>NO llevan comillas</strong> (ej: <code>2000</code>, no <code>"2000"</code>).
           </p>
         </div>
 
@@ -28,34 +29,28 @@
           <h4>MANUAL: MATEMÁTICAS JS</h4>
           
           <div class="comparison-row">
-            <div class="col">
-              <small>SUMAR (+)</small>
-              <code class="new">let total = 100 + 50;</code>
-            </div>
+            <small>SUMAR (+)</small>
+            <code class="new">let total = 100 + 50;</code>
           </div>
 
           <div class="comparison-row">
-            <div class="col">
-              <small>RESTAR (-)</small>
-              <code class="new">let resto = total - 30;</code>
-            </div>
+            <small>RESTAR (Usa espacios)</small>
+            <code class="new">let resto = total <span style="color:#ff0055"> - </span> consumo;</code>
           </div>
-
+          
           <div class="comparison-row">
-            <div class="col">
-              <small>MULTIPLICAR (*)</small>
-              <code class="new">let doble = 10 * 2;</code>
-            </div>
+            <small>MULTIPLICACIÓN (*)</small>
+            <code>let doble = 10 * 2;</code>
           </div>
         </div>
 
         <div class="mission-guide">
           <h4>OBJETIVO DE MISIÓN</h4>
           <ol>
-            <li>Crea: <code>let reactor = 2000;</code></li>
-            <li>Crea: <code>let escudos = 500;</code></li>
-            <li>Calcula: <code>let final = reactor - escudos;</code></li>
-            <li>Muestra: <code>console.log(final);</code></li>
+            <li>La energía actual es <strong>2000</strong>. (Crea <code>let reactor = 2000;</code>).</li>
+            <li>Calcula mentalmente cuánto restar para llegar a 1500. (Crea <code>let escudos = ...;</code>).</li>
+            <li>Crea una variable <code>final</code> restando: <br><code>reactor - escudos</code></li>
+            <li>Muestra la variable <code>final</code> en consola.</li>
           </ol>
         </div>
 
@@ -72,7 +67,7 @@
           class="code-input" 
           [(ngModel)]="codigoUsuario" 
           spellcheck="false" 
-          placeholder="// 1. Define la energía del reactor&#10;let reactor = ...&#10;&#10;// 2. Define el consumo de escudos&#10;let escudos = ...&#10;&#10;// 3. Resta y muestra el resultado&#10;console.log(...)">
+          placeholder="// 1. Define reactor en 2000&#10;// 2. Define escudos (¿Cuánto necesitas restar?)&#10;// 3. Haz la resta (Usa espacios: a - b)&#10;// 4. Imprime el resultado">
         </textarea>
       </div>
 
@@ -93,7 +88,7 @@
         <div class="screen-output">
           <small>NIVEL DE ENERGÍA:</small>
           <div class="text-signal">
-            {{ mensajeSistema || 'CALCULANDO...' }}
+            {{ mensajeSistema || '2000 GW (PELIGRO)' }}
           </div>
         </div>
 
