@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;800&family=Fira+Code:wght@400&display=swap');
+
+ion-content {
+  /* Fondo Industrial Oscuro */
+  --background: radial-gradient(circle at center, #1a150e 0%, #2b2200 60%, #000000 100%);
+  font-family: 'Rajdhani', sans-serif;
+}
+
+/* Color principal: Naranja Industrial */
+$theme-color: #ff9d00;
+
+.header-section {
+  text-align: center; padding: 15px;
+  h1 {
+    color: $theme-color;
+    font-weight: 800; letter-spacing: 2px; margin: 0;
+    text-shadow: 0 0 15px rgba(255, 157, 0, 0.5);
+  }
+}
+
+.game-layout {
+  display: grid; grid-template-columns: 320px 1fr 320px; gap: 20px; padding: 20px;
+  height: calc(100vh - 80px); max-width: 1600px; margin: 0 auto; box-sizing: border-box;
+}
+
+/* --- PANELES --- */
+.panel {
+  background: #110d05; border: 1px solid #3d2e00; border-radius: 8px;
+  display: flex; flex-direction: column; overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7); transition: all 0.3s ease;
+  
+  &:hover { border-color: $theme-color; box-shadow: 0 0 15px rgba(255, 157, 0, 0.2); }
+}
+
+.panel-header {
+  background: #1a1200; color: #fff; padding: 12px; text-align: center;
+  font-weight: bold; border-bottom: 2px solid $theme-color; text-transform: uppercase;
+}
+
+.panel-body { padding: 20px; flex-grow: 1; overflow-y: auto; color: #ccc; }
+
+/* --- IZQUIERDA --- */
+.robot-scene img {
+  width: 100%; max-width: 200px; border-radius: 12px;
+  border: 2px solid $theme-color; margin-bottom: 20px;
+}
+
+.syntax-card {
+  background: #1f180a; border: 1px solid #554400; padding: 10px;
+  border-radius: 6px; margin-bottom: 20px;
+
+  h4 { color: $theme-color; margin: 0 0 10px 0; font-size: 1rem; }
+  
+  .comparison-row {
+    padding: 8px 0; border-bottom: 1px solid #332a00;
+    code { font-family: 'Fira Code', monospace; background: #000; padding: 4px; color: #fff; font-size: 0.85rem; display: block; margin-top: 5px; }
+  }
+  .success-style code { border-left: 3px solid $theme-color; }
+}
+
+/* --- CENTRO (TERMINAL) --- */
+.editor-container {
+  flex-grow: 1; background: #000; display: flex;
+  font-family: 'Fira Code', monospace; border-bottom: 1px solid #333;
+}
+.line-numbers {
+  width: 40px; background: #0f0b00; color: #665500; text-align: right; padding: 15px 5px;
+}
+.code-input {
+  flex-grow: 1; background: transparent; border: none; color: $theme-color;
+  padding: 15px; font-size: 1rem; resize: none; outline: none;
+}
+.btn-compile {
+  width: 100%; padding: 20px; background: $theme-color; color: #000;
+  font-weight: 800; font-size: 1.2rem; border: none; cursor: pointer;
+  &:hover { background: #ffbd4d; }
+  &:disabled { background: #333; color: #555; cursor: not-allowed; }
+}
+
+/* --- DERECHA (VISUALIZACIÓN ARRAY) --- */
+.centered-body { display: flex; flex-direction: column; align-items: center; }
+
+.cargo-container {
+  width: 100%; display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;
+}
+
+/* ESTILO DE CADA CASILLA DEL ARRAY */
+.cargo-slot {
+  background: #000; border: 1px dashed #554400; padding: 10px;
+  display: flex; align-items: center; border-radius: 4px;
+  transition: all 0.5s ease;
+  position: relative;
+
+  .index-badge {
+    background: #333; color: #aaa; font-size: 0.7rem; padding: 2px 6px;
+    border-radius: 4px; margin-right: 10px; font-family: 'Fira Code', monospace;
+  }
+
+  .slot-icon { font-size: 1.5rem; color: #333; margin-right: 10px; transition: color 0.5s; }
+  .slot-text { font-family: 'Fira Code', monospace; color: #444; font-size: 0.9rem; }
+
+  /* ESTADO LLENO (Cuando se carga el item) */
+  &.filled {
+    border: 1px solid $theme-color; background: rgba(255, 157, 0, 0.1);
+    box-shadow: 0 0 10px rgba(255, 157, 0, 0.2);
+    
+    .index-badge { background: $theme-color; color: #000; font-weight: bold; }
+    .slot-icon { color: $theme-color; transform: scale(1.1); }
+    .slot-text { color: #fff; text-shadow: 0 0 5px $theme-color; }
+  }
+}
+
+.text-signal { color: $theme-color; font-family: 'Fira Code', monospace; font-size: 1.1rem; }
+.system-logs {
+  width: 100%; flex-grow: 1; background: #000; border: 1px solid #332a00;
+  padding: 10px; color: #ccc; font-family: 'Fira Code', monospace; font-size: 0.8rem;
+  .success { color: $theme-color; } .error { color: #ff4d4d; }
+}
+
+.btn-next {
+  width: 100%; padding: 12px; background: $theme-color; color: #000; font-weight: bold; border: none; border-radius: 4px; margin-top: 10px; cursor: pointer;
+  &:hover { box-shadow: 0 0 15px $theme-color; }
+}
+
+@media (max-width: 900px) {
+  .game-layout { grid-template-columns: 1fr; }
+  .panel { height: auto; min-height: 400px; }
+}

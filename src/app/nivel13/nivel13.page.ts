@@ -19,12 +19,16 @@ export class Nivel13Page {
   private auth = inject(AuthService);
   private router = inject(Router);
 
-  codigoUsuario: string = `// Configura el sensor
+  // 1. Guardamos el texto base para compararlo después
+  textoBase: string = `// Configura el sensor
 let sensor = "seguro";
 
 // Escribe tu bucle while aquí abajo:
-
+// while (...) { ... }
 `;
+
+  // 2. Inicializamos el código con el texto base
+  codigoUsuario: string = this.textoBase;
 
   consolaLogs: { mensaje: string, tipo: string }[] = [];
   mensajeSistema: string = '';
@@ -34,70 +38,92 @@ let sensor = "seguro";
     addIcons({ nuclearOutline });
   }
 
+  // 3. Función para borrar el texto al hacer clic
+  limpiarTerminal() {
+    if (this.codigoUsuario === this.textoBase) {
+      this.codigoUsuario = '';
+    }
+  }
+
   ejecutarCodigo() {
     this.consolaLogs = [];
     this.mensajeSistema = "ANALIZANDO...";
 
-    // Limpieza básica del código
-    const code = this.codigoUsuario.replace(/\s+/g, ' ').trim();
-    const cleanCode = code.toLowerCase();
+    // Limpiamos espacios extra y saltos de línea para validar
+    const codigoLimpio = this.codigoUsuario.replace(/\s+/g, ' ').trim();
+    
+    // VALIDACIONES ESTRICTAS
 
-    // Validaciones paso a paso
-    if (!cleanCode.includes('let sensor = "seguro"') && !cleanCode.includes("let sensor = 'seguro'")) {
-      this.logError("Error: Debes definir la variable sensor.");
+    // A) Definición de variable
+    if (!codigoLimpio.includes('let sensor = "seguro"') && !codigoLimpio.includes("let sensor = 'seguro'")) {
+      this.logError(" Error: Debes definir la variable: let sensor = \"seguro\";");
       return;
     }
 
-    if (!cleanCode.includes('while')) {
-      this.logError("Error: Falta la instrucción 'while'.");
+    // B) Palabra clave while
+    if (!codigoLimpio.includes('while')) {
+      this.logError(" Error: No encuentro la instrucción 'while'.");
       return;
     }
 
-    if (!cleanCode.includes('sensor == "seguro"') && !cleanCode.includes("sensor == 'seguro'")) {
-      this.logError("Error: La condición debe ser (sensor == 'seguro').");
+    // C) Condición exacta
+    const condicionCorrecta = /while\s*\(\s*sensor\s*==\s*["']seguro["']\s*\)/.test(codigoLimpio);
+    if (!condicionCorrecta) {
+      this.logError(" Error: La condición debe ser exactamente: while (sensor == \"seguro\")");
       return;
     }
 
-    if (!cleanCode.includes('avanzar()')) {
-      this.logError("Error: Falta la acción avanzar() dentro del bucle.");
+    // D) Contenido estricto (avanzar(); con punto y coma)
+    if (!codigoLimpio.includes('avanzar();')) {
+      this.logError(" Error: Dentro del bucle debes escribir 'avanzar();' con punto y coma.");
       return;
     }
 
-    // SI TODO ESTÁ BIEN: Simulamos la ejecución
+    // E) Estructura completa (Llaves { } y orden)
+    // Buscamos: while (...) { avanzar(); }
+    const estructuraValida = /while\s*\(\s*sensor\s*==\s*["']seguro["']\s*\)\s*\{\s*avanzar\(\);\s*\}/.test(codigoLimpio);
+
+    if (!estructuraValida) {
+        this.logError(" Error de Sintaxis: Asegúrate de que 'avanzar();' esté dentro de las llaves { }.");
+        return;
+    }
+
+    // Si pasa todas las validaciones estrictas:
     this.simularEjecucion();
   }
 
   simularEjecucion() {
+    this.consolaLogs.push({ mensaje: "> Iniciando protocolo de avance...", tipo: 'info' });
     let pasos = 0;
-    const totalPasos = 4;
+    const totalPasos = 5; 
 
     const intervalo = setInterval(() => {
       pasos++;
-      this.consolaLogs.push({ mensaje: `Paso ${pasos}: Sensor indica "seguro". Avanzando...`, tipo: 'info' });
-      this.mensajeSistema = `AVANZANDO... (${pasos})`;
+      this.consolaLogs.push({ mensaje: `[CICLO ${pasos}] Sensor: "seguro" -> Avanzando 1 metro.`, tipo: 'info' });
+      this.mensajeSistema = `DISTANCIA: ${pasos * 10}m`;
 
       if (pasos >= totalPasos) {
         clearInterval(intervalo);
         this.finalizarNivel();
       }
-    }, 800);
+    }, 800); 
   }
 
   finalizarNivel() {
-    this.consolaLogs.push({ mensaje: "¡ALERTA! Fin del túnel detectado.", tipo: 'success' });
-    this.consolaLogs.push({ mensaje: "Bucle finalizado correctamente.", tipo: 'success' });
-    this.mensajeSistema = "SALIDA ENCONTRADA";
+    this.consolaLogs.push({ mensaje: "¡ALERTA! Radiación detectada. Deteniendo...", tipo: 'warning' });
+    this.consolaLogs.push({ mensaje: " Bucle terminado correctamente.", tipo: 'success' });
+    this.mensajeSistema = "SALIDA ALCANZADA";
     this.nivelCompletado = true;
   }
 
   logError(msg: string) {
     this.consolaLogs.push({ mensaje: msg, tipo: 'error' });
-    this.mensajeSistema = "ERROR DE SINTAXIS";
+    this.mensajeSistema = "ERROR SINTAXIS";
   }
 
   guardarProgreso() {
     console.log("Guardando Nivel 13...");
-    this.auth.completarNivel('nivel13', 'logica', 400); // 400 XP por ser while
-    this.router.navigate(['/misiones']);
+    this.auth.completarNivel('nivel13', 'logica', 400); 
+    this.router.navigate(['/nivel14']); 
   }
 }

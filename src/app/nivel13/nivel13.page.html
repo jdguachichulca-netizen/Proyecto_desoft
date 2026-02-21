@@ -27,26 +27,50 @@
         <div class="syntax-card">
           <h4>MANUAL: BUCLE WHILE (MIENTRAS)</h4>
           
-          <div class="comparison-row error-style">
-            <small>CONDICIONAL IF (Solo revisa 1 vez)</small>
-            <code>if (sensor == "seguro") &#123; avanzar() &#125;</code>
-          </div>
-
           <div class="comparison-row success-style">
-            <div class="arrow-down"> REPETIR HASTA EL FINAL </div>
-            <small>BUCLE WHILE (Revisa muchas veces)</small>
+            <small>ESTRUCTURA CORRECTA:</small>
             <code class="new">while (sensor == "seguro") &#123;<br>  avanzar();<br>&#125;</code>
           </div>
+
+          <div style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
+            <h4 style="font-size: 0.9rem; margin-bottom: 5px;"> DESGLOSE DE SIMBOLOGÍA:</h4>
+            
+            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+              <code style="color: #39ff14; background: #222; padding: 2px 5px; margin-right: 10px;">while</code>
+              <small style="color: #aaa;">La orden de "Repetir".</small>
+            </div>
+
+            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+              <code style="color: #39ff14; background: #222; padding: 2px 5px; margin-right: 10px;">( ... )</code>
+              <small style="color: #aaa;">La <strong>Pregunta</strong>.</small>
+            </div>
+
+            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+              <code style="color: #39ff14; background: #222; padding: 2px 5px; margin-right: 10px;">==</code>
+              <small style="color: #aaa;">Comparación. ¿Es igual a?</small>
+            </div>
+
+            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+              <code style="color: #39ff14; background: #222; padding: 2px 5px; margin-right: 10px;">&#123; ... &#125;</code>
+              <small style="color: #aaa;">La <strong>Acción</strong>. Lo que se repite.</small>
+            </div>
+
+            <div style="display: flex; align-items: center;">
+              <code style="color: #39ff14; background: #222; padding: 2px 5px; margin-right: 10px;">;</code>
+              <small style="color: #aaa;">El "Punto final" de la orden.</small>
+            </div>
+          </div>
+
         </div>
 
         <div class="mission-guide">
           <h4>OBJETIVO DE MISIÓN:</h4>
           <ol>
-            <li>Crea una variable: <code>let sensor = "seguro";</code></li>
-            <li>Escribe el bucle:</li>
+            <li>Crea: <code>let sensor = "seguro";</code></li>
+            <li>Escribe la estructura:</li>
             <li><code>while (sensor == "seguro") &#123;</code></li>
-            <li>Dentro del bucle: <code>avanzar();</code></li>
-            <li>Cierra el bucle: <code>&#125;</code></li>
+            <li>Ordena avanzar: <code>avanzar();</code></li>
+            <li>Cierra la llave: <code>&#125;</code></li>
           </ol>
         </div>
 
@@ -61,6 +85,7 @@
         <textarea 
           class="code-input" 
           [(ngModel)]="codigoUsuario" 
+          (focus)="limpiarTerminal()"
           spellcheck="false" 
           placeholder="// Escribe tu bucle while aquí..."></textarea>
       </div>

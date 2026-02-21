@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { IonContent, IonIcon } from '@ionic/angular/standalone';
 import { AuthService } from '../auth.service';
 import { addIcons } from 'ionicons'; 
-// 👇 Cambiamos al icono de tarjeta de identificación
 import { cardOutline } from 'ionicons/icons'; 
 
 @Component({
@@ -26,7 +25,6 @@ export class Nivel12Page {
   mensajeSistema: string = '';
 
   constructor() {
-    // 👇 Registramos el nuevo icono
     addIcons({ cardOutline });
   }
 
@@ -57,9 +55,15 @@ export class Nivel12Page {
       return;
     }
 
-    // 4. Validar console.log
-    if (!codigo.includes('console.log')) {
-      this.logError('Falta imprimir la credencial con console.log(...)');
+    // 4. Validar console.log CON PARÉNTESIS (Corrección solicitada)
+    // Usamos una expresión regular para buscar "console.log" seguido opcionalmente de espacio y luego "("
+    if (!/console\.log\s*\(/.test(codigo)) {
+      this.logError('¡Sintaxis incorrecta! console.log es una función y necesita paréntesis: console.log(...)');
+      return;
+    }
+
+    if (!codigo.includes(')')) {
+      this.logError('Olvidaste cerrar el paréntesis final de console.log(...)');
       return;
     }
 
@@ -78,7 +82,6 @@ export class Nivel12Page {
   }
 
   logError(msg: string) {
-    // Timeout pequeño para que se sienta natural después de "Generando..."
     setTimeout(() => {
         this.consolaLogs.push({ mensaje: ` ERROR: ${msg}`, tipo: 'error' });
     }, 400);

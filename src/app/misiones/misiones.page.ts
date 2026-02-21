@@ -18,41 +18,56 @@ export class MisionesPage {
   public auth = inject(AuthService); 
 
   programadorHabilDesbloqueado: boolean = false;
+  maestroCodigoDesbloqueado: boolean = false;
 
   constructor() { }
 
-  // Se ejecuta cada vez que entras a la pantalla (para refrescar datos)
   ionViewWillEnter() {
     const nivelActual = this.auth.currentLevel();
     console.log("Entrando a Misiones. Nivel actual:", nivelActual);
 
-    // LÓGICA DE DESBLOQUEO:
-    // Si el usuario ya va por el nivel 9 o superior, desbloqueamos la siguiente tarjeta
-    if (nivelActual >= 9) {
+    // 1. PRIMERO revisamos la tarjeta FINAL (Nivel 16+ o Variable especial)
+    if (this.auth.esMisionFinalAbierta() || nivelActual >= 16) {
+      this.maestroCodigoDesbloqueado = true;
+    } else {
+      this.maestroCodigoDesbloqueado = false;
+    }
+
+    // 2. LUEGO revisamos la tarjeta MEDIO (JS / Nivel 9+)
+    // AQUÍ ESTÁ EL ARREGLO: Se desbloquea si eres Nivel 9+ O SI YA ERES MAESTRO
+    if (nivelActual >= 9 || this.maestroCodigoDesbloqueado) {
       this.programadorHabilDesbloqueado = true;
     } else {
       this.programadorHabilDesbloqueado = false;
     }
   }
 
-  // 👇 ESTA ES LA FUNCIÓN PRINCIPAL DEL BOTÓN AZUL
   jugarNivelActual() {
     const nivel = this.auth.currentLevel();
-
-    // Si es el primer nivel, quizás quieras enviarlo a la Intro
     if (nivel === 1) {
-      this.router.navigate(['/intro-pseint']); // O '/nivel1' si no tienes intro
-    } 
-    // Si ya avanzó, lo enviamos directo al nivel que le toca
-    else {
+      this.router.navigate(['/intro-pseint']); 
+    } else {
       this.router.navigate(['/nivel' + nivel]);
     }
   }
 
-  // Para la segunda tarjeta (Rango Hábil)
   irANivelJavascript() {
     if (this.programadorHabilDesbloqueado) {
-        this.router.navigate(['/intro-js']); 
+        // Si el nivel es bajo (ej. 1) pero está desbloqueado por ser maestro,
+        // lo mandamos al inicio de JS (Intro o Nivel 9)
+        if (this.auth.currentLevel() < 9) {
+             this.router.navigate(['/intro-js']);
+        } else {
+             this.jugarNivelActual();
+        }
+    }
+  }
+
+  irARetoFinal() {
+    if (this.maestroCodigoDesbloqueado) {
+       console.log("🚀 Iniciando protocolo final...");
+       alert("¡ACCESO AL NÚCLEO CONCEDIDO! (Ruta pendiente)");
+       // this.router.navigate(['/nivel-final']);
     }
   }
 }

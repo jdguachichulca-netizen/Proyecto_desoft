@@ -94,4 +94,16 @@ export const routes: Routes = [
     path: 'nivel13',
     loadComponent: () => import('./nivel13/nivel13.page').then( m => m.Nivel13Page)
   },
+  {
+    path: 'nivel14',
+    loadComponent: () => import('./nivel14/nivel14.page').then( m => m.Nivel14Page)
+  },
+  {
+    path: 'nivel15',
+    loadComponent: () => import('./nivel15/nivel15.page').then( m => m.Nivel15Page)
+  },
+  {
+    path: 'nivel16',
+    loadComponent: () => import('./nivel16/nivel16.page').then( m => m.Nivel16Page)
+  },
 ];

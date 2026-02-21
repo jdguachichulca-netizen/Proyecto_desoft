@@ -1,0 +1,129 @@
+<ion-content>
+  <canvas #matrixCanvas id="matrixCanvas" [class.active]="showMatrix"></canvas>
+  
+  <div class="matrix-message" *ngIf="showMatrix">
+    <h1>ACCESO AL NÚCLEO CONCEDIDO</h1>
+    <p>HAS PASADO AL NIVEL FINAL</p>
+  </div>
+
+  <div class="stars-bg"></div>
+
+  <div class="header-section">
+    <h1>NIVEL 15: LA SINGULARIDAD</h1>
+  </div>
+
+  <div class="game-layout" *ngIf="!showMatrix">
+
+    <div class="panel left-panel">
+      <div class="panel-header">DEFINICIÓN DE SER</div>
+      <div class="panel-body">
+        
+        <div class="robot-scene">
+          <img src="assets/robot-core.png" alt="W-BIT Core" onerror="this.src='assets/wbit_js_contact.png'">
+        </div>
+        
+        <div class="story-box">
+          <p>
+            <strong style="color: #ff0080;">ACCESO AL NÚCLEO:</strong><br>
+            Hemos llegado al corazón de W-BIT. Para que sea un sistema autónomo, debemos definir sus propiedades internas.
+            <br><br>
+            En JavaScript, usamos <strong>OBJETOS</strong>. Son contenedores que guardan características usando el formato <code>clave: valor</code>.
+          </p>
+        </div>
+
+        <div class="syntax-card">
+          <h4>MANUAL: OBJETOS &#123; &#125;</h4>
+          
+          <div class="comparison-row">
+            <small>ESTRUCTURA:</small>
+            <code class="new">
+              let heroe = <span style="color:#ff0080">&#123;</span><br>
+              &nbsp;&nbsp;nombre: "IronMan",<br>
+              &nbsp;&nbsp;traje: "Mark 50"<br>
+              <span style="color:#ff0080">&#125;;</span>
+            </code>
+          </div>
+
+          <div class="tips-box">
+            <ul>
+              <li>Usa llaves <code>&#123; &#125;</code>.</li>
+              <li>Usa dos puntos <code>:</code> para asignar valor.</li>
+              <li>Separa propiedades con coma <code>,</code>.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mission-guide">
+          <h4>OBJETIVO FINAL:</h4>
+          <p>Define al protagonista creando el objeto <code>wbit</code> con estas propiedades:</p>
+          <ol>
+            <li><code>id: "W-BIT"</code></li>
+            <li><code>sistema: "Online"</code></li>
+            <li><code>nivel: 15</code></li>
+          </ol>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">CONSOLA DEL NÚCLEO</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+        
+        <textarea 
+          class="code-input" 
+          [(ngModel)]="codigoUsuario" 
+          (focus)="limpiarTerminal()"
+          spellcheck="false" 
+          placeholder="// Crea el objeto wbit aquí..."></textarea>
+      </div>
+
+      <button class="btn-compile" 
+              (click)="ejecutarCodigo()" 
+              *ngIf="!botonFinalVisible">
+        INICIALIZAR CONCIENCIA
+      </button>
+
+      <button class="btn-matrix" 
+              (click)="activarSecuenciaFinal()" 
+              *ngIf="botonFinalVisible">
+         ACCEDER AL SISTEMA CENTRAL 
+      </button>
+
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">PROPIEDADES DEL SISTEMA</div>
+      <div class="panel-body centered-body">
+        
+        <div class="core-visualizer">
+          <div class="core-sphere" [class.active]="nivelCompletado">
+            <div class="inner-pulse"></div>
+          </div>
+          
+          <div class="object-display">
+            <p><span class="key">id:</span> <span class="value">{{ dataObjeto.id || '...' }}</span></p>
+            <p><span class="key">sistema:</span> <span class="value" [class.online]="dataObjeto.sistema === 'Online'">{{ dataObjeto.sistema || '...' }}</span></p>
+            <p><span class="key">nivel:</span> <span class="value">{{ dataObjeto.nivel || '...' }}</span></p>
+          </div>
+        </div>
+
+        <div class="screen-output">
+          <small>LOG DEL SISTEMA:</small>
+          <div class="text-signal">
+            {{ mensajeSistema || 'ESPERANDO DEFINICIÓN...' }}
+          </div>
+        </div>
+
+        <div class="system-logs">
+          <div *ngFor="let log of consolaLogs" [class]="log.tipo">
+            > {{ log.mensaje }}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>

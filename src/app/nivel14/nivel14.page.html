@@ -1,0 +1,130 @@
+<ion-content>
+  <div class="stars-bg"></div>
+
+  <div class="header-section">
+    <h1>NIVEL 14: INVENTARIO DE DESPEGUE</h1>
+  </div>
+
+  <div class="game-layout">
+
+    <div class="panel left-panel">
+      <div class="panel-header">GESTIÓN DE CARGA</div>
+      <div class="panel-body">
+        
+        <div class="robot-scene">
+          <img src="assets/robot-suministros.png" alt="W-BIT Cargo" onerror="this.src='assets/robot-suministros.png'">
+        </div>
+        
+        <div class="story-box">
+          <p>
+            <strong style="color: #ff9d00;">PROTOCOLO DE CARGA:</strong><br>
+            W-BIT necesita llevar suministros para el viaje. No podemos crear una variable para cada manzana o tornillo.
+            <br><br>
+            Solución: Usar un **ARRAY (Lista)**. Es como un tren de vagones donde puedes guardar múltiples datos en una sola variable.
+          </p>
+        </div>
+
+        <div class="syntax-card">
+          <h4>MANUAL: ARRAYS [ ]</h4>
+          
+          <div class="comparison-row error-style">
+            <small> MAL (Variables sueltas)</small>
+            <code>let item1 = "O2"; let item2 = "Agua";</code>
+          </div>
+
+          <div class="comparison-row success-style">
+            <small> BIEN (Lista ordenada)</small>
+            <code class="new">let carga = <span style="color:#ff9d00">[</span> "O2"<span style="color:#ff9d00">,</span> "Agua"<span style="color:#ff9d00">,</span> "Comida" <span style="color:#ff9d00">];</span></code>
+          </div>
+
+          <div style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
+            <h4 style="font-size: 0.9rem; margin-bottom: 5px;">REGLAS DE SINTAXIS:</h4>
+            <ul style="padding-left: 20px; font-size: 0.8rem; color: #ccc;">
+              <li>Usa corchetes <code>[]</code> para empezar y terminar.</li>
+              <li>Separa cada elemento con una <strong>coma (,)</strong>.</li>
+              <li>Los textos van entre comillas <code>""</code>.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <div class="mission-guide">
+          <h4>OBJETIVO DE MISIÓN:</h4>
+          <p style="font-size: 0.9rem;">Crea una lista llamada <code>suministros</code> con 3 elementos exactos:</p>
+          <ol>
+            <li>"Bateria"</li>
+            <li>"Chip"</li>
+            <li>"Mapa"</li>
+          </ol>
+          <p style="font-size:0.8rem; color:#ff9d00">Ejemplo: <code>let x = ["A", "B", "C"];</code></p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE INVENTARIO</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10</div>
+        
+        <textarea 
+          class="code-input" 
+          [(ngModel)]="codigoUsuario" 
+          (focus)="limpiarTerminal()"
+          spellcheck="false" 
+          placeholder="// Crea tu array de suministros aquí..."></textarea>
+      </div>
+
+      <button class="btn-compile" (click)="ejecutarCodigo()" [disabled]="nivelCompletado">
+        CARGAR SISTEMA
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">CONTENEDOR [Array]</div>
+      <div class="panel-body centered-body">
+        
+        <div class="cargo-container">
+          
+          <div class="cargo-slot" [class.filled]="itemsCargados.length > 0">
+            <span class="index-badge">0</span>
+            <ion-icon name="cube-outline" class="slot-icon"></ion-icon>
+            <span class="slot-text">{{ itemsCargados[0] || 'VACÍO' }}</span>
+          </div>
+
+          <div class="cargo-slot" [class.filled]="itemsCargados.length > 1">
+            <span class="index-badge">1</span>
+            <ion-icon name="hardware-chip-outline" class="slot-icon"></ion-icon>
+            <span class="slot-text">{{ itemsCargados[1] || 'VACÍO' }}</span>
+          </div>
+
+          <div class="cargo-slot" [class.filled]="itemsCargados.length > 2">
+            <span class="index-badge">2</span>
+            <ion-icon name="map-outline" class="slot-icon"></ion-icon>
+            <span class="slot-text">{{ itemsCargados[2] || 'VACÍO' }}</span>
+          </div>
+
+        </div>
+
+        <div class="screen-output">
+          <small>ESTADO DE CARGA:</small>
+          <div class="text-signal">
+            {{ mensajeSistema || 'ESPERANDO LISTA...' }}
+          </div>
+        </div>
+
+        <div class="system-logs">
+          <div *ngFor="let log of consolaLogs" [class]="log.tipo">
+            > {{ log.mensaje }}
+          </div>
+        </div>
+
+        <button *ngIf="nivelCompletado" class="btn-next" (click)="guardarProgreso()">
+          DESPEGUE AUTORIZADO (+450 XP)
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+</ion-content>

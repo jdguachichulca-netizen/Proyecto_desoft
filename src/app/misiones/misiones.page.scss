@@ -132,7 +132,6 @@ ion-content {
 }
 
 /* --- TIPO B: AMARILLO (Centro - JavaScript) --- */
-/* 👇 ESTA ES LA CLASE NUEVA QUE PEDISTE 👇 */
 .active-card-js {
   border: 2px solid #ffd700; /* Borde Amarillo JS */
   box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
@@ -178,4 +177,78 @@ ion-content {
     box-shadow: none;
     &:hover { transform: none; }
   }
+}
+
+/* =========================================
+   ESTILO ÉPICO - TARJETA FINAL DESBLOQUEADA
+   (Solo se activa tras pasar la Matrix)
+   ========================================= */
+
+.master-unlocked {
+  /* Quitamos el filtro gris de bloqueado */
+  filter: none !important;
+  opacity: 1 !important;
+  border: none !important;
+
+  /* Nuevo Borde y Fondo Morado Oscuro/Nebulosa */
+  box-shadow: 0 0 35px rgba(181, 23, 158, 0.6); /* Resplandor intenso en la tarjeta */
+  background: linear-gradient(145deg, #240046 0%, #10002b 100%); 
+  z-index: 100;
+  transform: scale(1.08); /* Crece un poco para imponer respeto */
+  border: 2px solid #d000ff !important;
+  
+  /* FUENTE PIXELADA FORZADA PARA EL CONTENEDOR */
+  font-family: 'VT323', monospace !important;
+
+  /* Título Rosa (SIN BRILLO) */
+  h2 {
+    color: #f72585; 
+    /* text-shadow eliminado */
+    font-size: 2.2rem;
+    font-family: 'VT323', monospace !important;
+  }
+
+  /* Icono con brillo rosa/morado */
+  .icon-box img {
+    filter: drop-shadow(0 0 15px #f72585);
+    transform: scale(1.1);
+  }
+
+  /* Checklist color lila (SIN BRILLO NI NEGRITA) */
+  .checklist p {
+    color: #ffffff !important;
+    /* text-shadow eliminado */
+    /* font-weight: bold; eliminado */
+    font-family: 'VT323', monospace !important;
+  }
+
+  /* Badge de nivel */
+  .level-badge {
+    background: #7209b7;
+    color: #fff;
+    box-shadow: 0 0 15px #7209b7;
+    font-family: 'VT323', monospace !important;
+  }
+
+  /* El Botón "ENTRAR AL RETO FINAL" (SIN BRILLO EN TEXTO) */
+  .btn-action {
+    background: linear-gradient(90deg, #7209b7, #f72585) !important;
+    color: white !important;
+    font-size: 1.8rem !important;
+    font-family: 'VT323', monospace !important;
+    /* text-shadow eliminado */
+    box-shadow: 0 0 20px rgba(247, 37, 133, 0.6);
+    animation: pulseButton 1.5s infinite alternate;
+
+    &:hover {
+      background: linear-gradient(90deg, #9d4edd, #ff00bf) !important;
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(247, 37, 133, 1);
+    }
+  }
+}
+
+@keyframes pulseButton {
+  from { box-shadow: 0 0 10px rgba(247, 37, 133, 0.6); }
+  to { box-shadow: 0 0 25px rgba(247, 37, 133, 1); }
 }

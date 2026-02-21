@@ -1,0 +1,161 @@
+<ion-content>
+  <div class="cosmic-bg"></div>
+  <div class="nebula-overlay"></div>
+
+  <div class="header-section">
+    <h1>NIVEL FINAL: EL ALGORITMO DE LA VIDA</h1>
+  </div>
+
+  <div class="game-layout">
+
+    <div class="panel left-panel">
+      <div class="panel-header">PROTOCOLO DE PRIMER CONTACTO</div>
+      <div class="panel-body guide-body">
+        
+        <div class="story-box">
+          <p>
+            <strong>MISIÓN CRÍTICA:</strong> W-BIT ha detectado 4 señales. Solo una es amiga. Debes configurar el filtro para encontrarla.
+          </p>
+          <hr style="border-color: #b5179e; opacity: 0.5; margin: 10px 0;">
+          <p style="font-size: 0.9rem; color: #00fff7;">
+            🔍 <strong>PARÁMETROS DE BÚSQUEDA:</strong>
+          </p>
+          <ul style="padding-left: 20px; margin-top: 5px; color: #ddd; font-size: 0.85rem;">
+            <li>Tipo: <strong>'biologico'</strong></li>
+            <li>Energía: <strong>Mayor a 800</strong></li>
+            <li>Estado: <strong>'neutral'</strong></li>
+          </ul>
+        </div>
+
+        <div class="guide-step-container">
+          <div class="step-header">
+            <h4>{{ guideSteps[currentStep-1].title }}</h4>
+            <span class="step-counter">{{ currentStep }} / {{ totalSteps }}</span>
+          </div>
+          
+          <div class="step-content">
+            <p [innerHTML]="guideSteps[currentStep-1].info"></p>
+            <div class="code-hint">
+              <small>Sintaxis sugerida:</small>
+              <code>{{ guideSteps[currentStep-1].hint }}</code>
+            </div>
+          </div>
+
+          <div class="step-navigation">
+            <button (click)="prevStep()" [disabled]="currentStep === 1">◀ Atrás</button>
+            <button (click)="nextStep()" [disabled]="currentStep === totalSteps">Siguiente ▶</button>
+          </div>
+        </div>
+
+        <div class="symbol-glossary">
+          <h4>GLOSARIO DE SINTAXIS</h4>
+          <div class="glossary-grid">
+            <div class="symbol-item">
+              <code>[]</code>
+              <span><strong>Array:</strong> Lista de datos.</span>
+            </div>
+            <div class="symbol-item">
+              <code>i++</code>
+              <span><strong>Incremento:</strong> Suma 1 (i = i + 1).</span>
+            </div>
+            <div class="symbol-item">
+              <code>&lt;</code>
+              <span><strong>Menor que:</strong> Límite del bucle.</span>
+            </div>
+            <div class="symbol-item">
+              <code>&&</code>
+              <span><strong>AND (Y):</strong> Cumplir TODAS las condiciones.</span>
+            </div>
+            <div class="symbol-item">
+              <code>===</code>
+              <span><strong>Igualdad:</strong> Compara valores.</span>
+            </div>
+            <div class="symbol-item">
+              <code>.push()</code>
+              <span><strong>Empujar:</strong> Guarda en la lista.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="panel center-panel">
+      <div class="panel-header">TERMINAL DE MANDO W-BIT</div>
+      <div class="editor-container">
+        <div class="line-numbers">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15</div>
+        <textarea 
+          class="code-input cosmic-editor" 
+          [(ngModel)]="codigoUsuario" 
+          (focus)="borrarTextoInicial()"
+          spellcheck="false"></textarea>
+      </div>
+
+      <button class="btn-compile btn-cosmic" (click)="ejecutarCodigo()" [disabled]="procesando || nivelCompletado">
+        <span *ngIf="!procesando">EJECUTAR ALGORITMO</span>
+        <span *ngIf="procesando">PROCESANDO DATOS...</span>
+      </button>
+    </div>
+
+    <div class="panel right-panel">
+      <div class="panel-header">VISUALIZADOR DE SENSORES</div>
+      <div class="panel-body centered-body">
+        
+        <div class="scanner-container" [class.success]="nivelCompletado">
+          <div class="wbit-eye-scanner">
+            <div class="eye-lens"></div>
+            <div class="scan-beam" *ngIf="procesando"></div>
+          </div>
+
+          <div class="targets-orbit">
+            <div *ngFor="let target of targetsVisuales; let i = index" 
+                 class="target-node target-{{i}}"
+                 [class.scanning]="target.scanning"
+                 [class.locked]="nivelCompletado && target.id === 'L-FR'">
+              <div class="target-icon">
+                <span style="font-size: 10px;">{{ target.id }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="screen-output cosmic-output">
+          <small>ESTADO DEL SISTEMA:</small>
+          <div class="text-signal" [class.final-success]="nivelCompletado">
+            {{ mensajeSistema }}
+          </div>
+        </div>
+
+        <div class="system-logs cosmic-logs">
+          <div *ngFor="let log of consolaLogs" [class]="log.tipo">
+            > {{ log.mensaje }}
+          </div>
+        </div>
+
+        <button class="btn-finish" *ngIf="nivelCompletado" (click)="activarFinal()">
+          MISIÓN CUMPLIDA - INICIAR PROTOCOLO FINAL
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="victory-overlay" *ngIf="mostrarVictoria">
+    <div class="victory-content">
+      <div class="ascended-eye">
+        <div class="inner-eye"></div>
+      </div>
+
+      <h1 class="title-ascension">¡SINCRONIZACIÓN TOTAL!</h1>
+      <h2 class="rank-title">ERES UN MAESTRO DE CÓDIGO</h2>
+      <p class="wbit-message">"Gracias por enseñarme a ver el universo..."</p>
+      
+      <div class="loading-bar">
+        <div class="progress"></div>
+      </div>
+      <small>Regresando a la base...</small>
+    </div>
+  </div>
+
+</ion-content>
