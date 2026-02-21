@@ -65,9 +65,9 @@ export class MisionesPage {
 
   irARetoFinal() {
     if (this.maestroCodigoDesbloqueado) {
-       console.log("🚀 Iniciando protocolo final...");
+       console.log(" Iniciando protocolo final...");
        alert("¡ACCESO AL NÚCLEO CONCEDIDO! (Ruta pendiente)");
-       // this.router.navigate(['/nivel-final']);
+       this.router.navigate(['/nivel16']);
     }
   }
 }
