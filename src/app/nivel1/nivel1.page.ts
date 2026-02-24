@@ -47,16 +47,9 @@ export class Nivel1Page {
 
   // 👇👇👇 AQUÍ ESTÁ EL CAMBIO IMPORTANTE 👇👇👇
   avanzarNivel() {
-    // ANTES: this.auth.ganarXP(50);
     
-    // AHORA: Usamos completarNivel para guardar stats y evitar trampas
-    // Parámetros: ('ID_UNICO', 'TIPO_HABILIDAD', XP_GANADA)
     this.auth.completarNivel('nivel1', 'sintaxis', 50); 
     
-    // Explicación:
-    // 'nivel1'   -> Identificador único (para que no te den XP 2 veces por el mismo nivel)
-    // 'sintaxis' -> Qué barra va a subir (puede ser 'logica', 'sintaxis' o 'depuracion')
-    // 50         -> La cantidad de XP total
 
     this.router.navigate(['/nivel2']); 
   }
